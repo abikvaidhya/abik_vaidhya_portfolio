@@ -1,12 +1,9 @@
-import 'dart:math';
-
 import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_porfolio/Models/ExperienceModel.dart';
 import 'package:my_porfolio/Models/FrameworksModel.dart';
 import 'package:my_porfolio/Models/MorphButton.dart';
-import 'package:my_porfolio/Models/ProjectModel.dart';
 import 'package:my_porfolio/Models/SocialsModel.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 
@@ -20,18 +17,29 @@ class CodingController extends GetxController {
       gettingWorkSocials = false.obs,
       gettingExperiences = false.obs;
 
-  RxInt frameworkIndex = (0).obs; // selected framework id
+  RxInt frameworkIndex = (0).obs, // selected framework id
+      experienceIndex = (0).obs; // current experience id
 
   Rx<MorphButton> projectButton = MorphButton(
+      isClicked: false.obs,
+      showDetails: false.obs,
+      isFocused: false.obs,
+      image: Image.asset(ImageConstants.projects),
+      image_hovered: Image.asset(ImageConstants.projects_hovered),
+      pad: 50.0.obs,
+      scale: 0.0.obs,
+      link: 'projects')
+      .obs,
+      experienceButton = MorphButton(
           isClicked: false.obs,
           showDetails: false.obs,
           isFocused: false.obs,
-          image: Image.asset(ImageConstants.projects),
-          image_hovered: Image.asset(ImageConstants.projects_hovered),
+          image: Image.asset(ImageConstants.experience),
+          image_hovered: Image.asset(ImageConstants.experience_hovered),
           pad: 50.0.obs,
           scale: 0.0.obs,
-          link: 'projects')
-      .obs;
+          link: 'experiences')
+          .obs;
 
   RxList<FrameworksModel> frameworks = <FrameworksModel>[].obs; // frameworks
 
@@ -71,7 +79,7 @@ class CodingController extends GetxController {
       debugPrint('## ERROR GETTING FRAMEWORKS LIST: $e');
     } finally {
       if (frameworks.isNotEmpty)
-        frameworks.sort((a, b) => a.value.compareTo(b.value));
+        frameworks.sort((a, b) => b.value.compareTo(a.value));
 
       gettingFrameworks(false);
     }
@@ -110,7 +118,7 @@ class CodingController extends GetxController {
       experiences.clear();
 
       final snapShot =
-          await firebase.collection(APIEndpoints.experiences).get();
+      await firebase.collection(APIEndpoints.experiences).get();
       if (snapShot.docs.isEmpty) {
         throw 'Empty data in ${APIEndpoints.experiences} collection';
       }
@@ -120,10 +128,10 @@ class CodingController extends GetxController {
     } catch (e) {
       debugPrint('## ERROR GETTING EXPERIENCES LIST: $e');
     } finally {
-      if (experiences.isNotEmpty)
-        experiences
-            .sort((a, b) => a.startDate.value.compareTo(b.startDate.value));
-
+      if (experiences.isNotEmpty) {
+        experiences.sort((a, b) => b.startDate.compareTo(a.startDate));
+        experienceIndex(0);
+      }
       gettingExperiences(false);
     }
   }
@@ -133,7 +141,7 @@ class CodingController extends GetxController {
     gettingWorkSocials(true);
     try {
       final snapShot =
-          await firebase.collection(APIEndpoints.work_socials).get();
+      await firebase.collection(APIEndpoints.work_socials).get();
       if (snapShot.docs.isEmpty) {
         throw 'Empty data in ${APIEndpoints.work_socials} collection';
       }

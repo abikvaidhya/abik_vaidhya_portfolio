@@ -18,6 +18,9 @@ class MainController extends GetxController {
       codingController = PageController(
         initialPage: 0,
       ),
+      experienceController = PageController(
+        initialPage: 0,
+      ),
       streamController = PageController(
         initialPage: 0,
       ),
@@ -172,6 +175,7 @@ class MainController extends GetxController {
 
   saveDarkModeState({bool? state}) async {
     StorageHelper storageHelper = StorageHelper();
+
     if (state == null) {
       bool saved = await storageHelper.read(key: Constants.darkMode) == 'true';
       isDark(saved);

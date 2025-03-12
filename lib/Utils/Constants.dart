@@ -61,6 +61,10 @@ class ImageConstants {
   static const String logoPath = 'assets/images/logo/';
   static const String projectsPath = 'assets/images/projects/';
 
+  // experience
+  static const String experience = iconsPath + 'experience.png';
+  static const String experience_hovered = iconsPath + 'experience_white.png';
+
 // projects
   static const String own = projectsPath + 'original_grey_bg.png';
   static const String weather_app = projectsPath + 'weather_app.png';

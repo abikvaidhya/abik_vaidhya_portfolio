@@ -7,7 +7,8 @@ class ExperienceModel {
       location = ''.obs,
       title = ''.obs;
   RxList responsibilities = [].obs;
-  Rx<DateTime> startDate = DateTime.now().obs, endDate = DateTime.now().obs;
+
+  Timestamp startDate, endDate;
 
   ExperienceModel({
     required this.description,
@@ -28,12 +29,8 @@ class ExperienceModel {
       location: docData['location'].toString().obs,
       title: docData['title'].toString().obs,
       responsibilities: (docData['responsibilities'] as List).obs,
-      startDate: DateTime.fromMicrosecondsSinceEpoch(
-              int.parse(docData['start_date'].toString()))
-          .obs,
-      endDate: DateTime.fromMicrosecondsSinceEpoch(
-              int.parse(docData['end_date'].toString()))
-          .obs,
+      startDate: docData['start_date'],
+      endDate: docData['end_date'],
     );
   }
 }
