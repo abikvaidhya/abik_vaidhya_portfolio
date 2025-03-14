@@ -19,76 +19,71 @@ class _CodingScreenState extends State<CodingScreen> {
     MainController mainController = Get.find<MainController>();
     CodingController codingController = Get.find<CodingController>();
     return Obx(
-          () =>
-      (codingController.gettingFrameworks.value ||
-          codingController.gettingWorkSocials.value)
+      () => (codingController.gettingFrameworks.value ||
+              codingController.gettingWorkSocials.value)
           ? Center(
-        child: CircularProgressIndicator(),
-      )
+              child: CircularProgressIndicator(),
+            )
           : Stack(
-        children: [
-          Column(
-            children: [
-              Expanded(
-                child: PageView(
-                  pageSnapping: widget.isDesktop ? false : true,
-                  allowImplicitScrolling: widget.isDesktop ? false : true,
-                  physics: widget.isDesktop
-                      ? NeverScrollableScrollPhysics()
-                      : ClampingScrollPhysics(),
-                  scrollDirection: (widget.isDesktop)
-                      ? Axis.vertical
-                      : Axis.horizontal,
+              children: [
+                Column(
                   children: [
-                    Widgets.CodingIntroDetails(
-                      context: context,
-                      isDesktop: widget.isDesktop,
+                    Expanded(
+                      child: PageView(
+                        pageSnapping: widget.isDesktop ? false : true,
+                        allowImplicitScrolling: widget.isDesktop ? false : true,
+                        physics: widget.isDesktop
+                            ? NeverScrollableScrollPhysics()
+                            : ClampingScrollPhysics(),
+                        scrollDirection: (widget.isDesktop)
+                            ? Axis.vertical
+                            : Axis.horizontal,
+                        children: [
+                          Widgets.CodingIntroDetails(
+                            context: context,
+                            isDesktop: widget.isDesktop,
+                          ),
+                          Widgets.FrameworksDetails(
+                            isDesktop: widget.isDesktop,
+                          ),
+                          Widgets.ExperienceDetails(
+                            isDesktop: widget.isDesktop,
+                          ),
+                          if (widget.isDesktop)
+                            Widgets.projectDetails(isDesktop: widget.isDesktop)
+                        ],
+                        controller: mainController.codingController,
+                        onPageChanged: (value) {
+                          // scroll up/down button icon changes
+                          if (mainController.codingController.page!.round() >
+                                  0 &&
+                              widget.isDesktop) {
+                            mainController.isCodeScrollDown.value = false;
+                          } else {
+                            mainController.isCodeScrollDown.value = true;
+                          }
+
+                          mainController.codingIndex.value =
+                              mainController.codingController.page!.round();
+                        },
+                      ),
                     ),
-                    Widgets.FrameworksDetails(
-                      isDesktop: widget.isDesktop,
-                    ),
-                    Widgets.ExperienceDetails(
-                      isDesktop: widget.isDesktop,
-                    ),
-                    if (widget.isDesktop)
-                      Widgets.projectDetails(isDesktop: widget.isDesktop)
                   ],
-                  controller: mainController.codingController,
-                  onPageChanged: (value) {
-                    // scroll up/down button icon changes
-                    if (mainController.codingController.page!.round() >
-                        0 &&
-                        widget.isDesktop) {
-                      mainController.isCodeScrollDown.value = false;
-                    } else {
-                      mainController.isCodeScrollDown.value = true;
-                    }
-
-                    mainController.codingIndex.value =
-                        mainController.codingController.page!.round();
-                  },
                 ),
-              ),
-            ],
-          ),
 
-          // scroll up/down button
-          if (widget.isDesktop)
-            Positioned(
-              right: 30,
-              bottom: MediaQuery
-                  .of(context)
-                  .size
-                  .height / 8,
-              child: Obx(
-                    () =>
-                    Widgets.desktopScrollButton(
-                        mainController.codingController,
-                        mainController.isCodeScrollDown),
-              ),
+                // scroll up/down button
+                if (widget.isDesktop)
+                  Positioned(
+                    right: 30,
+                    bottom: MediaQuery.of(context).size.height / 8,
+                    child: Obx(
+                      () => Widgets.desktopScrollButton(
+                          mainController.codingController,
+                          mainController.isCodeScrollDown),
+                    ),
+                  ),
+              ],
             ),
-        ],
-      ),
     );
   }
 }

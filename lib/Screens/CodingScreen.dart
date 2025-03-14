@@ -10,6 +10,6 @@ class MobileCodingScreen extends StatefulWidget {
 class _MobileCodingScreenState extends State<MobileCodingScreen> {
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Text('More on mobile, coming soon.');
   }
 }

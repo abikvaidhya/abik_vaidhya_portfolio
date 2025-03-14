@@ -60,6 +60,7 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                 endIndent: 30,
               ),
               Row(
+                spacing: 15,
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.grey.shade300.withOpacity(0.3),
@@ -67,9 +68,6 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                       Icons.mail_outline,
                       color: mainController.isDark.value ? Colors.white : null,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
                   ),
                   GestureDetector(
                     onTap: () => Clipboard.setData(
@@ -89,6 +87,7 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                   Clipboard.setData(ClipboardData(text: "+977-986-908-0265"));
                 },
                 child: Row(
+                  spacing: 15,
                   children: [
                     CircleAvatar(
                       backgroundColor: Colors.grey.shade300.withOpacity(0.3),
@@ -97,9 +96,6 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                         color:
                             mainController.isDark.value ? Colors.white : null,
                       ),
-                    ),
-                    SizedBox(
-                      width: 10,
                     ),
                     Text(
                       '+977-986-908-0265',
@@ -112,6 +108,7 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                 ),
               ),
               Row(
+                spacing: 15,
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.grey.shade300.withOpacity(0.3),
@@ -119,9 +116,6 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                       Icons.pin_drop,
                       color: mainController.isDark.value ? Colors.white : null,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
                   ),
                   Text(
                     'Kathmandu, Nepal',
@@ -132,6 +126,7 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                 ],
               ),
               Row(
+                spacing: 15,
                 children: [
                   CircleAvatar(
                     backgroundColor: Colors.grey.shade300.withOpacity(0.3),
@@ -139,9 +134,6 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                       Icons.book,
                       color: mainController.isDark.value ? Colors.white : null,
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
                   ),
                   Expanded(
                     child: Text(
@@ -155,6 +147,13 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                   ),
                 ],
               ),
+              Container(
+                  height: 40,
+                  // width: ,
+                  decoration: BoxDecoration(
+                      color: Colors.grey.shade300.withOpacity(0.3),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  child: Center(child: Text('More on mobile coming soon.')))
             ],
           ),
         ),

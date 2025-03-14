@@ -12,7 +12,6 @@ import 'package:my_porfolio/Controllers/SocialsController.dart';
 import 'package:my_porfolio/Models/MorphButton.dart';
 import 'package:my_porfolio/Models/ProjectModel.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
-import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/FunctionUtils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -324,31 +323,41 @@ class Widgets {
                     ),
                   ],
                 ),
+                SizedBox(
+                  height: 20,
+                ),
                 if (isDesktop)
                   SizedBox(
                     height: MediaQuery.of(context).size.height * .2,
                     child: Row(
-                      spacing: 40,
+                      spacing: 20,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Widgets.pieChart(context,
                             isDesktop: isDesktop, label: 'frameworks'),
+                        Wrap(
+                          spacing: 20,
+                          children: [
+                            Obx(
+                              () => morphButton(context, callBack: () {
+                                Functions.navigate(
+                                    4, mainController.codingController);
+                              },
+                                  buttonModel:
+                                      codingController.projectButton.value),
+                            ),
+                            Obx(
+                              () => morphButton(context, callBack: () {
+                                Functions.navigate(
+                                    3, mainController.codingController);
+                              },
+                                  buttonModel:
+                                      codingController.experienceButton.value),
+                            ),
+                          ],
+                        ),
                         Widgets.workSocialsMorphButtons(context,
                             isDesktop: isDesktop),
-                        Obx(
-                          () => morphButton(context, callBack: () {
-                            Functions.navigate(
-                                4, mainController.codingController);
-                          }, buttonModel: codingController.projectButton.value),
-                        ),
-                        Obx(
-                          () => morphButton(context, callBack: () {
-                            Functions.navigate(
-                                3, mainController.codingController);
-                          },
-                              buttonModel:
-                                  codingController.experienceButton.value),
-                        ),
                       ],
                     ),
                   ),
@@ -371,6 +380,7 @@ class Widgets {
         ? Padding(
             padding: const EdgeInsets.all(44.0),
             child: Column(
+              spacing: 20,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Row(
@@ -390,30 +400,23 @@ class Widgets {
                     ),
                   ],
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 5.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Widgets.customShadowBox(
-                          Text(
-                            codingController
-                                .frameworks[
-                                    codingController.frameworkIndex.value]
-                                .description,
-                            maxLines: 8,
-                            style: AppThemeData
-                                .appThemeData.textTheme.bodyMedium!
-                                .copyWith(
-                                    color: mainController.isDark.value
-                                        ? Colors.white
-                                        : Colors.black),
-                            softWrap: true,
-                          ),
-                        ),
+                Row(
+                  children: [
+                    Widgets.customShadowBox(
+                      Text(
+                        codingController
+                            .frameworks[codingController.frameworkIndex.value]
+                            .description,
+                        maxLines: 5,
+                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                            .copyWith(
+                                color: mainController.isDark.value
+                                    ? Colors.white
+                                    : Colors.black),
+                        softWrap: true,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 ListView.separated(
                   shrinkWrap: true,
@@ -513,59 +516,57 @@ class Widgets {
                             itemBuilder:
                                 (BuildContext context, int experiencesIndex) {
                               return Widgets.customShadowBox(
-                                 Column(
+                                Column(
                                   spacing: 20,
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                       children: [
-                                          Text(
-                                            codingController
-                                                .experiences[experiencesIndex]
-                                                .name
-                                                .value,
-                                            style: AppThemeData.appThemeData
-                                                .textTheme.headlineLarge!
-                                                .copyWith(
-                                                    color: mainController
-                                                            .isDark.value
-                                                        ? Colors.white
-                                                        : Colors.black),
-                                          ),
-
+                                        Text(
+                                          codingController
+                                              .experiences[experiencesIndex]
+                                              .name
+                                              .value,
+                                          style: AppThemeData.appThemeData
+                                              .textTheme.headlineLarge!
+                                              .copyWith(
+                                                  color: mainController
+                                                          .isDark.value
+                                                      ? Colors.white
+                                                      : Colors.black),
+                                        ),
                                       ],
                                     ),
                                     Row(
                                       children: [
-                                          Text(
-                                            codingController
-                                                    .experiences[experiencesIndex]
-                                                    .title
-                                                    .value +
-                                                ' (' +
-                                                codingController
-                                                    .experiences[experiencesIndex]
-                                                    .startDate
-                                                    .toDate()
-                                                    .year
-                                                    .toString() +
-                                                ' to ' +
-                                                codingController
-                                                    .experiences[experiencesIndex]
-                                                    .endDate
-                                                    .toDate()
-                                                    .year
-                                                    .toString() +
-                                                ')',
-                                            style: AppThemeData.appThemeData
-                                                .textTheme.displayMedium!
-                                                .copyWith(
-                                                    color: mainController
-                                                            .isDark.value
-                                                        ? Colors.white
-                                                        : Colors.black),
-                                          ),
-
+                                        Text(
+                                          codingController
+                                                  .experiences[experiencesIndex]
+                                                  .title
+                                                  .value +
+                                              ' (' +
+                                              codingController
+                                                  .experiences[experiencesIndex]
+                                                  .startDate
+                                                  .toDate()
+                                                  .year
+                                                  .toString() +
+                                              ' to ' +
+                                              codingController
+                                                  .experiences[experiencesIndex]
+                                                  .endDate
+                                                  .toDate()
+                                                  .year
+                                                  .toString() +
+                                              ')',
+                                          style: AppThemeData.appThemeData
+                                              .textTheme.displayMedium!
+                                              .copyWith(
+                                                  color: mainController
+                                                          .isDark.value
+                                                      ? Colors.white
+                                                      : Colors.black),
+                                        ),
                                       ],
                                     ),
                                     Column(
@@ -574,24 +575,22 @@ class Widgets {
                                         Row(
                                           children: [
                                             Expanded(
-                                              child:
-                                                Text(
-                                                  codingController
-                                                      .experiences[
-                                                          experiencesIndex]
-                                                      .description
-                                                      .value,
-                                                  maxLines: 8,
-                                                  style: AppThemeData.appThemeData
-                                                      .textTheme.bodyMedium!
-                                                      .copyWith(
-                                                          color: mainController
-                                                                  .isDark.value
-                                                              ? Colors.white
-                                                              : Colors.black),
-                                                  softWrap: true,
-                                                ),
-
+                                              child: Text(
+                                                codingController
+                                                    .experiences[
+                                                        experiencesIndex]
+                                                    .description
+                                                    .value,
+                                                maxLines: 8,
+                                                style: AppThemeData.appThemeData
+                                                    .textTheme.bodyMedium!
+                                                    .copyWith(
+                                                        color: mainController
+                                                                .isDark.value
+                                                            ? Colors.white
+                                                            : Colors.black),
+                                                softWrap: true,
+                                              ),
                                             ),
                                           ],
                                         ),
@@ -608,25 +607,23 @@ class Widgets {
                                           int responsibilitiesIndex) {
                                         return GestureDetector(
                                           onTap: () {},
-                                          child:
-                                            Text(
-                                              '- ' +
-                                                  codingController
-                                                          .experiences[
-                                                              experiencesIndex]
-                                                          .responsibilities[
-                                                      responsibilitiesIndex],
-                                              maxLines: 2,
-                                              style: AppThemeData.appThemeData
-                                                  .textTheme.bodySmall!
-                                                  .copyWith(
-                                                      color: mainController
-                                                              .isDark.value
-                                                          ? Colors.white
-                                                          : Colors.black),
-                                              softWrap: true,
-                                            ),
-
+                                          child: Text(
+                                            '- ' +
+                                                codingController
+                                                        .experiences[
+                                                            experiencesIndex]
+                                                        .responsibilities[
+                                                    responsibilitiesIndex],
+                                            maxLines: 2,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.bodySmall!
+                                                .copyWith(
+                                                    color: mainController
+                                                            .isDark.value
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                            softWrap: true,
+                                          ),
                                         );
                                       },
                                       separatorBuilder:
@@ -1087,7 +1084,7 @@ class Widgets {
             width: MediaQuery.of(context).size.height * .20,
             height: MediaQuery.of(context).size.height * .20,
             duration: Duration(milliseconds: 111),
-            padding: EdgeInsets.all(buttonModel.pad.value),
+            padding: EdgeInsets.all(buttonModel.pad.value - 20),
             child: Column(
               children: [
                 buttonModel.showDetails.value
@@ -1350,7 +1347,7 @@ class Widgets {
           () => Row(
             children: [
               SizedBox(
-                width: 100,
+                width: 120,
                 child: ListView.builder(
                   shrinkWrap: true,
                   itemCount: codingController.frameworks.length,
