@@ -18,6 +18,7 @@ main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  
   Get.put(MainController()); // main controller
   Get.put(CodingController()); // coding controller
   Get.put(ProjectsController()); // projects controller

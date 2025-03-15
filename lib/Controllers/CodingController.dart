@@ -175,4 +175,8 @@ class CodingController extends GetxController {
       );
     });
   }
+
+  // cacheImages(BuildContext context, {required Image image}) {
+  //   precacheImage(image.image, context);
+  // }
 }
