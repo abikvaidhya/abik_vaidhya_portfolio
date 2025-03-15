@@ -9,10 +9,10 @@ class ProjectsController extends GetxController {
   final firebase = FirebaseFirestore.instance;
   RxBool gettingProjects = false.obs;
 
-  RxList<ProjectModel> projects = <ProjectModel>[].obs; // project list
+  RxList<ProjectModel> projects = <ProjectModel>[].obs,
+      launched_projects = <ProjectModel>[].obs; // project list
 
-  RxList<MorphButton> projectMorphButtons =
-      <MorphButton>[].obs;
+  RxList<MorphButton> projectMorphButtons = <MorphButton>[].obs;
 
   @override
   void onInit() {
@@ -34,6 +34,14 @@ class ProjectsController extends GetxController {
     } catch (e) {
       debugPrint('## ERROR GETTING PROJECTS LIST: $e');
     } finally {
+      if (projects.isNotEmpty) {
+        launched_projects.value =
+            projects.where((e) => e.tags.contains('launched')).toList();
+        launched_projects
+            .sort((a, b) => b.label.value.compareTo(a.label.value));
+
+        projects.sort((a, b) => a.label.value.compareTo(b.label.value));
+      }
       gettingProjects(false);
     }
   }

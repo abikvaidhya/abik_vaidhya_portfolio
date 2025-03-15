@@ -21,24 +21,26 @@ class CodingController extends GetxController {
       experienceIndex = (0).obs; // current experience id
 
   Rx<MorphButton> projectButton = MorphButton(
-      isClicked: false.obs,
-      showDetails: false.obs,
-      isFocused: false.obs,
-      image: Image.asset(ImageConstants.projects),
-      image_hovered: Image.asset(ImageConstants.projects_hovered),
-      pad: 50.0.obs,
-      scale: 0.0.obs,
-      link: 'projects')
-      .obs,
+              label: 'projects'.obs,
+              isClicked: false.obs,
+              showDetails: false.obs,
+              isFocused: false.obs,
+              image: Image.asset(ImageConstants.projects),
+              image_hovered: Image.asset(ImageConstants.projects_hovered),
+              pad: 50.0.obs,
+              scale: 0.0.obs,
+              link: 'projects')
+          .obs,
       experienceButton = MorphButton(
-          isClicked: false.obs,
-          showDetails: false.obs,
-          isFocused: false.obs,
-          image: Image.asset(ImageConstants.experience),
-          image_hovered: Image.asset(ImageConstants.experience_hovered),
-          pad: 50.0.obs,
-          scale: 0.0.obs,
-          link: 'experiences')
+              label: 'experiences'.obs,
+              isClicked: false.obs,
+              showDetails: false.obs,
+              isFocused: false.obs,
+              image: Image.asset(ImageConstants.experience),
+              image_hovered: Image.asset(ImageConstants.experience_hovered),
+              pad: 50.0.obs,
+              scale: 0.0.obs,
+              link: 'experiences')
           .obs;
 
   RxList<FrameworksModel> frameworks = <FrameworksModel>[].obs; // frameworks
@@ -118,7 +120,7 @@ class CodingController extends GetxController {
       experiences.clear();
 
       final snapShot =
-      await firebase.collection(APIEndpoints.experiences).get();
+          await firebase.collection(APIEndpoints.experiences).get();
       if (snapShot.docs.isEmpty) {
         throw 'Empty data in ${APIEndpoints.experiences} collection';
       }
@@ -141,7 +143,7 @@ class CodingController extends GetxController {
     gettingWorkSocials(true);
     try {
       final snapShot =
-      await firebase.collection(APIEndpoints.work_socials).get();
+          await firebase.collection(APIEndpoints.work_socials).get();
       if (snapShot.docs.isEmpty) {
         throw 'Empty data in ${APIEndpoints.work_socials} collection';
       }
@@ -161,6 +163,7 @@ class CodingController extends GetxController {
     jobSocials.forEach((e) {
       jobSocialsMorphButtons.add(
         MorphButton(
+            label: (e.label).obs,
             isClicked: false.obs,
             showDetails: false.obs,
             isFocused: false.obs,

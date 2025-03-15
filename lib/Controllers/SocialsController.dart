@@ -21,8 +21,7 @@ class SocialsController extends GetxController {
   getSocials() async {
     gettingSocials(true);
     try {
-      final snapShot =
-          await firebase.collection(APIEndpoints.socials).get();
+      final snapShot = await firebase.collection(APIEndpoints.socials).get();
       if (snapShot.docs.isEmpty) {
         throw 'Empty data in ${APIEndpoints.socials} collection';
       }
@@ -41,6 +40,7 @@ class SocialsController extends GetxController {
     socials.forEach((e) {
       socialMorphButtons.add(
         MorphButton(
+            label: (e.label).obs,
             isClicked: false.obs,
             showDetails: false.obs,
             isFocused: false.obs,

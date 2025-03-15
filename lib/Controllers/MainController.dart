@@ -45,7 +45,7 @@ class MainController extends GetxController {
       cursorX = 0.0.obs,
       cursorY = 0.0.obs;
 
-  late ProjectModel selectedProject;
+  // late ProjectModel selectedProject;
 
   RxList<InfoModel> infos = <InfoModel>[].obs;
 

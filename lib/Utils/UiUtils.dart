@@ -85,7 +85,7 @@ class Widgets {
       },
       onExit: (e) {
         mainController.showScrollBtn.value =
-            (mainController.isDark.value) ? 0.6 : 0.3;
+            (mainController.isDark.value) ? 0.6 : 0.4;
       },
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 200),
@@ -108,62 +108,61 @@ class Widgets {
     );
   }
 
-  static Container projectCard(ProjectModel project, Color iconColor) {
-    MainController mainController = Get.find<MainController>();
-    return Container(
-      margin: EdgeInsets.all(5),
-      child: GestureDetector(
-        onTap: () {
-          mainController.projectDetails.value =
-              !mainController.projectDetails.value;
-          mainController.selectedProject = project;
-        },
-        child: Card(
-          color: mainController.isDark.value
-              ? Colors.white30
-              : Colors.grey.shade200,
-          elevation: 5,
-          child: Column(
-            children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      vertical: 5.0, horizontal: 10.0),
-                  child: Image(
-                    // height: 100,
-                    width: 100,
-                    image: project.image.image,
-                    fit: BoxFit.contain,
-                  ),
-                ),
-              ),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Text(
-                      '${project.label}',
-                      style: AppThemeData.appThemeData.textTheme.bodySmall!
-                          .copyWith(
-                              height: 1,
-                              color: mainController.isDark.value
-                                  ? Colors.white
-                                  : Colors.black),
-                      textAlign: TextAlign.start,
-                      softWrap: true,
-                    )),
-                    // bulletineIcon(true, iconColor: iconColor)
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+//   static Container projectCard(ProjectModel project, Color iconColor) {
+  MainController mainController = Get.find<MainController>();
+//     return Container(
+//       margin: EdgeInsets.all(5),
+//       child: GestureDetector(
+//         onTap: () {
+//           mainController.projectDetails.value =
+//               !mainController.projectDetails.value;
+//         },
+//         child: Card(
+//           color: mainController.isDark.value
+//               ? Colors.white30
+//               : Colors.grey.shade200,
+//           elevation: 5,
+//           child: Column(
+//             children: [
+//               Expanded(
+//                 child: Padding(
+//                   padding: const EdgeInsets.symmetric(
+//                       vertical: 5.0, horizontal: 10.0),
+//                   child: Image(
+//                     // height: 100,
+//                     width: 100,
+//                     image: project.image.image,
+//                     fit: BoxFit.contain,
+//                   ),
+//                 ),
+//               ),
+//               Padding(
+//                 padding:
+//                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
+//                 child: Row(
+//                   children: [
+//                     Expanded(
+//                         child: Text(
+//                       '${project.label}',
+//                       style: AppThemeData.appThemeData.textTheme.bodySmall!
+//                           .copyWith(
+//                               height: 1,
+//                               color: mainController.isDark.value
+//                                   ? Colors.white
+//                                   : Colors.black),
+//                       textAlign: TextAlign.start,
+//                       softWrap: true,
+//                     )),
+//                     // bulletineIcon(true, iconColor: iconColor)
+//                   ],
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
   static Widget subtitleTexts({required int id, required String label}) {
     MainController mainController = Get.find<MainController>();
@@ -341,18 +340,18 @@ class Widgets {
                             Obx(
                               () => morphButton(context, callBack: () {
                                 Functions.navigate(
-                                    4, mainController.codingController);
-                              },
-                                  buttonModel:
-                                      codingController.projectButton.value),
-                            ),
-                            Obx(
-                              () => morphButton(context, callBack: () {
-                                Functions.navigate(
                                     3, mainController.codingController);
                               },
                                   buttonModel:
                                       codingController.experienceButton.value),
+                            ),
+                            Obx(
+                              () => morphButton(context, callBack: () {
+                                Functions.navigate(
+                                    4, mainController.codingController);
+                              },
+                                  buttonModel:
+                                      codingController.projectButton.value),
                             ),
                           ],
                         ),
@@ -736,45 +735,48 @@ class Widgets {
               ),
             ],
           ),
-          Row(
-            children: [
-              Expanded(
-                child: Obx(
-                  () => AnimatedSwitcher(
-                    duration: Duration(milliseconds: 500),
-                    child: (mainController.projectDetails.value)
-                        ? projectDetailSection(isDesktop)
-                        : GridView(
-                            shrinkWrap: true,
-                            padding: EdgeInsets.all(10),
-                            keyboardDismissBehavior:
-                                ScrollViewKeyboardDismissBehavior.onDrag,
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: (isDesktop) ? 8 : 2),
-                            children: [
-                              for (ProjectModel project
-                                  in projectsController.projects)
-                                Widgets.projectCard(
-                                    project,
-                                    project.devLang.value == 'vue'
-                                        ? Colors.green
-                                        : project.devLang.value == 'react'
-                                            ? Color.fromARGB(255, 3, 117, 248)
-                                            : Color.fromARGB(255, 9, 74, 187))
-                            ],
-                          ),
-                  ),
-                ),
-              )
-            ],
+          Expanded(
+            child: PageView.builder(
+              itemCount: projectsController.launched_projects.length,
+              itemBuilder: (BuildContext context, int index) {
+                return projectDetailSection(
+                    project: projectsController.launched_projects[index]);
+              },
+
+              //   () => AnimatedSwitcher(
+              //     duration: Duration(milliseconds: 500),
+              //     child: (mainController.projectDetails.value)
+              //         ? projectDetailSection(pr)
+              //         : GridView(
+              //             shrinkWrap: true,
+              //             padding: EdgeInsets.all(10),
+              //             keyboardDismissBehavior:
+              //                 ScrollViewKeyboardDismissBehavior.onDrag,
+              //             gridDelegate:
+              //                 SliverGridDelegateWithFixedCrossAxisCount(
+              //                     crossAxisCount: (isDesktop) ? 8 : 2),
+              //             children: [
+              //               for (ProjectModel project
+              //                   in projectsController.projects)
+              //                 Widgets.projectCard(
+              //                     project,
+              //                     project.devLang.value == 'vue'
+              //                         ? Colors.green
+              //                         : project.devLang.value == 'react'
+              //                             ? Color.fromARGB(255, 3, 117, 248)
+              //                             : Color.fromARGB(255, 9, 74, 187))
+              //             ],
+              //           ),
+              //   ),
+            ),
           ),
         ],
       ),
     );
   }
 
-  static Padding projectDetailSection(bool isDesktop) {
+  static Padding projectDetailSection(
+      {required ProjectModel project, bool isDesktop = false}) {
     MainController mainController = Get.find<MainController>();
     return Padding(
       padding: const EdgeInsets.all(20.0),
@@ -788,19 +790,8 @@ class Widgets {
                 mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 20,
                 children: [
-                  GestureDetector(
-                      onTap: () {
-                        mainController.projectDetails.value =
-                            !mainController.projectDetails.value;
-                      },
-                      child: Icon(
-                        Icons.arrow_back_ios,
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
-                      )),
                   Text(
-                    mainController.selectedProject.label.value,
+                    project.label.value,
                     style: AppThemeData.appThemeData.textTheme.displayLarge!
                         .copyWith(
                       color: mainController.isDark.value
@@ -814,7 +805,7 @@ class Widgets {
                 children: [
                   Expanded(
                     child: Text(
-                      mainController.selectedProject.description.value,
+                      project.description.value,
                       softWrap: true,
                       style: AppThemeData.appThemeData.textTheme.bodyMedium!
                           .copyWith(
@@ -822,65 +813,58 @@ class Widgets {
                             ? Colors.white
                             : Colors.black,
                       ),
-                      maxLines: 8,
+                      maxLines: 5,
                     ),
                   )
                 ],
               ),
               Row(
+                spacing: 20,
                 children: [
-                  Expanded(
-                    child: Text(
-                      'developed using:',
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
-                      ),
+                  Text(
+                    'developed using:',
+                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                        .copyWith(
+                      color: mainController.isDark.value
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   ),
-                  Expanded(
-                    flex: (isDesktop) ? 3 : 1,
-                    child: Text(
-                      mainController.selectedProject.devLang.value,
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
-                      ),
+                  Text(
+                    project.devLang.value,
+                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                        .copyWith(
+                      color: mainController.isDark.value
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   )
                 ],
               ),
               Row(
+                spacing: 20,
                 children: [
-                  Expanded(
-                    child: Text(
-                      'platforms:',
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
-                      ),
+                  Text(
+                    'platforms:',
+                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                        .copyWith(
+                      color: mainController.isDark.value
+                          ? Colors.white
+                          : Colors.black,
                     ),
                   ),
-                  Expanded(
-                      flex: (isDesktop) ? 3 : 1,
-                      child: Text(
-                        mainController.selectedProject.platform
-                            .toString()
-                            .replaceAll('[', '')
-                            .replaceAll(']', ''),
-                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                            .copyWith(
-                          color: mainController.isDark.value
-                              ? Colors.white
-                              : Colors.black,
-                        ),
-                      ))
+                  Text(
+                    project.platform
+                        .toString()
+                        .replaceAll('[', '')
+                        .replaceAll(']', ''),
+                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                        .copyWith(
+                      color: mainController.isDark.value
+                          ? Colors.white
+                          : Colors.black,
+                    ),
+                  )
                 ],
               )
             ],
@@ -1057,47 +1041,61 @@ class Widgets {
                 ? LinearGradient(colors: mainController.skillsGradientList[0])
                 : null,
             borderRadius: BorderRadius.circular(10),
-            boxShadow: !buttonModel.isClicked.value
-                ? [
-                    BoxShadow(
-                        color: Colors.grey[500]!,
-                        offset: (mainController.isDark.value)
-                            ? Offset(2, 2)
-                            : Offset(4, 4),
-                        blurRadius: mainController.isDark.value ? 5 : 15,
-                        spreadRadius: 1),
-                    BoxShadow(
-                        color: Colors.white,
-                        offset: (mainController.isDark.value)
-                            ? Offset(-2, -2)
-                            : Offset(-4, -4),
-                        blurRadius: mainController.isDark.value ? 5 : 15,
-                        spreadRadius: 1)
-                  ]
-                : null),
+            boxShadow:
+                !buttonModel.isClicked.value && buttonModel.isFocused.value
+                    ? [
+                        BoxShadow(
+                            color: Colors.grey[500]!,
+                            offset: (mainController.isDark.value)
+                                ? Offset(2, 2)
+                                : Offset(4, 4),
+                            blurRadius: mainController.isDark.value ? 5 : 15,
+                            spreadRadius: 1),
+                        BoxShadow(
+                            color: Colors.white,
+                            offset: (mainController.isDark.value)
+                                ? Offset(-2, -2)
+                                : Offset(-4, -4),
+                            blurRadius: mainController.isDark.value ? 5 : 15,
+                            spreadRadius: 1)
+                      ]
+                    : null),
         padding: EdgeInsets.all((isDesktop) ? 15 : 5),
         child: MouseRegion(
           onEnter: (a) => buttonModel.isFocused.value = true,
           onExit: (a) => buttonModel.isFocused.value = false,
-          child: AnimatedContainer(
-            curve: Curves.easeIn,
-            width: MediaQuery.of(context).size.height * .20,
-            height: MediaQuery.of(context).size.height * .20,
-            duration: Duration(milliseconds: 111),
-            padding: EdgeInsets.all(buttonModel.pad.value - 20),
-            child: Column(
-              children: [
-                buttonModel.showDetails.value
+          child: Stack(
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.height * .15,
+                height: MediaQuery.of(context).size.height * .15,
+                // curve: Curves.easeIn,
+                // duration: Duration(milliseconds: 400),
+                padding: EdgeInsets.all(buttonModel.pad.value - 20),
+                child: buttonModel.isFocused.value
                     ? (mainController.isDark.value)
-                        ? buttonModel.image_hovered
-                        : buttonModel.image
+                        ? buttonModel.image
+                        : buttonModel.image_hovered
                     : (mainController.isDark.value)
                         ? buttonModel.image_hovered
                         : buttonModel.image,
-                // if(buttonModel.showDetails.value)
-                //   Text(buttonModel.image.toString())
-              ],
-            ),
+              ),
+              Align(
+                alignment: Alignment.bottomCenter,
+                child: Obx(() => AnimatedOpacity(
+                      duration: Duration(milliseconds: 111),
+                      opacity: buttonModel.isFocused.value ? 1 : 0,
+                      child: Text(
+                        buttonModel.label.value,
+                        style: AppThemeData.appThemeData.textTheme.bodySmall!
+                            .copyWith(
+                                color: mainController.isDark.value
+                                    ? Colors.black
+                                    : Colors.white),
+                      ),
+                    )),
+              )
+            ],
           ),
         ),
       ),
@@ -1362,7 +1360,11 @@ class Widgets {
                         ),
                         Text(
                           codingController.frameworks[index].label,
-                          style: AppThemeData.appThemeData.textTheme.bodySmall!,
+                          style: AppThemeData.appThemeData.textTheme.bodySmall!
+                              .copyWith(
+                                  color: mainController.isDark.value
+                                      ? Colors.white
+                                      : Colors.black),
                         ),
                       ],
                     );

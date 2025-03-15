@@ -150,21 +150,20 @@ class Functions {
     MainController mainController = Get.find<MainController>();
 
     pageController.animateToPage(navIndex - 1,
-        duration: Duration(milliseconds: 444), curve: Curves.easeInOut);
+        duration: Duration(milliseconds: 222), curve: Curves.easeInOut);
     mainController.navIndex.value = navIndex - 1;
   }
 
   // precache images
   static precacheImages(BuildContext context) {
     CodingController codingController = Get.find<CodingController>();
-    // GamingController gamingController = Get.find<GamingController>();
-    // SocialsController socialsController = Get.find<SocialsController>();
-    // ProjectsController projectsController = Get.find<ProjectsController>();
-    // MusicController musicController = Get.find<MusicController>();
 
     precacheImage(codingController.projectButton.value.image.image, context);
     precacheImage(
         codingController.projectButton.value.image_hovered.image, context);
+    precacheImage(codingController.experienceButton.value.image.image, context);
+    precacheImage(
+        codingController.experienceButton.value.image_hovered.image, context);
     // for (int i = 0; i < codingController.projectsButtons.length; i++) {
     //   precacheImage(codingController.projectsButtons[i].image.image, context);
     // precacheImage(

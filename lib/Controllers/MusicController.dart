@@ -43,6 +43,7 @@ class MusicController extends GetxController {
     musicSocials.forEach((e) {
       musicMorphButtons.add(
         MorphButton(
+          label: (e.label).obs,
             isClicked: false.obs,
             showDetails: false.obs,
             isFocused: false.obs,

@@ -46,6 +46,7 @@ class GamingController extends GetxController {
     gamingSocials.forEach((e) {
       gamingSocialsMorphButtons.add(
         MorphButton(
+          label: (e.label).obs,
             isClicked: false.obs,
             showDetails: false.obs,
             isFocused: false.obs,
