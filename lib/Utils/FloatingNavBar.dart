@@ -16,18 +16,18 @@ class FloatingNavBarDesktop extends StatelessWidget {
   Widget build(BuildContext context) {
     MainController mainController = Get.find<MainController>();
 
-    return Obx(
-      () => Positioned(
-        bottom: 0,
-        right: 0,
-        left: 0,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            MouseRegion(
-              onEnter: (event) => mainController.navHovered.value = 1,
-              onExit: (event) => mainController.navHovered.value = 0,
-              child: AnimatedContainer(
+    return Positioned(
+      bottom: 0,
+      right: 0,
+      left: 0,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          MouseRegion(
+            onEnter: (event) => mainController.navHovered.value = 1,
+            onExit: (event) => mainController.navHovered.value = 0,
+            child: Obx(
+              () => AnimatedContainer(
                 padding: EdgeInsets.symmetric(
                     horizontal: mainController.navHovered.value == 1 ? 44 : 22),
                 decoration: BoxDecoration(
@@ -53,8 +53,8 @@ class FloatingNavBarDesktop extends StatelessWidget {
                 ),
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -106,7 +106,8 @@ class FloatingNavBarIcons extends StatelessWidget {
     return Obx(
       () => AnimatedPadding(
         padding: EdgeInsets.symmetric(
-            horizontal: (mainController.navHovered.value == 1) ? 15 : 0.0),
+            horizontal: (mainController.navHovered.value == 1) ? 20 : 0.0,
+            vertical: (mainController.navHovered.value == 1) ? 10 : 0.0),
         duration: Duration(milliseconds: 111),
         child: MouseRegion(
           onEnter: (a) {
@@ -122,7 +123,9 @@ class FloatingNavBarIcons extends StatelessWidget {
               transitionBuilder: (Widget child, Animation<double> animation) {
                 return ScaleTransition(scale: animation, child: child);
               },
-              child: iconWidget(mainController.navIconID.value)),
+              child: Obx(() => SimpleShadow(
+                  opacity: mainController.navHovered.value == 1 ? 0.5 : 0,
+                  child: iconWidget(mainController.navIconID.value)))),
         ),
       ),
     );
@@ -132,32 +135,30 @@ class FloatingNavBarIcons extends StatelessWidget {
     MainController mainController = Get.find<MainController>();
 
     return (navID == hoverID)
-        ? SimpleShadow(
-            child: GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  child: Icon(
-                    iconData,
-                    color: mainController.isDark.value
-                        ? Colors.white70
-                        : Colors.black87,
-                    size: 24,
-                  ),
-                ),
-                onTap: () {
-                  Functions.navigate(navID, mainController.pageController);
-                }),
-          )
-        // : Widgets.bulletineIcon(true,
-        //     iconSize: (mainController.navHovered == 0) ? 5 : 7);
+        ? GestureDetector(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Icon(
+                iconData,
+                color: mainController.isDark.value
+                    ? Colors.white70
+                    : Colors.black87,
+                size: 24,
+              ),
+            ),
+            onTap: () =>
+                Functions.navigate(navID, mainController.pageController))
         : IconButton(
             icon: Widgets.bulletineIcon(true,
                 iconColor: mainController.isDark.value
                     ? Colors.white54
                     : Colors.black45),
-            iconSize: (mainController.navHovered == 0) ? 5 : 8,
-            onPressed: () {
-              Functions.navigate(navID, mainController.pageController);
-            });
+            iconSize: mainController.navHovered == 1
+                // ||
+                // hoverID - 1 == mainController.pageController.page!
+                ? 8
+                : 5,
+            onPressed: () =>
+                Functions.navigate(navID, mainController.pageController));
   }
 }

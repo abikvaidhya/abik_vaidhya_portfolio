@@ -20,21 +20,18 @@ class _MusicScreenState extends State<MusicScreen> {
   Widget build(BuildContext context) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
-      spacing: 20,
+      spacing: 60,
       children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Widgets.customShadowBox(
-            Text(mainController
-                .infos[3]
-                .label
-                .value,
-                style: AppThemeData.appThemeData.textTheme.headlineMedium!
-                    .copyWith(
-                        color: (mainController.isDark.value)
-                            ? Colors.white
-                            : Colors.black)),
-          ),
+        Widgets.customShadowBox(
+          Text(mainController
+              .infos[3]
+              .label
+              .value,
+              style: AppThemeData.appThemeData.textTheme.headlineMedium!
+                  .copyWith(
+                      color: (mainController.isDark.value)
+                          ? Colors.white
+                          : Colors.black)),
         ),
         SizedBox(
             height: MediaQuery.of(context).size.height * .20,

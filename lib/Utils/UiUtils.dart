@@ -85,7 +85,7 @@ class Widgets {
       },
       onExit: (e) {
         mainController.showScrollBtn.value =
-            (mainController.isDark.value) ? 0.6 : 0.4;
+            (mainController.isDark.value) ? 0.6 : 0.8;
       },
       child: AnimatedOpacity(
         duration: Duration(milliseconds: 200),
@@ -200,6 +200,7 @@ class Widgets {
                         ? Colors.white
                         : Colors.black)
                 : AppThemeData.appThemeData.textTheme.titleSmall!.copyWith(
+                    fontWeight: FontWeight.bold,
                     color: mainController.isDark.value
                         ? Colors.white
                         : Colors.black),
@@ -239,14 +240,15 @@ class Widgets {
     CodingController codingController = Get.find<CodingController>();
 
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: (isDesktop) ? 44.0 : 20.0),
+      padding: EdgeInsets.all((isDesktop) ? 44.0 : 20.0),
       child: (mainController.infos.isEmpty)
           ? SizedBox.shrink()
           : Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 40,
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 60,
               children: [
                 Column(
+                  spacing: 20,
                   children: [
                     Row(
                       children: [
@@ -323,43 +325,39 @@ class Widgets {
                   ],
                 ),
                 SizedBox(
-                  height: 20,
-                ),
-                if (isDesktop)
-                  SizedBox(
-                    height: MediaQuery.of(context).size.height * .2,
-                    child: Row(
-                      spacing: 20,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Widgets.pieChart(context,
-                            isDesktop: isDesktop, label: 'frameworks'),
-                        Wrap(
-                          spacing: 20,
-                          children: [
-                            Obx(
-                              () => morphButton(context, callBack: () {
-                                Functions.navigate(
-                                    3, mainController.codingController);
-                              },
-                                  buttonModel:
-                                      codingController.experienceButton.value),
-                            ),
-                            Obx(
-                              () => morphButton(context, callBack: () {
-                                Functions.navigate(
-                                    4, mainController.codingController);
-                              },
-                                  buttonModel:
-                                      codingController.projectButton.value),
-                            ),
-                          ],
-                        ),
-                        Widgets.workSocialsMorphButtons(context,
-                            isDesktop: isDesktop),
-                      ],
-                    ),
+                  height: MediaQuery.of(context).size.height * .2,
+                  child: Row(
+                    spacing: 20,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Widgets.pieChart(context,
+                          isDesktop: isDesktop, label: 'frameworks'),
+                      Wrap(
+                        spacing: 20,
+                        children: [
+                          Obx(
+                            () => morphButton(context, callBack: () {
+                              Functions.navigate(
+                                  3, mainController.codingController);
+                            },
+                                buttonModel:
+                                    codingController.experienceButton.value),
+                          ),
+                          Obx(
+                            () => morphButton(context, callBack: () {
+                              Functions.navigate(
+                                  4, mainController.codingController);
+                            },
+                                buttonModel:
+                                    codingController.projectButton.value),
+                          ),
+                        ],
+                      ),
+                      Widgets.workSocialsMorphButtons(context,
+                          isDesktop: isDesktop),
+                    ],
                   ),
+                ),
                 // ElevatedButton(
                 //     onPressed: () {
                 //       Functions.navigate(3, mainController.codingController);
@@ -492,13 +490,15 @@ class Widgets {
               children: [
                 Expanded(
                   child: Column(
+                    spacing: 20,
+                    mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Widgets.customShadowBox(
                         Text(
                           'experiences',
                           style: AppThemeData
-                              .appThemeData.textTheme.headlineLarge!
+                              .appThemeData.textTheme.headlineMedium!
                               .copyWith(
                                   color: mainController.isDark.value
                                       ? Colors.white
@@ -517,7 +517,7 @@ class Widgets {
                               return Widgets.customShadowBox(
                                 Column(
                                   spacing: 20,
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Row(
                                       children: [
@@ -527,7 +527,7 @@ class Widgets {
                                               .name
                                               .value,
                                           style: AppThemeData.appThemeData
-                                              .textTheme.headlineLarge!
+                                              .textTheme.displayMedium!
                                               .copyWith(
                                                   color: mainController
                                                           .isDark.value
@@ -559,7 +559,7 @@ class Widgets {
                                                   .toString() +
                                               ')',
                                           style: AppThemeData.appThemeData
-                                              .textTheme.displayMedium!
+                                              .textTheme.bodyMedium!
                                               .copyWith(
                                                   color: mainController
                                                           .isDark.value
@@ -615,7 +615,7 @@ class Widgets {
                                                     responsibilitiesIndex],
                                             maxLines: 2,
                                             style: AppThemeData.appThemeData
-                                                .textTheme.bodySmall!
+                                                .textTheme.bodyMedium!
                                                 .copyWith(
                                                     color: mainController
                                                             .isDark.value
@@ -669,6 +669,11 @@ class Widgets {
                                           style: AppThemeData.appThemeData
                                               .textTheme.bodyMedium!
                                               .copyWith(
+                                            fontWeight: index ==
+                                                    (codingController
+                                                        .experienceIndex.value)
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
                                             fontSize: (index ==
                                                     (codingController
                                                         .experienceIndex.value))
@@ -677,11 +682,6 @@ class Widgets {
                                             color: mainController.isDark.value
                                                 ? Colors.white
                                                 : Colors.black,
-                                            decoration: (index ==
-                                                    (codingController
-                                                        .experienceIndex.value))
-                                                ? TextDecoration.underline
-                                                : TextDecoration.none,
                                           )),
                                     ),
                                   ),
@@ -719,7 +719,8 @@ class Widgets {
     return Padding(
       padding: EdgeInsets.all((isDesktop) ? 44.0 : 20),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        spacing: 20,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           Row(
             children: [
@@ -736,38 +737,36 @@ class Widgets {
             ],
           ),
           Expanded(
-            child: PageView.builder(
-              itemCount: projectsController.launched_projects.length,
-              itemBuilder: (BuildContext context, int index) {
-                return projectDetailSection(
-                    project: projectsController.launched_projects[index]);
-              },
-
-              //   () => AnimatedSwitcher(
-              //     duration: Duration(milliseconds: 500),
-              //     child: (mainController.projectDetails.value)
-              //         ? projectDetailSection(pr)
-              //         : GridView(
-              //             shrinkWrap: true,
-              //             padding: EdgeInsets.all(10),
-              //             keyboardDismissBehavior:
-              //                 ScrollViewKeyboardDismissBehavior.onDrag,
-              //             gridDelegate:
-              //                 SliverGridDelegateWithFixedCrossAxisCount(
-              //                     crossAxisCount: (isDesktop) ? 8 : 2),
-              //             children: [
-              //               for (ProjectModel project
-              //                   in projectsController.projects)
-              //                 Widgets.projectCard(
-              //                     project,
-              //                     project.devLang.value == 'vue'
-              //                         ? Colors.green
-              //                         : project.devLang.value == 'react'
-              //                             ? Color.fromARGB(255, 3, 117, 248)
-              //                             : Color.fromARGB(255, 9, 74, 187))
-              //             ],
-              //           ),
-              //   ),
+            child: Row(
+              children: [
+                // GestureDetector(
+                //   onTap: () => mainController.projectsController.previousPage(
+                //       duration: Duration(milliseconds: 111),
+                //       curve: Curves.easeInOut),
+                //   child: Icon(Icons.arrow_back_ios_new),
+                // ),
+                Expanded(
+                  child: Obx(
+                    () => PageView.builder(
+                      controller: mainController.projectsController,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: projectsController.launched_projects.length,
+                      itemBuilder: (BuildContext context, int index) {
+                        return projectDetail(
+                            project:
+                                projectsController.launched_projects[index]);
+                      },
+                    ),
+                  ),
+                ),
+                // GestureDetector(
+                //   onTap: () => mainController.projectsController.nextPage(
+                //       duration: Duration(milliseconds: 111),
+                //       curve: Curves.easeInOut),
+                //   child: Icon(Icons.arrow_forward_ios),
+                // ),
+              ],
             ),
           ),
         ],
@@ -775,100 +774,97 @@ class Widgets {
     );
   }
 
-  static Padding projectDetailSection(
+  static Widget projectDetail(
       {required ProjectModel project, bool isDesktop = false}) {
     MainController mainController = Get.find<MainController>();
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: customShadowBox(
-        Obx(
-          () => Column(
-            spacing: 20,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 20,
-                children: [
-                  Text(
-                    project.label.value,
-                    style: AppThemeData.appThemeData.textTheme.displayLarge!
-                        .copyWith(
-                      color: mainController.isDark.value
-                          ? Colors.white
-                          : Colors.black,
-                    ),
+    return customShadowBox(
+      Obx(
+        () => Column(
+          spacing: 20,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              spacing: 20,
+              children: [
+                Text(
+                  project.label.value,
+                  style: AppThemeData.appThemeData.textTheme.displayLarge!
+                      .copyWith(
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black,
                   ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      project.description.value,
-                      softWrap: true,
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      maxLines: 5,
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                spacing: 20,
-                children: [
-                  Text(
-                    'developed using:',
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    project.description.value,
+                    softWrap: true,
                     style: AppThemeData.appThemeData.textTheme.bodyMedium!
                         .copyWith(
                       color: mainController.isDark.value
                           ? Colors.white
                           : Colors.black,
                     ),
+                    maxLines: 5,
                   ),
-                  Text(
-                    project.devLang.value,
-                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                        .copyWith(
-                      color: mainController.isDark.value
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  )
-                ],
-              ),
-              Row(
-                spacing: 20,
-                children: [
-                  Text(
-                    'platforms:',
-                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                        .copyWith(
-                      color: mainController.isDark.value
-                          ? Colors.white
-                          : Colors.black,
-                    ),
+                )
+              ],
+            ),
+            Row(
+              spacing: 20,
+              children: [
+                Text(
+                  'developed using:',
+                  style:
+                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black,
                   ),
-                  Text(
-                    project.platform
-                        .toString()
-                        .replaceAll('[', '')
-                        .replaceAll(']', ''),
-                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                        .copyWith(
-                      color: mainController.isDark.value
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  )
-                ],
-              )
-            ],
-          ),
+                ),
+                Text(
+                  project.devLang.value,
+                  style:
+                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                )
+              ],
+            ),
+            Row(
+              spacing: 20,
+              children: [
+                Text(
+                  'platforms:',
+                  style:
+                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                ),
+                Text(
+                  project.platform
+                      .toString()
+                      .replaceAll('[', '')
+                      .replaceAll(']', ''),
+                  style:
+                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                )
+              ],
+            )
+          ],
         ),
       ),
     );

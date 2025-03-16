@@ -53,7 +53,6 @@ class _InfoScreenState extends State<InfoScreen> {
                                     : Colors.black),
                       ),
                       SizedBox(
-                        // height: MediaQuery.of(context).size.height / 8,
                         width: MediaQuery.of(context).size.width / 3,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,

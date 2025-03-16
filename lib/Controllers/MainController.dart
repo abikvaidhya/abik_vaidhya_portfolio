@@ -18,6 +18,9 @@ class MainController extends GetxController {
       codingController = PageController(
         initialPage: 0,
       ),
+      projectsController = PageController(
+        initialPage: 0,
+      ),
       experienceController = PageController(
         initialPage: 0,
       ),

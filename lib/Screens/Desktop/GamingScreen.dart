@@ -23,12 +23,11 @@ class _GamingScreenState extends State<GamingScreen> {
     return Container(
       margin: EdgeInsets.all(44),
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 20,
+        mainAxisAlignment: MainAxisAlignment.start,
+        spacing: 60,
         children: [
           Column(
             spacing: 20,
-            // mainAxisAlignment: MainAxisAlignment.end,
             children: [
               Row(
                 children: [
@@ -100,10 +99,9 @@ class _GamingScreenState extends State<GamingScreen> {
               ),
             ],
           ),
-          if (widget.isDesktop)
-            SizedBox(
-                height: MediaQuery.of(context).size.height * .20,
-                child: Widgets.gamingSocialsMorphButtons(context)),
+          SizedBox(
+              height: MediaQuery.of(context).size.height * .20,
+              child: Widgets.gamingSocialsMorphButtons(context)),
         ],
       ),
     );

@@ -18,34 +18,29 @@ class _SocialScreenState extends State<SocialScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        spacing: 20,
-        children: [
-          Widgets.customShadowBox(
-            Text(
-              mainController.infos[4].label.value,
-              style: AppThemeData.appThemeData.textTheme.headlineMedium!
-                  .copyWith(
-                      color: (mainController.isDark.value)
-                          ? Colors.white
-                          : Colors.black),
-            ),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      spacing: 60,
+      children: [
+        Widgets.customShadowBox(
+          Text(
+            mainController.infos[4].label.value,
+            style: AppThemeData.appThemeData.textTheme.headlineMedium!.copyWith(
+                color: (mainController.isDark.value)
+                    ? Colors.white
+                    : Colors.black),
           ),
-          SizedBox(
-            height: MediaQuery.of(context).size.height * .2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Widgets.socialMorphButtons(context,
-                    isDesktop: widget.isDesktop),
-              ],
-            ),
+        ),
+        SizedBox(
+          height: MediaQuery.of(context).size.height * .2,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Widgets.socialMorphButtons(context, isDesktop: widget.isDesktop),
+            ],
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
