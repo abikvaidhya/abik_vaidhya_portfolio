@@ -372,111 +372,113 @@ class Widgets {
     MainController mainController = Get.find<MainController>();
     CodingController codingController = Get.find<CodingController>();
 
-    return (codingController.frameworks.isNotEmpty &&
-            codingController.frameworkIndex.value > -1)
-        ? Padding(
-            padding: const EdgeInsets.all(44.0),
-            child: Column(
-              spacing: 20,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Row(
-                  children: [
-                    Widgets.customShadowBox(
-                      Text(
-                        codingController
-                            .frameworks[codingController.frameworkIndex.value]
-                            .label,
-                        style: AppThemeData
-                            .appThemeData.textTheme.headlineMedium!
-                            .copyWith(
-                                color: mainController.isDark.value
-                                    ? Colors.white
-                                    : Colors.black),
+    return Obx(
+      () => (codingController.frameworks.isNotEmpty &&
+              codingController.frameworkIndex.value > -1)
+          ? Padding(
+              padding: const EdgeInsets.all(44.0),
+              child: Column(
+                spacing: 20,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Row(
+                    children: [
+                      Widgets.customShadowBox(
+                        Text(
+                          codingController
+                              .frameworks[codingController.frameworkIndex.value]
+                              .label,
+                          style: AppThemeData
+                              .appThemeData.textTheme.headlineMedium!
+                              .copyWith(
+                                  color: mainController.isDark.value
+                                      ? Colors.white
+                                      : Colors.black),
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                Row(
-                  children: [
-                    Widgets.customShadowBox(
-                      Text(
-                        codingController
-                            .frameworks[codingController.frameworkIndex.value]
-                            .description,
-                        maxLines: 5,
-                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                            .copyWith(
-                                color: mainController.isDark.value
-                                    ? Colors.white
-                                    : Colors.black),
-                        softWrap: true,
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Widgets.customShadowBox(
+                        Text(
+                          codingController
+                              .frameworks[codingController.frameworkIndex.value]
+                              .description,
+                          maxLines: 5,
+                          style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                              .copyWith(
+                                  color: mainController.isDark.value
+                                      ? Colors.white
+                                      : Colors.black),
+                          softWrap: true,
+                        ),
                       ),
-                    ),
-                  ],
-                ),
-                ListView.separated(
-                  shrinkWrap: true,
-                  itemCount: codingController.frameworkProjects.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Widgets.customShadowBox(
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            children: [
-                              Text(
-                                codingController.frameworkProjects[index].label,
-                                style: AppThemeData
-                                    .appThemeData.textTheme.bodyMedium!
-                                    .copyWith(
-                                        color: mainController.isDark.value
-                                            ? Colors.white
-                                            : Colors.black),
-                                softWrap: true,
-                              ),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              if (codingController
-                                  .frameworkProjects[index].link.isNotEmpty)
-                                GestureDetector(
-                                    onTap: () {
-                                      Functions.openLink(codingController
-                                          .frameworkProjects[index].link);
-                                    },
-                                    child: Icon(Icons.link,
-                                        color: mainController.isDark.value
-                                            ? Colors.white
-                                            : Colors.black))
-                            ],
-                          ),
-                          Text(
-                            codingController
-                                .frameworkProjects[index].description,
-                            maxLines: 2,
-                            style: AppThemeData
-                                .appThemeData.textTheme.bodySmall!
-                                .copyWith(
-                                    color: mainController.isDark.value
-                                        ? Colors.white
-                                        : Colors.black),
-                            softWrap: true,
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                    return SizedBox(
-                      height: 20,
-                    );
-                  },
-                ),
-              ],
-            ),
-          )
-        : SizedBox.shrink();
+                    ],
+                  ),
+                  ListView.separated(
+                    shrinkWrap: true,
+                    itemCount: codingController.frameworkProjects.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Widgets.customShadowBox(
+                        Column(
+                          spacing: 10,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              spacing: 20,
+                              children: [
+                                Text(
+                                  codingController
+                                      .frameworkProjects[index].label,
+                                  style: AppThemeData
+                                      .appThemeData.textTheme.bodyMedium!
+                                      .copyWith(
+                                          color: mainController.isDark.value
+                                              ? Colors.white
+                                              : Colors.black),
+                                  softWrap: true,
+                                ),
+                                if (codingController
+                                    .frameworkProjects[index].link.isNotEmpty)
+                                  GestureDetector(
+                                      onTap: () {
+                                        Functions.openLink(codingController
+                                            .frameworkProjects[index].link);
+                                      },
+                                      child: Icon(Icons.link,
+                                          color: mainController.isDark.value
+                                              ? Colors.white
+                                              : Colors.black))
+                              ],
+                            ),
+                            Text(
+                              codingController
+                                  .frameworkProjects[index].description,
+                              maxLines: 2,
+                              style: AppThemeData
+                                  .appThemeData.textTheme.bodySmall!
+                                  .copyWith(
+                                      color: mainController.isDark.value
+                                          ? Colors.white
+                                          : Colors.black),
+                              softWrap: true,
+                            ),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (BuildContext context, int index) {
+                      return SizedBox(
+                        height: 20,
+                      );
+                    },
+                  ),
+                ],
+              ),
+            )
+          : SizedBox.shrink(),
+    );
   }
 
   static Widget ExperienceDetails({required bool isDesktop}) {
@@ -663,26 +665,36 @@ class Widgets {
                                       codingController.experienceIndex(index);
                                     },
                                     child: Obx(
-                                      () => Text(
-                                          codingController
-                                              .experiences[index].name.value,
-                                          style: AppThemeData.appThemeData
-                                              .textTheme.bodyMedium!
-                                              .copyWith(
-                                            fontWeight: index ==
-                                                    (codingController
-                                                        .experienceIndex.value)
-                                                ? FontWeight.bold
-                                                : FontWeight.normal,
-                                            fontSize: (index ==
-                                                    (codingController
-                                                        .experienceIndex.value))
-                                                ? 20
-                                                : 16,
-                                            color: mainController.isDark.value
-                                                ? Colors.white
-                                                : Colors.black,
-                                          )),
+                                      () => customShadowBox(
+                                          Text(
+                                              codingController
+                                                  .experiences[index]
+                                                  .name
+                                                  .value,
+                                              style: AppThemeData.appThemeData
+                                                  .textTheme.bodyMedium!
+                                                  .copyWith(
+                                                fontWeight: index ==
+                                                        (codingController
+                                                            .experienceIndex
+                                                            .value)
+                                                    ? FontWeight.bold
+                                                    : FontWeight.normal,
+                                                //   fontSize: (index ==
+                                                //           (codingController
+                                                //               .experienceIndex.value))
+                                                //       ? 20
+                                                //       : 16,
+                                                color:
+                                                    mainController.isDark.value
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                              )),
+                                          opacity: codingController
+                                                      .experienceIndex.value ==
+                                                  index
+                                              ? 0.6
+                                              : 0.2),
                                     ),
                                   ),
                                 );
@@ -690,7 +702,7 @@ class Widgets {
                               separatorBuilder:
                                   (BuildContext context, int index) {
                                 return SizedBox(
-                                  height: 20,
+                                  height: 10,
                                   child: Center(
                                       child: VerticalDivider(
                                     color: mainController.isDark.value
@@ -717,7 +729,7 @@ class Widgets {
     ProjectsController projectsController = Get.find<ProjectsController>();
 
     return Padding(
-      padding: EdgeInsets.all((isDesktop) ? 44.0 : 20),
+      padding: EdgeInsets.all(44.0),
       child: Column(
         spacing: 20,
         mainAxisAlignment: MainAxisAlignment.start,
@@ -739,12 +751,81 @@ class Widgets {
           Expanded(
             child: Row(
               children: [
-                // GestureDetector(
-                //   onTap: () => mainController.projectsController.previousPage(
-                //       duration: Duration(milliseconds: 111),
-                //       curve: Curves.easeInOut),
-                //   child: Icon(Icons.arrow_back_ios_new),
-                // ),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: SizedBox(
+                        width: 300,
+                        child: AnimatedContainer(
+                          duration: Duration(milliseconds: 111),
+                          child: ListView.separated(
+                            shrinkWrap: true,
+                            itemCount:
+                                projectsController.launched_projects.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Functions.navigate(index + 1,
+                                      mainController.projectsController);
+                                  projectsController
+                                      .launchedProjectIndex(index);
+                                },
+                                child: Obx(
+                                  () => customShadowBox(
+                                      Text(
+                                          projectsController
+                                              .launched_projects[index]
+                                              .label
+                                              .value,
+                                          style: AppThemeData.appThemeData
+                                              .textTheme.bodyMedium!
+                                              .copyWith(
+                                            fontWeight: index ==
+                                                    (projectsController
+                                                        .launchedProjectIndex
+                                                        .value)
+                                                ? FontWeight.bold
+                                                : FontWeight.normal,
+                                            // fontSize: (index ==
+                                            //         (projectsController
+                                            //             .launchedProjectIndex
+                                            //             .value))
+                                            //     ? 20
+                                            //     : 16,
+                                            color: mainController.isDark.value
+                                                ? Colors.white
+                                                : Colors.black,
+                                          )),
+                                      opacity: projectsController
+                                                  .launchedProjectIndex.value ==
+                                              index
+                                          ? 0.6
+                                          : 0.2),
+                                ),
+                              );
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                height: 10,
+                                child: Row(
+                                  children: [
+                                    VerticalDivider(
+                                      color: mainController.isDark.value
+                                          ? Colors.white54
+                                          : Colors.black54,
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
                 Expanded(
                   child: Obx(
                     () => PageView.builder(
@@ -759,13 +840,7 @@ class Widgets {
                       },
                     ),
                   ),
-                ),
-                // GestureDetector(
-                //   onTap: () => mainController.projectsController.nextPage(
-                //       duration: Duration(milliseconds: 111),
-                //       curve: Curves.easeInOut),
-                //   child: Icon(Icons.arrow_forward_ios),
-                // ),
+                )
               ],
             ),
           ),
@@ -777,16 +852,16 @@ class Widgets {
   static Widget projectDetail(
       {required ProjectModel project, bool isDesktop = false}) {
     MainController mainController = Get.find<MainController>();
-    return customShadowBox(
-      Obx(
-        () => Column(
-          spacing: 20,
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              spacing: 20,
-              children: [
+    return Obx(
+      () => Column(
+        spacing: 20,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 20,
+            children: [
+              customShadowBox(
                 Text(
                   project.label.value,
                   style: AppThemeData.appThemeData.textTheme.displayLarge!
@@ -796,16 +871,39 @@ class Widgets {
                         : Colors.black,
                   ),
                 ),
-              ],
-            ),
+              ),
+              if (project.link.isNotEmpty)
+                GestureDetector(
+                    onTap: () => Functions.openLink(project.link.value),
+                    child: Icon(Icons.android_rounded,
+                        color: mainController.isDark.value
+                            ? Colors.white
+                            : Colors.black)),
+              if (project.ios_link.isNotEmpty)
+                GestureDetector(
+                    onTap: () => Functions.openLink(project.ios_link.value),
+                    child: Icon(Icons.apple_rounded,
+                        color: mainController.isDark.value
+                            ? Colors.white
+                            : Colors.black)),
+              if (project.site.isNotEmpty)
+                GestureDetector(
+                    onTap: () => Functions.openLink(project.site.value),
+                    child: Icon(Icons.link_rounded,
+                        color: mainController.isDark.value
+                            ? Colors.white
+                            : Colors.black)),
+            ],
+          ),
+          customShadowBox(
             Row(
               children: [
                 Expanded(
                   child: Text(
                     project.description.value,
                     softWrap: true,
-                    style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                        .copyWith(
+                    style:
+                        AppThemeData.appThemeData.textTheme.bodySmall!.copyWith(
                       color: mainController.isDark.value
                           ? Colors.white
                           : Colors.black,
@@ -815,6 +913,28 @@ class Widgets {
                 )
               ],
             ),
+          ),
+          if (project.detail.trim().isNotEmpty)
+            customShadowBox(
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      project.detail.value,
+                      softWrap: true,
+                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                          .copyWith(
+                        color: mainController.isDark.value
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      maxLines: 5,
+                    ),
+                  )
+                ],
+              ),
+            ),
+          customShadowBox(
             Row(
               spacing: 20,
               children: [
@@ -838,34 +958,30 @@ class Widgets {
                 )
               ],
             ),
-            Row(
-              spacing: 20,
-              children: [
-                Text(
-                  'platforms:',
-                  style:
-                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
-                    color: mainController.isDark.value
-                        ? Colors.white
-                        : Colors.black,
-                  ),
+          ),
+          Row(
+            spacing: 20,
+            children: [
+              Text(
+                'platforms:',
+                style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                  color:
+                      mainController.isDark.value ? Colors.white : Colors.black,
                 ),
-                Text(
-                  project.platform
-                      .toString()
-                      .replaceAll('[', '')
-                      .replaceAll(']', ''),
-                  style:
-                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
-                    color: mainController.isDark.value
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                )
-              ],
-            )
-          ],
-        ),
+              ),
+              Text(
+                project.platform
+                    .toString()
+                    .replaceAll('[', '')
+                    .replaceAll(']', ''),
+                style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                  color:
+                      mainController.isDark.value ? Colors.white : Colors.black,
+                ),
+              )
+            ],
+          )
+        ],
       ),
     );
   }
@@ -1068,11 +1184,12 @@ class Widgets {
                 // curve: Curves.easeIn,
                 // duration: Duration(milliseconds: 400),
                 padding: EdgeInsets.all(buttonModel.pad.value - 20),
-                child: buttonModel.isFocused.value
-                    ? (mainController.isDark.value)
-                        ? buttonModel.image
-                        : buttonModel.image_hovered
-                    : (mainController.isDark.value)
+                child:
+                    // buttonModel.isFocused.value ?
+                    //   (mainController.isDark.value)
+                    //       ? buttonModel.image
+                    //       : buttonModel.image_hovered :
+                    (mainController.isDark.value)
                         ? buttonModel.image_hovered
                         : buttonModel.image,
               ),
@@ -1086,8 +1203,8 @@ class Widgets {
                         style: AppThemeData.appThemeData.textTheme.bodySmall!
                             .copyWith(
                                 color: mainController.isDark.value
-                                    ? Colors.black
-                                    : Colors.white),
+                                    ? Colors.white
+                                    : Colors.black),
                       ),
                     )),
               )
@@ -1371,14 +1488,13 @@ class Widgets {
                 showValue: false,
                 key: Key(label),
                 children: dataMap,
-                borderEdge: StrokeCap.square,
                 shouldAnimate: false,
                 pieType: PieType.fill,
                 onTap: (index) async {
                   codingController
                       .frameworkIndex(index); // set selected framework index
 
-                  await codingController.getFrameworkWiseProjects(
+                  codingController.getFrameworkWiseProjects(
                       frameworkId: codingController.frameworks[index]
                           .label); // get projects for selected framework
 
@@ -1389,9 +1505,7 @@ class Widgets {
                 style: AppThemeData.appThemeData.textTheme.bodySmall!
                     .copyWith(color: Colors.white),
                 gap: 0,
-                borderWidth: 10,
-                start: 0,
-                size: (isDesktop) ? 240 : 130,
+                borderWidth: 0,
               ),
             ],
           ),

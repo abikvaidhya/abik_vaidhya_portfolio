@@ -8,6 +8,7 @@ import 'package:my_porfolio/Utils/Constants.dart';
 class ProjectsController extends GetxController {
   final firebase = FirebaseFirestore.instance;
   RxBool gettingProjects = false.obs;
+  RxInt launchedProjectIndex = (0).obs;
 
   RxList<ProjectModel> projects = <ProjectModel>[].obs,
       launched_projects = <ProjectModel>[].obs; // project list

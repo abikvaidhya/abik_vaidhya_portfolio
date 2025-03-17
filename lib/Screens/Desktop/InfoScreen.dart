@@ -52,28 +52,14 @@ class _InfoScreenState extends State<InfoScreen> {
                                     ? Colors.white
                                     : Colors.black),
                       ),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width / 3,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Expanded(
-                              child: Widgets.subtitleTexts(
-                                label: mainController.infos[0].subTitle1.value,
-                                id: 0,
-                              ),
-                            ),
-                            Expanded(
-                              child: Center(
-                                child: Widgets.subtitleTexts(
-                                  label:
-                                      mainController.infos[0].subTitle2.value,
-                                  id: 3,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Widgets.subtitleTexts(
+                            label: mainController.infos[0].subTitle1.value,
+                            id: 0,
+                          ),
+                        ],
                       ),
                     ],
                   ),
