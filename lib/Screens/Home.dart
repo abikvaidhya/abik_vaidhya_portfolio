@@ -158,15 +158,18 @@ class _HomeContainerState extends State<HomeContainer> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.only(top: 10.0, right: 10),
-                      child: IconButton(
-                        onPressed: () => mainController.saveDarkModeState(
+                      child: GestureDetector(
+                        onTap: () => mainController.saveDarkModeState(
                             state: !mainController.isDark.value),
-                        icon: mainController.isDark.value
-                            ? Icon(Icons.light_mode)
-                            : Icon(Icons.dark_mode),
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
+                        child: Widgets.hoveredShadow(
+                          Icon(
+                              (mainController.isDark.value)
+                                  ? Icons.light_mode
+                                  : Icons.dark_mode,
+                              color: mainController.isDark.value
+                                  ? Colors.white
+                                  : Colors.black),
+                        ),
                       ),
                     ),
                   ],

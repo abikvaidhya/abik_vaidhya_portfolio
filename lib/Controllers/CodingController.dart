@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:my_porfolio/Models/ExperienceModel.dart';
 import 'package:my_porfolio/Models/FrameworksModel.dart';
 import 'package:my_porfolio/Models/MorphButton.dart';
+import 'package:my_porfolio/Models/ReviewsModel.dart';
 import 'package:my_porfolio/Models/SocialsModel.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 
@@ -15,6 +16,7 @@ class CodingController extends GetxController {
       vue = false.obs,
       gettingFrameworks = false.obs,
       gettingWorkSocials = false.obs,
+      gettingReviews = false.obs,
       gettingExperiences = false.obs;
 
   RxInt frameworkIndex = (0).obs, // selected framework id
@@ -29,7 +31,8 @@ class CodingController extends GetxController {
               image_hovered: Image.asset(ImageConstants.projects_hovered),
               pad: 50.0.obs,
               scale: 0.0.obs,
-              link: 'projects')
+              link: 'projects',
+              gradientId: (0).obs)
           .obs,
       experienceButton = MorphButton(
               label: 'experiences'.obs,
@@ -40,7 +43,20 @@ class CodingController extends GetxController {
               image_hovered: Image.asset(ImageConstants.experience_hovered),
               pad: 50.0.obs,
               scale: 0.0.obs,
-              link: 'experiences')
+              link: 'experiences',
+              gradientId: (0).obs)
+          .obs,
+      reviewsButtons = MorphButton(
+              label: 'reviews'.obs,
+              isClicked: false.obs,
+              showDetails: false.obs,
+              isFocused: false.obs,
+              image: Image.asset(ImageConstants.reviews),
+              image_hovered: Image.asset(ImageConstants.reviews_hovered),
+              pad: 50.0.obs,
+              scale: 0.0.obs,
+              link: 'reviews',
+              gradientId: (0).obs)
           .obs;
 
   RxList<FrameworksModel> frameworks = <FrameworksModel>[].obs; // frameworks
@@ -55,12 +71,15 @@ class CodingController extends GetxController {
 
   RxList<SocialsModel> jobSocials = <SocialsModel>[].obs; // job socials
 
+  RxList<ReviewsModel> reviews = <ReviewsModel>[].obs; // reviews
+
   @override
   void onInit() {
     // TODO: implement onInit
     super.onInit();
     getFrameworks();
     getExperiences();
+    getReviews();
     getJobSocials();
   }
 
@@ -158,9 +177,27 @@ class CodingController extends GetxController {
     }
   }
 
+  // getting review
+  Future getReviews() async {
+    gettingReviews(true);
+    try {
+      final snapShot = await firebase.collection(APIEndpoints.reviews).get();
+      if (snapShot.docs.isEmpty) {
+        throw 'Empty data in ${APIEndpoints.reviews} collection';
+      }
+
+      reviews(snapShot.docs.map((e) => ReviewsModel.fromSnapshot(e)).toList());
+    } catch (e) {
+      debugPrint('## ERROR GETTING REVIEWS: $e');
+    } finally {
+      gettingReviews(false);
+    }
+  }
+
   setButtons() {
     jobSocialsMorphButtons.clear();
     jobSocials.forEach((e) {
+      // precacheImage(e.image.image);
       jobSocialsMorphButtons.add(
         MorphButton(
             label: (e.label).obs,
@@ -171,7 +208,8 @@ class CodingController extends GetxController {
             image_hovered: e.imageReversed,
             pad: 50.0.obs,
             scale: 0.0.obs,
-            link: e.link),
+            link: e.link,
+            gradientId: e.gradientId.obs),
       );
     });
   }

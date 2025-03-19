@@ -146,12 +146,14 @@ class Functions {
   }
 
 // page view navigation
-  static navigate(int navIndex, PageController pageController) {
+  static navigate(int navIndex, PageController pageController,
+      {bool isMain = true}) {
     MainController mainController = Get.find<MainController>();
 
     pageController.animateToPage(navIndex - 1,
         duration: Duration(milliseconds: 222), curve: Curves.easeInOut);
-    mainController.navIndex.value = navIndex - 1;
+
+    if (isMain) mainController.navIndex.value = navIndex - 1;
   }
 
   // precache images

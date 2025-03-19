@@ -7,6 +7,7 @@ class MorphButton extends GetxController {
   RxBool isClicked = false.obs, showDetails = false.obs, isFocused = false.obs;
   RxDouble scale = 0.0.obs, pad = 50.0.obs;
   Image image, image_hovered;
+  RxInt gradientId = (-1).obs;
 
   String link = '';
 
@@ -20,5 +21,6 @@ class MorphButton extends GetxController {
     required this.scale,
     required this.link,
     required this.label,
+    required this.gradientId,
   });
 }

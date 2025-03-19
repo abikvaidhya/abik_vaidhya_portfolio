@@ -53,6 +53,7 @@ class APIEndpoints {
   static const game_socials = 'game_socials';
   static const music_socials = 'music_socials';
   static const work_socials = 'work_socials';
+  static const reviews = 'reviews';
 }
 
 class ImageConstants {
@@ -64,6 +65,10 @@ class ImageConstants {
   // experience
   static const String experience = iconsPath + 'experience.png';
   static const String experience_hovered = iconsPath + 'experience_white.png';
+
+  // reviews
+  static const String reviews = iconsPath + 'review.png';
+  static const String reviews_hovered = iconsPath + 'review_hovered.png';
 
 // projects
   static const String own = projectsPath + 'original_grey_bg.png';

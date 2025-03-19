@@ -16,7 +16,7 @@ dependencies:
   responsive_builder:
   get: ^4.5.1
   url_launcher: ^6.0.2
-  carousel_slider: ^4.2.1
+  carousel_slider: ^5.0.0
   simple_shadow: ^0.3.1
   animated_text_kit: ^4.2.2
   fluttertoast: ^8.2.12
@@ -31,6 +31,7 @@ dependencies:
   firebase_core: ^3.12.1
   firebase_cloud_firestore:
   flutter_secure_storage: ^9.2.4
+  cached_network_image: ^3.4.1
 #  path_provider: ^2.1.5
 #  image_picker: ^0.8.7+4
 #  flutter_animation_progress_bar: ^2.3.1

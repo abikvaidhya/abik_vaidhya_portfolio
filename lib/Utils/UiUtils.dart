@@ -1,3 +1,5 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:easy_pie_chart/easy_pie_chart.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -108,62 +110,6 @@ class Widgets {
     );
   }
 
-//   static Container projectCard(ProjectModel project, Color iconColor) {
-  MainController mainController = Get.find<MainController>();
-//     return Container(
-//       margin: EdgeInsets.all(5),
-//       child: GestureDetector(
-//         onTap: () {
-//           mainController.projectDetails.value =
-//               !mainController.projectDetails.value;
-//         },
-//         child: Card(
-//           color: mainController.isDark.value
-//               ? Colors.white30
-//               : Colors.grey.shade200,
-//           elevation: 5,
-//           child: Column(
-//             children: [
-//               Expanded(
-//                 child: Padding(
-//                   padding: const EdgeInsets.symmetric(
-//                       vertical: 5.0, horizontal: 10.0),
-//                   child: Image(
-//                     // height: 100,
-//                     width: 100,
-//                     image: project.image.image,
-//                     fit: BoxFit.contain,
-//                   ),
-//                 ),
-//               ),
-//               Padding(
-//                 padding:
-//                     const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5),
-//                 child: Row(
-//                   children: [
-//                     Expanded(
-//                         child: Text(
-//                       '${project.label}',
-//                       style: AppThemeData.appThemeData.textTheme.bodySmall!
-//                           .copyWith(
-//                               height: 1,
-//                               color: mainController.isDark.value
-//                                   ? Colors.white
-//                                   : Colors.black),
-//                       textAlign: TextAlign.start,
-//                       softWrap: true,
-//                     )),
-//                     // bulletineIcon(true, iconColor: iconColor)
-//                   ],
-//                 ),
-//               )
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
   static Widget subtitleTexts({required int id, required String label}) {
     MainController mainController = Get.find<MainController>();
 
@@ -218,9 +164,13 @@ class Widgets {
     );
   }
 
-  static Widget customShadowBox(Widget child,
-      {double opacity = 0.6, double sigma = 4}) {
+  static Widget customShadowBox(
+    Widget child, {
+    double opacity = 0.6,
+    double sigma = 4,
+  }) {
     MainController mainController = Get.find<MainController>();
+
     return Obx(
       () => SimpleShadow(
         opacity: opacity,
@@ -229,6 +179,50 @@ class Widgets {
         sigma: sigma,
         child: child,
         color: mainController.isDark.value ? Colors.grey : Colors.black,
+      ),
+    );
+  }
+
+  static Widget hoveredShadow(Widget child, {bool hoverEffect = true}) {
+    MainController mainController = Get.find<MainController>();
+    RxBool hovered = (false).obs;
+
+    return Obx(
+      () => MouseRegion(
+        onEnter: (_) {
+          if (hoverEffect) hovered(true);
+        },
+        onExit: (_) {
+          if (hoverEffect) hovered(false);
+        },
+        child: AnimatedContainer(
+          decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              boxShadow: (hovered.value && hoverEffect || !hoverEffect)
+                  ? [
+                      BoxShadow(
+                          color: mainController.isDark.value
+                              ? const Color.fromARGB(255, 94, 94, 94)
+                              : Colors.grey[500]!,
+                          offset: (mainController.isDark.value)
+                              ? Offset(2, 4)
+                              : Offset(8, 6),
+                          blurRadius: mainController.isDark.value ? 5 : 10,
+                          spreadRadius: 1),
+                      BoxShadow(
+                          color: mainController.isDark.value
+                              ? const Color.fromARGB(255, 82, 82, 82)
+                              : Colors.white,
+                          offset: (mainController.isDark.value)
+                              ? Offset(-2, 8)
+                              : Offset(8, 6),
+                          blurRadius: mainController.isDark.value ? 5 : 10,
+                          spreadRadius: 1)
+                    ]
+                  : null),
+          duration: Duration(milliseconds: 111),
+          child: child,
+        ),
       ),
     );
   }
@@ -324,16 +318,21 @@ class Widgets {
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * .2,
+                Expanded(
                   child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     spacing: 20,
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
+                      // pie chart
                       Widgets.pieChart(context,
                           isDesktop: isDesktop, label: 'frameworks'),
+
+                      // morph buttons
                       Wrap(
                         spacing: 20,
+                        runSpacing: 20,
+                        alignment: WrapAlignment.center,
                         children: [
                           Obx(
                             () => morphButton(context, callBack: () {
@@ -351,18 +350,23 @@ class Widgets {
                                 buttonModel:
                                     codingController.projectButton.value),
                           ),
+                          Obx(
+                            () => morphButton(context, callBack: () {
+                              Functions.navigate(
+                                  5, mainController.codingController);
+                            },
+                                buttonModel:
+                                    codingController.reviewsButtons.value),
+                          ),
                         ],
                       ),
-                      Widgets.workSocialsMorphButtons(context,
-                          isDesktop: isDesktop),
+                      Expanded(
+                        child: Widgets.workSocialsMorphButtons(context,
+                            isDesktop: isDesktop),
+                      ),
                     ],
                   ),
                 ),
-                // ElevatedButton(
-                //     onPressed: () {
-                //       Functions.navigate(3, mainController.codingController);
-                //     },
-                //     child: Text('Experiences'))
               ],
             ),
     );
@@ -724,123 +728,338 @@ class Widgets {
         : SizedBox.shrink();
   }
 
+  static Widget reviews({required bool isDesktop}) {
+    MainController mainController = Get.find<MainController>();
+    CodingController codingController = Get.find<CodingController>();
+
+    return Padding(
+      padding: EdgeInsets.all(44.0),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              spacing: 20,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Widgets.customShadowBox(
+                      Text(
+                        'reviews',
+                        style: AppThemeData
+                            .appThemeData.textTheme.headlineMedium!
+                            .copyWith(
+                                color: mainController.isDark.value
+                                    ? Colors.white
+                                    : Colors.black),
+                      ),
+                    ),
+                  ],
+                ),
+                Center(
+                  child: SizedBox(
+                    height: 450,
+                    child: CarouselSlider.builder(
+                      itemCount: codingController.reviews.length,
+                      options: CarouselOptions(
+                          autoPlay: true,
+                          autoPlayInterval: Duration(
+                            seconds: 7,
+                          )),
+                      itemBuilder:
+                          (BuildContext context, int index, int realIndex) {
+                        return Obx(
+                          () => AnimatedContainer(
+                            margin: EdgeInsets.all(20),
+                            padding: EdgeInsets.all(10),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.grey[500]!,
+                                    offset: (mainController.isDark.value)
+                                        ? Offset(2, 2)
+                                        : Offset(4, 4),
+                                    blurRadius:
+                                        mainController.isDark.value ? 5 : 15,
+                                    spreadRadius: 1),
+                                BoxShadow(
+                                    color: Colors.white,
+                                    offset: (mainController.isDark.value)
+                                        ? Offset(-2, -2)
+                                        : Offset(-4, -4),
+                                    blurRadius:
+                                        mainController.isDark.value ? 5 : 15,
+                                    spreadRadius: 1)
+                              ],
+                              color: (mainController.isDark.value)
+                                  ? Colors.black
+                                  : Colors.white,
+                            ),
+                            duration: Duration(milliseconds: 111),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Column(
+                                    spacing: 10,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      customShadowBox(
+                                        CircleAvatar(
+                                          radius: 60,
+                                          backgroundImage: NetworkImage(
+                                              codingController
+                                                  .reviews[index].image.value),
+                                          onBackgroundImageError:
+                                              (exception, stackTrace) =>
+                                                  Icon(Icons.person),
+                                        ),
+                                      ),
+                                      customShadowBox(
+                                        Text(
+                                            codingController
+                                                .reviews[index].name.value,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.displayMedium!
+                                                .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: mainController.isDark.value
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
+                                      ),
+                                      customShadowBox(
+                                        Text(
+                                            codingController
+                                                .reviews[index].company.value,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.bodyMedium!
+                                                .copyWith(
+                                              color: mainController.isDark.value
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
+                                      ),
+                                      customShadowBox(
+                                        Text(
+                                            codingController
+                                                .reviews[index].review.value,
+                                            maxLines: 5,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.bodyMedium!
+                                                .copyWith(
+                                              color: mainController.isDark.value
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   static Widget projectDetails({required bool isDesktop}) {
     MainController mainController = Get.find<MainController>();
     ProjectsController projectsController = Get.find<ProjectsController>();
 
     return Padding(
       padding: EdgeInsets.all(44.0),
-      child: Column(
-        spacing: 20,
-        mainAxisAlignment: MainAxisAlignment.start,
+      child: Row(
         children: [
-          Row(
-            children: [
-              Widgets.customShadowBox(
-                Text(
-                  'projects',
-                  style: AppThemeData.appThemeData.textTheme.headlineMedium!
-                      .copyWith(
-                          color: mainController.isDark.value
-                              ? Colors.white
-                              : Colors.black),
-                ),
-              ),
-            ],
-          ),
           Expanded(
-            child: Row(
+            child: Column(
+              spacing: 20,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                Row(
                   children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: 300,
-                        child: AnimatedContainer(
-                          duration: Duration(milliseconds: 111),
-                          child: ListView.separated(
-                            shrinkWrap: true,
-                            itemCount:
-                                projectsController.launched_projects.length,
-                            itemBuilder: (BuildContext context, int index) {
-                              return GestureDetector(
-                                onTap: () {
-                                  Functions.navigate(index + 1,
-                                      mainController.projectsController);
-                                  projectsController
-                                      .launchedProjectIndex(index);
-                                },
-                                child: Obx(
-                                  () => customShadowBox(
-                                      Text(
-                                          projectsController
-                                              .launched_projects[index]
-                                              .label
-                                              .value,
-                                          style: AppThemeData.appThemeData
-                                              .textTheme.bodyMedium!
-                                              .copyWith(
-                                            fontWeight: index ==
-                                                    (projectsController
-                                                        .launchedProjectIndex
-                                                        .value)
-                                                ? FontWeight.bold
-                                                : FontWeight.normal,
-                                            // fontSize: (index ==
-                                            //         (projectsController
-                                            //             .launchedProjectIndex
-                                            //             .value))
-                                            //     ? 20
-                                            //     : 16,
-                                            color: mainController.isDark.value
-                                                ? Colors.white
-                                                : Colors.black,
-                                          )),
-                                      opacity: projectsController
-                                                  .launchedProjectIndex.value ==
-                                              index
-                                          ? 0.6
-                                          : 0.2),
-                                ),
-                              );
-                            },
-                            separatorBuilder:
-                                (BuildContext context, int index) {
-                              return SizedBox(
-                                height: 10,
-                                child: Row(
-                                  children: [
-                                    VerticalDivider(
-                                      color: mainController.isDark.value
-                                          ? Colors.white54
-                                          : Colors.black54,
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-                        ),
+                    Widgets.customShadowBox(
+                      Text(
+                        'projects',
+                        style: AppThemeData
+                            .appThemeData.textTheme.headlineMedium!
+                            .copyWith(
+                                color: mainController.isDark.value
+                                    ? Colors.white
+                                    : Colors.black),
                       ),
                     ),
                   ],
                 ),
                 Expanded(
-                  child: Obx(
-                    () => PageView.builder(
-                      controller: mainController.projectsController,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: projectsController.launched_projects.length,
-                      itemBuilder: (BuildContext context, int index) {
-                        return projectDetail(
-                            project:
-                                projectsController.launched_projects[index]);
-                      },
-                    ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // company selection
+                      AnimatedContainer(
+                        width: 250,
+                        duration: Duration(milliseconds: 111),
+                        child: ListView.separated(
+                          shrinkWrap: true,
+                          itemCount:
+                              projectsController.launched_projects.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return GestureDetector(
+                              onTap: () {
+                                // Functions.navigate(
+                                //     index - 1, mainController.projectController,
+                                //     isMain: false);
+                                projectsController.launchedProjectIndex(index);
+                                projectsController.getProjectScreenShots(
+                                    id: projectsController
+                                        .launched_projects[index].id.value);
+                              },
+                              child: Obx(
+                                () => customShadowBox(
+                                    Text(
+                                        projectsController
+                                            .launched_projects[index]
+                                            .label
+                                            .value,
+                                        style: AppThemeData
+                                            .appThemeData.textTheme.bodyMedium!
+                                            .copyWith(
+                                          fontWeight: index ==
+                                                  (projectsController
+                                                      .launchedProjectIndex
+                                                      .value)
+                                              ? FontWeight.bold
+                                              : FontWeight.normal,
+                                          // fontSize: (index ==
+                                          //         (projectsController
+                                          //             .launchedProjectIndex
+                                          //             .value))
+                                          //     ? 20
+                                          //     : 16,
+                                          color: mainController.isDark.value
+                                              ? Colors.white
+                                              : Colors.black,
+                                        )),
+                                    opacity: projectsController
+                                                .launchedProjectIndex.value ==
+                                            index
+                                        ? 0.6
+                                        : 0.2),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (BuildContext context, int index) {
+                            return SizedBox(
+                              height: 10,
+                              child: Row(
+                                children: [
+                                  VerticalDivider(
+                                    color: mainController.isDark.value
+                                        ? Colors.white54
+                                        : Colors.black54,
+                                  ),
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+
+                      // experience detail
+                      Expanded(
+                        child: customShadowBox(
+                          Obx(() => projectDetail(
+                              project: projectsController.launched_projects[
+                                  projectsController
+                                      .launchedProjectIndex.value])),
+                        ),
+                      ),
+                    ],
                   ),
-                )
+                ),
+              ],
+            ),
+          ),
+
+          // screenshot
+          AnimatedContainer(
+            margin: EdgeInsets.only(left: 20),
+            width: !projectsController.gettingScreenShots.value &&
+                    projectsController.projectScreenShots.isEmpty
+                ? 50
+                : 320,
+            decoration: BoxDecoration(
+              color: Colors.transparent,
+            ),
+            duration: Duration(milliseconds: 111),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Obx(
+                    () => customShadowBox((projectsController
+                            .gettingScreenShots.value)
+                        ? Center(
+                            child: CircularProgressIndicator(
+                              color: mainController.isDark.value
+                                  ? Colors.white
+                                  : Colors.black,
+                            ),
+                          )
+                        : Center(
+                            child: (projectsController
+                                    .projectScreenShots.isEmpty)
+                                ? RotatedBox(
+                                    quarterTurns: -1,
+                                    child: Text(
+                                        'Sorry, no screenshots available...'))
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: CarouselSlider(
+                                      options: CarouselOptions(
+                                          autoPlay: true,
+                                          autoPlayInterval:
+                                              Duration(seconds: 5),
+                                          viewportFraction: 0.7,
+                                          height: double.maxFinite),
+                                      items: projectsController
+                                          .projectScreenShots
+                                          .map((i) {
+                                        return Builder(
+                                          builder: (BuildContext context) {
+                                            return CachedNetworkImage(
+                                              width: 300,
+                                              fit: BoxFit.cover,
+                                              imageUrl: i.link.value,
+                                              errorWidget:
+                                                  (context, url, error) => Icon(
+                                                      Icons.error_outline,
+                                                      color: Colors.black),
+                                              progressIndicatorBuilder:
+                                                  (context, url, progress) =>
+                                                      LinearProgressIndicator(
+                                                value: progress.progress,
+                                              ),
+                                            );
+                                          },
+                                        );
+                                      }).toList(),
+                                    ),
+                                  ),
+                          )),
+                  ),
+                ),
               ],
             ),
           ),
@@ -852,281 +1071,140 @@ class Widgets {
   static Widget projectDetail(
       {required ProjectModel project, bool isDesktop = false}) {
     MainController mainController = Get.find<MainController>();
-    return Obx(
-      () => Column(
-        spacing: 20,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 20,
-            children: [
-              customShadowBox(
-                Text(
-                  project.label.value,
-                  style: AppThemeData.appThemeData.textTheme.displayLarge!
-                      .copyWith(
+
+    return Column(
+      spacing: 20,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          spacing: 20,
+          children: [
+            Text(
+              project.label.value,
+              style: AppThemeData.appThemeData.textTheme.displayLarge!.copyWith(
+                color:
+                    mainController.isDark.value ? Colors.white : Colors.black,
+              ),
+            ),
+            if (project.link.isNotEmpty)
+              GestureDetector(
+                onTap: () => Functions.openLink(project.link.value),
+                child: Icon(Icons.android_rounded,
                     color: mainController.isDark.value
                         ? Colors.white
-                        : Colors.black,
-                  ),
+                        : Colors.black),
+              ),
+            if (project.ios_link.isNotEmpty)
+              GestureDetector(
+                onTap: () => Functions.openLink(project.ios_link.value),
+                child: Icon(Icons.apple_rounded,
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black),
+              ),
+            if (project.site.isNotEmpty)
+              GestureDetector(
+                onTap: () => Functions.openLink(project.site.value),
+                child: Icon(Icons.link_rounded,
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black),
+              ),
+          ],
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Expanded(
+              child: Text(
+                project.description.value,
+                softWrap: true,
+                textAlign: TextAlign.end,
+                style: AppThemeData.appThemeData.textTheme.bodySmall!.copyWith(
+                  color:
+                      mainController.isDark.value ? Colors.white : Colors.black,
                 ),
+                maxLines: 5,
               ),
-              if (project.link.isNotEmpty)
-                GestureDetector(
-                    onTap: () => Functions.openLink(project.link.value),
-                    child: Icon(Icons.android_rounded,
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black)),
-              if (project.ios_link.isNotEmpty)
-                GestureDetector(
-                    onTap: () => Functions.openLink(project.ios_link.value),
-                    child: Icon(Icons.apple_rounded,
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black)),
-              if (project.site.isNotEmpty)
-                GestureDetector(
-                    onTap: () => Functions.openLink(project.site.value),
-                    child: Icon(Icons.link_rounded,
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black)),
-            ],
-          ),
-          customShadowBox(
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    project.description.value,
-                    softWrap: true,
-                    style:
-                        AppThemeData.appThemeData.textTheme.bodySmall!.copyWith(
-                      color: mainController.isDark.value
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    maxLines: 5,
-                  ),
-                )
-              ],
-            ),
-          ),
-          if (project.detail.trim().isNotEmpty)
-            customShadowBox(
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      project.detail.value,
-                      softWrap: true,
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                        color: mainController.isDark.value
-                            ? Colors.white
-                            : Colors.black,
-                      ),
-                      maxLines: 5,
-                    ),
-                  )
-                ],
-              ),
-            ),
-          customShadowBox(
-            Row(
-              spacing: 20,
-              children: [
-                Text(
-                  'developed using:',
+            )
+          ],
+        ),
+        if (project.detail.trim().isNotEmpty)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Text(
+                  project.detail.value,
+                  textAlign: TextAlign.end,
+                  softWrap: true,
                   style:
                       AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
                     color: mainController.isDark.value
                         ? Colors.white
                         : Colors.black,
                   ),
-                ),
-                Text(
-                  project.devLang.value,
-                  style:
-                      AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
-                    color: mainController.isDark.value
-                        ? Colors.white
-                        : Colors.black,
-                  ),
-                )
-              ],
-            ),
-          ),
-          Row(
-            spacing: 20,
-            children: [
-              Text(
-                'platforms:',
-                style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
-                  color:
-                      mainController.isDark.value ? Colors.white : Colors.black,
-                ),
-              ),
-              Text(
-                project.platform
-                    .toString()
-                    .replaceAll('[', '')
-                    .replaceAll(']', ''),
-                style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
-                  color:
-                      mainController.isDark.value ? Colors.white : Colors.black,
+                  maxLines: 5,
                 ),
               )
             ],
-          )
-        ],
-      ),
-    );
-  }
-
-// gaming
-  static Widget YoutubeDetails(
-      {required BuildContext context, required bool isDesktop}) {
-    MainController mainController = Get.find<MainController>();
-    return Padding(
-      padding: const EdgeInsets.all(44.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              Widgets.streamLinkButtons(
-                0,
-                'youtube',
+          ),
+        Row(
+          spacing: 20,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              'developed using:',
+              style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                color:
+                    mainController.isDark.value ? Colors.white : Colors.black,
               ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Widgets.customShadowBox(
-                    Text(
-                      'i upload clips from my gameplays and live streams to my youtube channel. drop by and show some love if you can. thanks!',
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                              color: mainController.isDark.value
-                                  ? Colors.white
-                                  : Colors.black),
-                      softWrap: true,
-                    ),
-                  ),
-                ),
-              ],
             ),
-          ),
-          // (isDesktop)
-          //     ? SizedBox()
-          //     : Widgets.gamingSocialsMorphButtons(context, 0, isDesktop: false)
-        ],
-      ),
-    );
-  }
-
-  static Widget TwitchDetails(
-      {required BuildContext context, required bool isDesktop}) {
-    MainController mainController = Get.find<MainController>();
-    return Padding(
-      padding: const EdgeInsets.all(44.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              Widgets.streamLinkButtons(
-                1,
-                'twitch',
+            Text(
+              project.devLang.value,
+              style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                color:
+                    mainController.isDark.value ? Colors.white : Colors.black,
               ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Widgets.customShadowBox(
-                    Text(
-                      'i try to stream regularly, as much as i can. i normally just stream for myself. my live streams include games like valorant, apex legends, gta v online, singing sessions, podcasts and coding streams.\nyou can check out my twitch.',
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                              color: mainController.isDark.value
-                                  ? Colors.white
-                                  : Colors.black),
-                      softWrap: true,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // (isDesktop)
-          //     ? SizedBox()
-          //     : Widgets.gamingSocialsMorphButtons(context, 1, isDesktop: false)
-        ],
-      ),
-    );
-  }
-
-  static Widget DiscordDetails(
-      {required BuildContext context, required bool isDesktop}) {
-    MainController mainController = Get.find<MainController>();
-    return Padding(
-      padding: const EdgeInsets.all(44.0),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Row(
-            children: [
-              Widgets.streamLinkButtons(
-                2,
-                'discord',
+            )
+          ],
+        ),
+        Row(
+          spacing: 20,
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Text(
+              'platforms:',
+              style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                color:
+                    mainController.isDark.value ? Colors.white : Colors.black,
               ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Widgets.customShadowBox(
-                    Text(
-                      'you can join my discord server. we can have fun together with my friends.',
-                      style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                          .copyWith(
-                              color: mainController.isDark.value
-                                  ? Colors.white
-                                  : Colors.black),
-                      softWrap: true,
-                    ),
-                  ),
-                ),
-              ],
             ),
-          ),
-          // (isDesktop)
-          //     ? SizedBox()
-          //     : Widgets.gamingSocialsMorphButtons(context, 2, isDesktop: false)
-        ],
-      ),
+            Text(
+              project.platform
+                  .toString()
+                  .replaceAll('[', '')
+                  .replaceAll(']', ''),
+              style: AppThemeData.appThemeData.textTheme.bodyMedium!.copyWith(
+                color:
+                    mainController.isDark.value ? Colors.white : Colors.black,
+              ),
+            )
+          ],
+        )
+      ],
     );
   }
 
   // morph button
-  static Widget morphButton(BuildContext context,
-      {required MorphButton buttonModel,
-      bool isDesktop = true,
-      VoidCallback? callBack}) {
+  static Widget morphButton(
+    BuildContext context, {
+    required MorphButton buttonModel,
+    bool isDesktop = true,
+    VoidCallback? callBack,
+  }) {
     MainController mainController = Get.find<MainController>();
 
     return GestureDetector(
@@ -1148,10 +1226,12 @@ class Widgets {
         curve: Curves.easeIn,
         decoration: BoxDecoration(
             color: (mainController.isDark.value) ? Colors.black : Colors.white,
-            gradient: (buttonModel.showDetails.value ||
-                    buttonModel.isFocused.value)
-                ? LinearGradient(colors: mainController.skillsGradientList[0])
-                : null,
+            gradient:
+                (buttonModel.showDetails.value || buttonModel.isFocused.value)
+                    ? LinearGradient(
+                        colors: mainController
+                            .morphButtonGradients[buttonModel.gradientId.value])
+                    : null,
             borderRadius: BorderRadius.circular(10),
             boxShadow:
                 !buttonModel.isClicked.value && buttonModel.isFocused.value
@@ -1181,17 +1261,10 @@ class Widgets {
               Container(
                 width: MediaQuery.of(context).size.height * .15,
                 height: MediaQuery.of(context).size.height * .15,
-                // curve: Curves.easeIn,
-                // duration: Duration(milliseconds: 400),
                 padding: EdgeInsets.all(buttonModel.pad.value - 20),
-                child:
-                    // buttonModel.isFocused.value ?
-                    //   (mainController.isDark.value)
-                    //       ? buttonModel.image
-                    //       : buttonModel.image_hovered :
-                    (mainController.isDark.value)
-                        ? buttonModel.image_hovered
-                        : buttonModel.image,
+                child: (mainController.isDark.value)
+                    ? buttonModel.image_hovered
+                    : buttonModel.image,
               ),
               Align(
                 alignment: Alignment.bottomCenter,
@@ -1220,30 +1293,32 @@ class Widgets {
       {bool isDesktop = true}) {
     CodingController codingController = Get.find<CodingController>();
 
-    if (codingController.jobSocialsMorphButtons.isNotEmpty)
-      return ListView.separated(
-        shrinkWrap: true,
-        scrollDirection: isDesktop ? Axis.horizontal : Axis.vertical,
-        itemCount: codingController.jobSocialsMorphButtons.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Obx(
-            () => morphButton(context,
-                buttonModel: codingController.jobSocialsMorphButtons[index]),
-          );
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return (isDesktop)
-              ? SizedBox(
-                  width: 20,
-                )
-              : SizedBox(
-                  height: 20,
-                );
-        },
-      );
-    else {
-      return SizedBox.shrink();
-    }
+    return (codingController.jobSocialsMorphButtons.isNotEmpty)
+        ? Wrap(
+            direction: Axis.horizontal,
+            spacing: 20,
+            runSpacing: 20,
+            alignment: WrapAlignment.center,
+            children: codingController.jobSocialsMorphButtons
+                .map((i) => Obx(
+                      () => morphButton(context, buttonModel: i),
+                    ))
+                .toList(),
+          )
+        :
+        //    ListView.builder(
+        //     shrinkWrap: true,
+        //     scrollDirection: isDesktop ? Axis.horizontal : Axis.vertical,
+        //     itemCount: codingController.jobSocialsMorphButtons.length,
+        //     itemBuilder: (BuildContext context, int index) {
+        //   return Obx(
+        //     () => morphButton(context,
+        //         buttonModel: codingController.jobSocialsMorphButtons[index]),
+        //   );
+        //     },
+        //   )
+
+        SizedBox.shrink();
   }
 
   // gaming social morph buttons
@@ -1327,117 +1402,117 @@ class Widgets {
     }
   }
 
-  static Widget streamLinkButtons(
-    int id,
-    String label,
-  ) {
-    MainController mainController = Get.find<MainController>();
-    GamingController gamingController = Get.find<GamingController>();
+//   static Widget streamLinkButtons(
+//     int id,
+//     String label,
+//   ) {
+//     MainController mainController = Get.find<MainController>();
+//     GamingController gamingController = Get.find<GamingController>();
 
-    return MouseRegion(
-      onEnter: (event) {
-        switch (id) {
-          case 0:
-            gamingController.ytHover.value = true;
-            break;
-          case 1:
-            gamingController.twitchHover.value = true;
-            break;
-          case 2:
-            gamingController.discordHover.value = true;
-            break;
-        }
-      },
-      onExit: (event) {
-        switch (id) {
-          case 0:
-            gamingController.ytHover.value = false;
-            break;
-          case 1:
-            gamingController.twitchHover.value = false;
-            break;
-          case 2:
-            gamingController.discordHover.value = false;
-            break;
-        }
-      },
-      child: Obx(
-        () => AnimatedContainer(
-          duration: Duration(milliseconds: 111),
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-              gradient: ((id == 0)
-                      ? gamingController.ytHover.value
-                      : (id == 1)
-                          ? gamingController.twitchHover.value
-                          : gamingController.discordHover.value)
-                  ? LinearGradient(
-                      colors: mainController.streamGradientList[id])
-                  : null,
-              borderRadius: BorderRadius.all(Radius.circular(10)),
-              boxShadow: (((id == 0)
-                      ? gamingController.ytHover.value
-                      : (id == 1)
-                          ? gamingController.twitchHover.value
-                          : gamingController.discordHover.value))
-                  ? [
-                      BoxShadow(
-                          color: Colors.grey[500]!,
-                          offset: Offset(4, 4),
-                          blurRadius: 15,
-                          spreadRadius: 1),
-                      BoxShadow(
-                          color: Colors.white,
-                          offset: Offset(-4, -4),
-                          blurRadius: 15,
-                          spreadRadius: 1)
-                    ]
-                  : null),
-          child: TextButton.icon(
-            onPressed: () {
-              switch (id) {
-                case 0:
-                  Functions.openLink('yt');
-                  break;
-                case 1:
-                  Functions.openLink('twitch');
-                  break;
-                case 2:
-                  Functions.openLink('discord');
-                  break;
-              }
-            },
-            label: Text('${label}',
-                style: ((id == 0)
-                        ? gamingController.ytHover.value
-                        : (id == 1)
-                            ? gamingController.twitchHover.value
-                            : gamingController.discordHover.value)
-                    ? AppThemeData.appThemeData.textTheme.headlineMedium!
-                        .copyWith(
-                            color: (mainController.isDark.value)
-                                ? Colors.white.withOpacity(0.9)
-                                : Colors.white.withOpacity(0.9))
-                    : AppThemeData.appThemeData.textTheme.headlineMedium!
-                        .copyWith(
-                            color: (mainController.isDark.value)
-                                ? Colors.white.withOpacity(0.9)
-                                : Colors.black.withOpacity(0.9))),
-            icon: Icon(
-              Icons.arrow_forward_ios_rounded,
-              color: ((id == 0)
-                      ? gamingController.ytHover.value
-                      : (id == 1)
-                          ? gamingController.twitchHover.value
-                          : gamingController.discordHover.value)
-                  ? Colors.white.withOpacity(0.9)
-                  : Colors.transparent,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+//     return MouseRegion(
+//       onEnter: (event) {
+//         switch (id) {
+//           case 0:
+//             gamingController.ytHover.value = true;
+//             break;
+//           case 1:
+//             gamingController.twitchHover.value = true;
+//             break;
+//           case 2:
+//             gamingController.discordHover.value = true;
+//             break;
+//         }
+//       },
+//       onExit: (event) {
+//         switch (id) {
+//           case 0:
+//             gamingController.ytHover.value = false;
+//             break;
+//           case 1:
+//             gamingController.twitchHover.value = false;
+//             break;
+//           case 2:
+//             gamingController.discordHover.value = false;
+//             break;
+//         }
+//       },
+//       child: Obx(
+//         () => AnimatedContainer(
+//           duration: Duration(milliseconds: 111),
+//           padding: EdgeInsets.all(10),
+//           decoration: BoxDecoration(
+//               gradient: ((id == 0)
+//                       ? gamingController.ytHover.value
+//                       : (id == 1)
+//                           ? gamingController.twitchHover.value
+//                           : gamingController.discordHover.value)
+//                   ? LinearGradient(
+//                       colors: mainController.morphButtonGradients[id])
+//                   : null,
+//               borderRadius: BorderRadius.all(Radius.circular(10)),
+//               boxShadow: (((id == 0)
+//                       ? gamingController.ytHover.value
+//                       : (id == 1)
+//                           ? gamingController.twitchHover.value
+//                           : gamingController.discordHover.value))
+//                   ? [
+//                       BoxShadow(
+//                           color: Colors.grey[500]!,
+//                           offset: Offset(4, 4),
+//                           blurRadius: 15,
+//                           spreadRadius: 1),
+//                       BoxShadow(
+//                           color: Colors.white,
+//                           offset: Offset(-4, -4),
+//                           blurRadius: 15,
+//                           spreadRadius: 1)
+//                     ]
+//                   : null),
+//           child: TextButton.icon(
+//             onPressed: () {
+//               switch (id) {
+//                 case 0:
+//                   Functions.openLink('yt');
+//                   break;
+//                 case 1:
+//                   Functions.openLink('twitch');
+//                   break;
+//                 case 2:
+//                   Functions.openLink('discord');
+//                   break;
+//               }
+//             },
+//             label: Text('${label}',
+//                 style: ((id == 0)
+//                         ? gamingController.ytHover.value
+//                         : (id == 1)
+//                             ? gamingController.twitchHover.value
+//                             : gamingController.discordHover.value)
+//                     ? AppThemeData.appThemeData.textTheme.headlineMedium!
+//                         .copyWith(
+//                             color: (mainController.isDark.value)
+//                                 ? Colors.white.withOpacity(0.9)
+//                                 : Colors.white.withOpacity(0.9))
+//                     : AppThemeData.appThemeData.textTheme.headlineMedium!
+//                         .copyWith(
+//                             color: (mainController.isDark.value)
+//                                 ? Colors.white.withOpacity(0.9)
+//                                 : Colors.black.withOpacity(0.9))),
+//             icon: Icon(
+//               Icons.arrow_forward_ios_rounded,
+//               color: ((id == 0)
+//                       ? gamingController.ytHover.value
+//                       : (id == 1)
+//                           ? gamingController.twitchHover.value
+//                           : gamingController.discordHover.value)
+//                   ? Colors.white.withOpacity(0.9)
+//                   : Colors.transparent,
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
 
   // pie chart
   static Widget pieChart(BuildContext context,

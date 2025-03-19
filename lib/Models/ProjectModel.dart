@@ -6,7 +6,8 @@ import 'package:my_porfolio/Utils/Constants.dart';
 class ProjectModel extends GetxController {
   RxBool showDetails = false.obs;
   Image image;
-  RxString link = ''.obs,
+  RxString id = ''.obs,
+      link = ''.obs,
       ios_link = ''.obs,
       site = ''.obs,
       label = ''.obs,
@@ -14,8 +15,10 @@ class ProjectModel extends GetxController {
       detail = ''.obs,
       devLang = ''.obs;
   RxList tags = [].obs, platform = [].obs;
+  // RxList<ProjectSSModel> screenShots = <ProjectSSModel>[].obs;
 
   ProjectModel({
+    required this.id,
     required this.showDetails,
     required this.image,
     required this.label,
@@ -27,12 +30,14 @@ class ProjectModel extends GetxController {
     required this.detail,
     required this.platform,
     required this.tags,
+    // required this.screenShots,
   });
 
   factory ProjectModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
     final docData = documentSnapshot.data()!;
     return ProjectModel(
+      id: (documentSnapshot.id).obs,
       showDetails: false.obs,
       image: Image.asset(ImageConstants.projectsPath + docData['icon']),
       label: docData['label'].toString().obs,
@@ -44,6 +49,23 @@ class ProjectModel extends GetxController {
       detail: (docData['app_detail'] ?? '').toString().obs,
       platform: [docData['platform'].toString()].obs,
       tags: [docData['status'].toString()].obs,
+      // screenShots: [docData['status']].obs,
+    );
+  }
+}
+
+class ProjectSSModel {
+  RxString link = ''.obs;
+
+  ProjectSSModel({
+    required this.link,
+  });
+
+  factory ProjectSSModel.fromSnapshot(
+      DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
+    final docData = documentSnapshot.data()!;
+    return ProjectSSModel(
+      link: ((docData['link'] ?? '').toString()).obs,
     );
   }
 }

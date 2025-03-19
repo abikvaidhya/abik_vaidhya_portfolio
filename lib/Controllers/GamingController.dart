@@ -54,7 +54,7 @@ class GamingController extends GetxController {
             image_hovered: e.imageReversed,
             pad: 50.0.obs,
             scale: 0.0.obs,
-            link: e.link),
+            link: e.link,gradientId: e.gradientId.obs),
       );
     });
   }

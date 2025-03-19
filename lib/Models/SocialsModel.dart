@@ -7,15 +7,16 @@ class SocialsModel extends GetxController {
   bool showDetails = false;
   Image image, imageReversed;
   String link = '', label = '', description = '';
+  int gradientId = -1;
 
-  SocialsModel({
-    required this.showDetails,
-    required this.image,
-    required this.imageReversed,
-    required this.label,
-    required this.link,
-    required this.description,
-  });
+  SocialsModel(
+      {required this.showDetails,
+      required this.image,
+      required this.imageReversed,
+      required this.label,
+      required this.link,
+      required this.description,
+      required this.gradientId});
 
   factory SocialsModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
@@ -28,6 +29,7 @@ class SocialsModel extends GetxController {
       label: docData['label'].toString(),
       link: ((docData['link'] ?? '').toString()),
       description: docData['description'].toString(),
+      gradientId: int.parse((docData['gradient']?? '0').toString() ),
     );
   }
 }

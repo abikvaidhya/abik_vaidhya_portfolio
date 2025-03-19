@@ -18,7 +18,7 @@ class _CodingScreenState extends State<CodingScreen> {
   Widget build(BuildContext context) {
     MainController mainController = Get.find<MainController>();
     CodingController codingController = Get.find<CodingController>();
-    
+
     return Obx(
       () => (codingController.gettingFrameworks.value ||
               codingController.gettingWorkSocials.value)
@@ -51,6 +51,9 @@ class _CodingScreenState extends State<CodingScreen> {
                             isDesktop: widget.isDesktop,
                           ),
                           Widgets.projectDetails(
+                            isDesktop: widget.isDesktop,
+                          ),
+                          Widgets.reviews(
                             isDesktop: widget.isDesktop,
                           )
                         ],

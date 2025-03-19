@@ -7,11 +7,12 @@ import 'package:my_porfolio/Utils/Constants.dart';
 
 class ProjectsController extends GetxController {
   final firebase = FirebaseFirestore.instance;
-  RxBool gettingProjects = false.obs;
+  RxBool gettingProjects = false.obs, gettingScreenShots = false.obs;
   RxInt launchedProjectIndex = (0).obs;
 
   RxList<ProjectModel> projects = <ProjectModel>[].obs,
       launched_projects = <ProjectModel>[].obs; // project list
+  RxList<ProjectSSModel> projectScreenShots = <ProjectSSModel>[].obs;
 
   RxList<MorphButton> projectMorphButtons = <MorphButton>[].obs;
 
@@ -42,8 +43,36 @@ class ProjectsController extends GetxController {
             .sort((a, b) => b.label.value.compareTo(a.label.value));
 
         projects.sort((a, b) => a.label.value.compareTo(b.label.value));
+        getProjectScreenShots(id: launched_projects.first.id.value);
       }
       gettingProjects(false);
+    }
+  }
+
+  // getting projects
+  Future getProjectScreenShots({required String id}) async {
+    gettingScreenShots(true);
+    try {
+      final snapShot = await firebase
+          .collection(APIEndpoints.projects)
+          .doc(id)
+          .collection('ss')
+          .get();
+
+      if (snapShot.docs.isEmpty) {
+        throw 'Empty data in ${APIEndpoints.projects} screenshots collection';
+      }
+
+      projectScreenShots(
+          snapShot.docs.map((e) => ProjectSSModel.fromSnapshot(e)).toList());
+    } catch (e) {
+      debugPrint('## ERROR GETTING PROJECT SCREENSHOTS LIST: $e');
+      projectScreenShots.clear();
+    } finally {
+      // debugPrint(
+      //     '## PROJECT SCREENSHOTS Link: ${projectScreenShots.first.link}');
+
+      gettingScreenShots(false);
     }
   }
 

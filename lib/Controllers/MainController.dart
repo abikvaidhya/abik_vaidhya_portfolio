@@ -18,9 +18,9 @@ class MainController extends GetxController {
       codingController = PageController(
         initialPage: 0,
       ),
-      projectsController = PageController(
-        initialPage: 0,
-      ),
+      // projectController = PageController(
+      //   initialPage: 0,
+      // ),
       experienceController = PageController(
         initialPage: 0,
       ),
@@ -68,106 +68,91 @@ class MainController extends GetxController {
       subtitle_3 = false.obs;
 
   // gradient colors list
-  final gameGradientList = <List<Color>>[
-        [
-          Color.fromRGBO(212, 30, 30, 1),
-          Color.fromRGBO(247, 83, 83, 1),
-        ],
-        [
-          Color.fromRGBO(143, 38, 38, 1),
-          Color.fromRGBO(235, 24, 24, 1),
-        ],
-        [
-          Color.fromRGBO(14, 180, 116, 1),
-          Color.fromRGBO(124, 238, 143, 1),
-        ]
-      ],
-      streamGradientList = <List<Color>>[
-        [
-          Color.fromRGBO(212, 30, 30, 1),
-          Color.fromRGBO(247, 83, 83, 1),
-        ],
-        [
-          Color.fromRGBO(176, 3, 245, 1),
-          Color.fromRGBO(224, 82, 243, 1),
-        ],
-        [
-          Color.fromRGBO(6, 118, 247, 1),
-          Color.fromRGBO(73, 141, 243, 1),
-        ]
-      ],
-      socialGradientList = <List<Color>>[
-        [
-          Color.fromRGBO(73, 141, 243, 1),
-          Color.fromRGBO(6, 118, 247, 1),
-        ],
-        [
-          Color.fromRGBO(238, 155, 61, 1),
-          Color.fromRGBO(202, 15, 93, 1),
-        ],
-        [
-          Color.fromRGBO(101, 160, 236, 1),
-          Color.fromRGBO(38, 156, 235, 1),
-        ],
-        [
-          Color.fromRGBO(6, 118, 247, 1),
-          Color.fromRGBO(73, 141, 243, 1),
-        ],
-      ],
-      musicGradientList = <List<Color>>[
-        [
-          Color.fromRGBO(238, 65, 21, 1),
-          Color.fromRGBO(241, 115, 77, 1),
-        ],
-        [
-          Color.fromRGBO(238, 46, 46, 1),
-          Color.fromRGBO(247, 83, 83, 1),
-        ],
-      ],
-      skillsGradientList = <List<Color>>[
-        [
-          Color(0xff2947EC), // flutter
-          Color.fromRGBO(93, 147, 247, 1),
-        ],
-        [
-          Color(0xff056FA0), // asp.net
-          Color(0xff0CB5F8) // react.js
-        ],
-        [
-          Color.fromRGBO(14, 180, 116, 1),
-          Color(0xff7CEE8F) // vue.js
-        ],
-        [
-          // Color.fromRGBO(124, 238, 143, 1),
-          Color.fromRGBO(197, 197, 197, 1),
-          Color.fromRGBO(180, 180, 180, 1),
-        ],
-        [
-          // Color.fromRGBO(180, 180, 180, 1),
-          Color.fromRGBO(235, 94, 29, 1),
-          Color.fromRGBO(224, 118, 85, 1),
-        ],
-        [
-          // Color.fromRGBO(224, 118, 85, 1),
-          Color.fromRGBO(109, 235, 84, 1),
-          Color.fromRGBO(58, 204, 14, 1),
-        ],
-        [
-          Color.fromRGBO(58, 204, 14, 1),
-          Color.fromRGBO(12, 181, 248, 1),
-          // Color.fromRGBO(93, 147, 247, 1),
-        ]
-      ],
-      ideGradientList = <List<Color>>[
-        [
-          Color.fromRGBO(5, 111, 160, 1),
-          Color.fromRGBO(12, 181, 248, 1),
-        ],
-        [
-          Color.fromRGBO(124, 238, 143, 1),
-          Color.fromRGBO(14, 180, 116, 1),
-        ]
-      ];
+  final morphButtonGradients = <List<Color>>[
+    // flutter
+    [
+      Color(0xff2947EC),
+      Color.fromRGBO(93, 147, 247, 1),
+    ],
+    // asp.net & react native
+    [
+      Color(0xff056FA0),
+      Color(0xff0CB5F8),
+    ],
+    // vue.js
+    [
+      Color.fromRGBO(14, 180, 116, 1),
+      Color(0xff7CEE8F),
+    ],
+
+    // github
+    [
+      Color.fromRGBO(197, 197, 197, 1),
+      Color.fromRGBO(180, 180, 180, 1),
+    ],
+    // gitlab
+    [
+      Color.fromRGBO(235, 94, 29, 1),
+      Color.fromRGBO(224, 118, 85, 1),
+    ],
+    // upwork
+    [
+      Color.fromRGBO(109, 235, 84, 1),
+      Color.fromRGBO(58, 204, 14, 1),
+    ],
+    // linkedin
+    [
+      Color.fromRGBO(73, 141, 243, 1),
+      Color.fromRGBO(6, 118, 247, 1),
+    ],
+    // [
+    //   Color.fromRGBO(58, 204, 14, 1),
+    //   Color.fromRGBO(12, 181, 248, 1),
+    // ],
+
+    // band labs
+    [
+      Color.fromRGBO(238, 65, 21, 1),
+      Color.fromRGBO(241, 115, 77, 1),
+    ],
+    // sound cloud
+    [
+      Color.fromRGBO(238, 46, 46, 1),
+      Color.fromRGBO(247, 83, 83, 1),
+    ],
+
+    // youtube
+    [
+      Color.fromRGBO(212, 30, 30, 1),
+      Color.fromRGBO(247, 83, 83, 1),
+    ],
+    // twitch
+    [
+      Color.fromRGBO(176, 3, 245, 1),
+      Color.fromRGBO(224, 82, 243, 1),
+    ],
+    // discord
+    [
+      Color.fromRGBO(6, 118, 247, 1),
+      Color.fromRGBO(73, 141, 243, 1),
+    ],
+
+    // instagram
+    [
+      Color.fromRGBO(238, 155, 61, 1),
+      Color.fromRGBO(202, 15, 93, 1),
+    ],
+    // facebook
+    // [
+    //   Color.fromRGBO(101, 160, 236, 1),
+    //   Color.fromRGBO(38, 156, 235, 1),
+    // ],
+    // twitter
+    [
+      Color.fromRGBO(6, 118, 247, 1),
+      Color.fromRGBO(73, 141, 243, 1),
+    ],
+  ];
 
   @override
   onInit() {

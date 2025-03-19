@@ -137,7 +137,7 @@ class FloatingNavBarIcons extends StatelessWidget {
     return (navID == hoverID)
         ? GestureDetector(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
               child: Icon(
                 iconData,
                 color: mainController.isDark.value
@@ -153,11 +153,7 @@ class FloatingNavBarIcons extends StatelessWidget {
                 iconColor: mainController.isDark.value
                     ? Colors.white54
                     : Colors.black45),
-            iconSize: mainController.navHovered == 1
-                // ||
-                // hoverID - 1 == mainController.pageController.page!
-                ? 8
-                : 5,
+            iconSize: mainController.navHovered == 1 ? 8 : 5,
             onPressed: () =>
                 Functions.navigate(navID, mainController.pageController));
   }
