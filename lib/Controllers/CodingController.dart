@@ -99,8 +99,10 @@ class CodingController extends GetxController {
     } catch (e) {
       debugPrint('## ERROR GETTING FRAMEWORKS LIST: $e');
     } finally {
-      if (frameworks.isNotEmpty)
+      if (frameworks.isNotEmpty) {
         frameworks.sort((a, b) => b.value.compareTo(a.value));
+        getFrameworkWiseProjects(frameworkId: frameworks.first.label);
+      }
 
       gettingFrameworks(false);
     }

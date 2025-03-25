@@ -19,11 +19,11 @@ main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   Get.put(MainController()); // main controller
-  Get.put(CodingController()); // coding controller
-  Get.put(ProjectsController()); // projects controller
-  Get.put(GamingController()); // gaming controller
-  Get.put(MusicController()); // music controller
-  Get.put(SocialsController()); // socials controller
+  Get.lazyPut(() => CodingController(), fenix: true); // coding controller
+  Get.lazyPut(() => ProjectsController(), fenix: true); // projects controller
+  Get.lazyPut(() => GamingController(), fenix: true); // gaming controller
+  Get.lazyPut(() => MusicController(), fenix: true); // music controller
+  Get.lazyPut(() => SocialsController(), fenix: true); // socials controller
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -33,6 +33,6 @@ main() async {
 }
 
 Future initialization(BuildContext? context) async {
-  await Future.delayed(Duration(seconds: 1))
+  await Future.delayed(Duration(milliseconds: 111))
       .whenComplete(() => FlutterNativeSplash.remove());
 }

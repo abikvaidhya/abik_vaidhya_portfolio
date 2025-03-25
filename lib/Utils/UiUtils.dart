@@ -433,8 +433,9 @@ class Widgets {
                               spacing: 20,
                               children: [
                                 Text(
-                                  codingController
-                                      .frameworkProjects[index].label,
+                                  '> ' +
+                                      codingController
+                                          .frameworkProjects[index].label,
                                   style: AppThemeData
                                       .appThemeData.textTheme.bodyMedium!
                                       .copyWith(
@@ -762,6 +763,7 @@ class Widgets {
                     child: CarouselSlider.builder(
                       itemCount: codingController.reviews.length,
                       options: CarouselOptions(
+                          viewportFraction: 0.9,
                           autoPlay: true,
                           autoPlayInterval: Duration(
                             seconds: 7,
@@ -770,10 +772,12 @@ class Widgets {
                           (BuildContext context, int index, int realIndex) {
                         return Obx(
                           () => AnimatedContainer(
-                            margin: EdgeInsets.all(20),
-                            padding: EdgeInsets.all(10),
+                            margin: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 20),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 10, vertical: 20),
                             decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: BorderRadius.circular(20),
                               boxShadow: [
                                 BoxShadow(
                                     color: Colors.grey[500]!,
@@ -846,6 +850,7 @@ class Widgets {
                                             codingController
                                                 .reviews[index].review.value,
                                             maxLines: 5,
+                                            textAlign: TextAlign.center,
                                             overflow: TextOverflow.ellipsis,
                                             style: AppThemeData.appThemeData
                                                 .textTheme.bodyMedium!
@@ -1023,7 +1028,15 @@ class Widgets {
                                 ? RotatedBox(
                                     quarterTurns: -1,
                                     child: Text(
-                                        'Sorry, no screenshots available...'))
+                                        'Sorry, no screenshots available...',
+                                        style: AppThemeData
+                                            .appThemeData.textTheme.bodySmall!
+                                            .copyWith(
+                                                color:
+                                                    mainController.isDark.value
+                                                        ? Colors.white
+                                                        : Colors.black)),
+                                  )
                                 : ClipRRect(
                                     borderRadius: BorderRadius.circular(20.0),
                                     child: CarouselSlider(
@@ -1031,7 +1044,7 @@ class Widgets {
                                           autoPlay: true,
                                           autoPlayInterval:
                                               Duration(seconds: 5),
-                                          viewportFraction: 0.7,
+                                          viewportFraction: 1,
                                           height: double.maxFinite),
                                       items: projectsController
                                           .projectScreenShots
@@ -1045,7 +1058,10 @@ class Widgets {
                                               errorWidget:
                                                   (context, url, error) => Icon(
                                                       Icons.error_outline,
-                                                      color: Colors.black),
+                                                      color: mainController
+                                                              .isDark.value
+                                                          ? Colors.white
+                                                          : Colors.black),
                                               progressIndicatorBuilder:
                                                   (context, url, progress) =>
                                                       LinearProgressIndicator(

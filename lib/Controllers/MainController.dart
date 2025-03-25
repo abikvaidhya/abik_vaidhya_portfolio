@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:my_porfolio/Models/InfoModel.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/StorageHelper.dart';
-import '../Models/ProjectModel.dart';
 
 class MainController extends GetxController {
   final firebase = FirebaseFirestore.instance;
@@ -157,7 +156,7 @@ class MainController extends GetxController {
   @override
   onInit() {
     super.onInit();
-    saveDarkModeState();
+    saveDarkModeState(state: true);
     getInfo();
   }
 

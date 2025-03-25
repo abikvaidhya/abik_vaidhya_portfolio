@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:my_porfolio/Controllers/CodingController.dart';
+import 'package:my_porfolio/Controllers/GamingController.dart';
+import 'package:my_porfolio/Controllers/MusicController.dart';
+import 'package:my_porfolio/Controllers/ProjectsController.dart';
+import 'package:my_porfolio/Controllers/SocialsController.dart';
 import 'package:my_porfolio/Screens/CodingScreen.dart';
 import 'package:my_porfolio/Screens/Desktop/CodingScreen.dart';
 import 'package:my_porfolio/Screens/Desktop/GamingScreen.dart';
@@ -23,6 +28,11 @@ class HomeContainer extends StatefulWidget {
 
 class _HomeContainerState extends State<HomeContainer> {
   final MainController mainController = Get.find<MainController>();
+  final CodingController codingController = Get.find<CodingController>();
+  final GamingController gamingController = Get.find<GamingController>();
+  final MusicController musicController = Get.find<MusicController>();
+  final ProjectsController projectsController = Get.find<ProjectsController>();
+  final SocialsController socialsController = Get.find<SocialsController>();
 
   double bg = 0.0;
 
