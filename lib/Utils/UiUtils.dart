@@ -1003,7 +1003,8 @@ class Widgets {
             width: !projectsController.gettingScreenShots.value &&
                     projectsController.projectScreenShots.isEmpty
                 ? 50
-                : 320,
+                : 360,
+            height: 720,
             decoration: BoxDecoration(
               color: Colors.transparent,
             ),
@@ -1052,7 +1053,7 @@ class Widgets {
                                         return Builder(
                                           builder: (BuildContext context) {
                                             return CachedNetworkImage(
-                                              width: 300,
+                                              width: 360,
                                               fit: BoxFit.cover,
                                               imageUrl: i.link.value,
                                               errorWidget:
