@@ -801,208 +801,343 @@ class Widgets {
         : SizedBox.shrink();
   }
 
-  static Widget reviews({required bool isDesktop}) {
+  static Widget footer({required bool isDesktop}) {
     MainController mainController = Get.find<MainController>();
     CodingController codingController = Get.find<CodingController>();
+    SocialsController socialsController = Get.find<SocialsController>();
 
     return Padding(
       padding: EdgeInsets.all(44.0),
-      child: Row(
+      child: Column(
+        spacing: 40,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          // review section
           Expanded(
-            child: Column(
+            child: CarouselSlider.builder(
+              itemCount: codingController.reviews.length,
+              options: CarouselOptions(
+                  // padEnds: false,
+                  viewportFraction: 0.6,
+                  height: 500,
+                  // scrollDirection: Axis.vertical,
+                  autoPlay: true,
+                  enlargeCenterPage: true,
+                  autoPlayInterval: Duration(
+                    seconds: 7,
+                  )),
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return Obx(
+                  () => Stack(
+                    children: [
+                      // review container
+                      Container(
+                        height: 450,
+                        margin: EdgeInsets.fromLTRB(20, 60, 20, 10),
+                        padding: EdgeInsets.fromLTRB(20, 40, 20, 10),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.grey[500]!,
+                                offset: (mainController.isDark.value)
+                                    ? Offset(2, 2)
+                                    : Offset(4, 4),
+                                blurRadius:
+                                    mainController.isDark.value ? 5 : 15,
+                                spreadRadius: 1),
+                            BoxShadow(
+                                color: Colors.white,
+                                offset: (mainController.isDark.value)
+                                    ? Offset(-2, -2)
+                                    : Offset(-4, -4),
+                                blurRadius:
+                                    mainController.isDark.value ? 5 : 15,
+                                spreadRadius: 1)
+                          ],
+                          color: (mainController.isDark.value)
+                              ? Colors.black
+                              : Colors.white,
+                        ),
+                        // duration: Duration(
+                        //     milliseconds: Constants.animationDuration),
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Column(
+                                spacing: 10,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                // mainAxisAlignment:
+                                //     MainAxisAlignment.spaceBetween,
+                                children: [
+                                  // review
+                                  Expanded(
+                                    child: Center(
+                                      child: customShadowBox(
+                                        Text(
+                                            codingController
+                                                .reviews[index].review.value,
+                                            maxLines: 5,
+                                            textAlign: TextAlign.center,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.bodySmall!
+                                                .copyWith(
+                                              color: mainController.isDark.value
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Column(
+                                    children: [
+                                      Divider(
+                                        endIndent: 10,
+                                        indent: 10,
+                                      ),
+                                      // reviewer name
+                                      customShadowBox(
+                                        Text(
+                                            codingController
+                                                .reviews[index].name.value,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.displayMedium!
+                                                .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              color: mainController.isDark.value
+                                                  ? Colors.white
+                                                  : Colors.black,
+                                            )),
+                                      ),
+                                      // reviewer company
+                                      customShadowBox(
+                                        Text(
+                                            codingController
+                                                .reviews[index].company.value,
+                                            style: AppThemeData.appThemeData
+                                                .textTheme.bodySmall!
+                                                .copyWith(
+                                                    color: mainController
+                                                            .isDark.value
+                                                        ? Colors.white
+                                                        : Colors.black,
+                                                    fontSize: 14)),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                      // reviewer image
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: customShadowBox(
+                          CircleAvatar(
+                            radius: 50,
+                            backgroundImage: NetworkImage(
+                                codingController.reviews[index].image.value),
+                            onBackgroundImageError: (exception, stackTrace) =>
+                                Icon(Icons.person),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+
+          // footer
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               spacing: 40,
-              mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  spacing: 20,
                   children: [
-                    Widgets.customShadowBox(
-                      Text(
-                        'reviews',
+                    Text("Let me help you build your dream app.",
+                        textAlign: TextAlign.end,
                         style: AppThemeData
                             .appThemeData.textTheme.headlineMedium!
                             .copyWith(
-                                color: mainController.isDark.value
-                                    ? Colors.white
-                                    : Colors.black),
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.black,
+                        )),
+                    Text("Connect with me",
+                        style: AppThemeData.appThemeData.textTheme.displayLarge!
+                            .copyWith(
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.grey,
+                        )),
+                  ],
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  spacing: 10,
+                  children: [
+                    Text('Abik Vaidhya',
+                        style: AppThemeData
+                            .appThemeData.textTheme.headlineSmall!
+                            .copyWith(
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.black,
+                        )),
+                    Text('abikvaidhya@gmail.com',
+                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                            .copyWith(
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.grey,
+                        )),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Text('+977-(986)-908-0265',
+                            style: AppThemeData
+                                .appThemeData.textTheme.bodyMedium!
+                                .copyWith(
+                              color: mainController.isDark.value
+                                  ? Colors.white
+                                  : Colors.grey,
+                            )),
+                        Text(' | ',
+                            style: AppThemeData
+                                .appThemeData.textTheme.bodyMedium!
+                                .copyWith(
+                              color: mainController.isDark.value
+                                  ? Colors.white
+                                  : Colors.grey,
+                            )),
+                        Text('+977-(981)-510-2692',
+                            style: AppThemeData
+                                .appThemeData.textTheme.bodyMedium!
+                                .copyWith(
+                              color: mainController.isDark.value
+                                  ? Colors.white
+                                  : Colors.grey,
+                            )),
+                      ],
+                    ),
+                    Text('Nepal',
+                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                            .copyWith(
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.grey,
+                        )),
+                    SizedBox(
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                codingController.jobSocialsMorphButtons.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Widgets.morphButton(context,
+                                  buttonModel: codingController
+                                      .jobSocialsMorphButtons[index],
+                                  isCircle: true,
+                                  height: 60,
+                                  width: 60);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 20,
+                              );
+                            },
+                          )
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          ListView.separated(
+                            shrinkWrap: true,
+                            scrollDirection: Axis.horizontal,
+                            itemCount:
+                                socialsController.socialMorphButtons.length,
+                            itemBuilder: (BuildContext context, int index) {
+                              return Widgets.morphButton(context,
+                                  buttonModel: socialsController
+                                      .socialMorphButtons[index],
+                                  isCircle: true,
+                                  height: 60,
+                                  width: 60);
+                            },
+                            separatorBuilder:
+                                (BuildContext context, int index) {
+                              return SizedBox(
+                                width: 20,
+                              );
+                            },
+                          )
+                        ],
                       ),
                     ),
                   ],
                 ),
-                Center(
-                  child: SizedBox(
-                    height: 350,
-                    child: CarouselSlider.builder(
-                      itemCount: codingController.reviews.length,
-                      options: CarouselOptions(
-                          viewportFraction: 0.9,
-                          autoPlay: true,
-                          autoPlayInterval: Duration(
-                            seconds: 7,
-                          )),
-                      itemBuilder:
-                          (BuildContext context, int index, int realIndex) {
-                        return Obx(
-                          () => Stack(
-                            children: [
-                              // review container
-                              Column(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Container(
-                                    height: 280,
-                                    margin: EdgeInsets.symmetric(
-                                        horizontal: 10, vertical: 20),
-                                    padding:
-                                        EdgeInsets.fromLTRB(20, 60, 20, 10),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(20),
-                                      boxShadow: [
-                                        BoxShadow(
-                                            color: Colors.grey[500]!,
-                                            offset:
-                                                (mainController.isDark.value)
-                                                    ? Offset(2, 2)
-                                                    : Offset(4, 4),
-                                            blurRadius:
-                                                mainController.isDark.value
-                                                    ? 5
-                                                    : 15,
-                                            spreadRadius: 1),
-                                        BoxShadow(
-                                            color: Colors.white,
-                                            offset:
-                                                (mainController.isDark.value)
-                                                    ? Offset(-2, -2)
-                                                    : Offset(-4, -4),
-                                            blurRadius:
-                                                mainController.isDark.value
-                                                    ? 5
-                                                    : 15,
-                                            spreadRadius: 1)
-                                      ],
-                                      color: (mainController.isDark.value)
-                                          ? Colors.black
-                                          : Colors.white,
-                                    ),
-                                    // duration: Duration(
-                                    //     milliseconds: Constants.animationDuration),
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child: Column(
-                                            spacing: 10,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.center,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              // review
-                                              customShadowBox(
-                                                Text(
-                                                    codingController
-                                                        .reviews[index]
-                                                        .review
-                                                        .value,
-                                                    maxLines: 5,
-                                                    textAlign: TextAlign.center,
-                                                    overflow:
-                                                        TextOverflow.ellipsis,
-                                                    style: AppThemeData
-                                                        .appThemeData
-                                                        .textTheme
-                                                        .bodySmall!
-                                                        .copyWith(
-                                                      color: mainController
-                                                              .isDark.value
-                                                          ? Colors.white
-                                                          : Colors.black,
-                                                    )),
-                                              ),
-
-                                              Column(
-                                                children: [
-                                                  Divider(
-                                                    endIndent: 10,
-                                                    indent: 10,
-                                                  ),
-                                                  // reviewer name
-                                                  customShadowBox(
-                                                    Text(
-                                                        codingController
-                                                            .reviews[index]
-                                                            .name
-                                                            .value,
-                                                        style: AppThemeData
-                                                            .appThemeData
-                                                            .textTheme
-                                                            .displayMedium!
-                                                            .copyWith(
-                                                          fontWeight:
-                                                              FontWeight.bold,
-                                                          color: mainController
-                                                                  .isDark.value
-                                                              ? Colors.white
-                                                              : Colors.black,
-                                                        )),
-                                                  ),
-                                                  // reviewer company
-                                                  customShadowBox(
-                                                    Text(
-                                                        codingController
-                                                            .reviews[index]
-                                                            .company
-                                                            .value,
-                                                        style: AppThemeData
-                                                            .appThemeData
-                                                            .textTheme
-                                                            .bodySmall!
-                                                            .copyWith(
-                                                                color: mainController
-                                                                        .isDark
-                                                                        .value
-                                                                    ? Colors
-                                                                        .white
-                                                                    : Colors
-                                                                        .black,
-                                                                fontSize: 14)),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-
-                              Align(
-                                alignment: Alignment.topCenter,
-                                child: customShadowBox(
-                                  CircleAvatar(
-                                    radius: 50,
-                                    backgroundImage: NetworkImage(
-                                        codingController
-                                            .reviews[index].image.value),
-                                    onBackgroundImageError:
-                                        (exception, stackTrace) =>
-                                            Icon(Icons.person),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
+          Column(
+            children: [
+              Divider(
+                  // endIndent: 10,
+                  // indent: 10,
+                  ),
+              SizedBox(
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text('Developed using ',
+                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                            .copyWith(
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.black,
+                        )),
+                    Text('Flutter.',
+                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                            .copyWith(
+                          color: Colors.blueAccent,
+                        )),
+                    VerticalDivider(
+                      endIndent: 20,
+                      indent: 20,
+                    ),
+                    Text('©️ 2021. All Rights Reserved',
+                        style: AppThemeData.appThemeData.textTheme.bodyMedium!
+                            .copyWith(
+                          color: mainController.isDark.value
+                              ? Colors.white
+                              : Colors.grey,
+                        )),
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
     );
@@ -1112,7 +1247,7 @@ class Widgets {
                   children: [
                     Widgets.customShadowBox(
                       Text(
-                        'projects',
+                        'my works',
                         style: AppThemeData
                             .appThemeData.textTheme.headlineMedium!
                             .copyWith(

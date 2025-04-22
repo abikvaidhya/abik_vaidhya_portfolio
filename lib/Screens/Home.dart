@@ -231,7 +231,7 @@ class _HomeContainerState extends State<HomeContainer> {
                                                     //             .deviceScreenType ==
                                                     //         DeviceScreenType.desktop,
                                                     //   ),
-                                                    Widgets.reviews(
+                                                    Widgets.footer(
                                                       isDesktop: sizingInformation
                                                               .deviceScreenType ==
                                                           DeviceScreenType
