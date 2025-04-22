@@ -8,7 +8,7 @@ import 'package:my_porfolio/Utils/Constants.dart';
 class ProjectsController extends GetxController {
   final firebase = FirebaseFirestore.instance;
   RxBool gettingProjects = false.obs, gettingScreenShots = false.obs;
-  RxInt launchedProjectIndex = (0).obs;
+  RxInt launchedProjectIndex = 0.obs;
 
   RxList<ProjectModel> projects = <ProjectModel>[].obs,
       launched_projects = <ProjectModel>[].obs; // project list
@@ -43,7 +43,8 @@ class ProjectsController extends GetxController {
             .sort((a, b) => b.label.value.compareTo(a.label.value));
 
         projects.sort((a, b) => a.label.value.compareTo(b.label.value));
-        getProjectScreenShots(id: launched_projects.first.id.value);
+        // getProjectScreenShots(id: launched_projects.first.id.value);
+        getProjectScreenShots(id: projects.first.id.value);
       }
       gettingProjects(false);
     }

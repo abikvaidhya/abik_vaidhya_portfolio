@@ -14,6 +14,7 @@ import 'package:my_porfolio/Controllers/SocialsController.dart';
 import 'package:my_porfolio/Models/MorphButton.dart';
 import 'package:my_porfolio/Models/ProjectModel.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
+import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/FunctionUtils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
@@ -137,7 +138,7 @@ class Widgets {
       child: Center(
         child: Obx(
           () => AnimatedDefaultTextStyle(
-            duration: Duration(milliseconds: 111),
+            duration: Duration(milliseconds: Constants.animationDuration),
             style: !((id == 0)
                     ? mainController.subtitle_1.value
                     : mainController.subtitle_2.value)
@@ -220,7 +221,7 @@ class Widgets {
                           spreadRadius: 1)
                     ]
                   : null),
-          duration: Duration(milliseconds: 111),
+          duration: Duration(milliseconds: Constants.animationDuration),
           child: child,
         ),
       ),
@@ -231,9 +232,16 @@ class Widgets {
   static Widget CodingIntroDetails(
       {required BuildContext context, required bool isDesktop}) {
     MainController mainController = Get.find<MainController>();
-    CodingController codingController = Get.find<CodingController>();
+    Get.find<CodingController>();
 
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+        color: (mainController.isDark.value)
+            ? Colors.grey.shade900
+            : Colors.grey.shade100,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      margin: EdgeInsets.all(5),
       padding: EdgeInsets.all((isDesktop) ? 44.0 : 20.0),
       child: (mainController.infos.isEmpty)
           ? SizedBox.shrink()
@@ -242,10 +250,12 @@ class Widgets {
               spacing: 60,
               children: [
                 Column(
-                  spacing: 20,
+                  spacing: 40,
                   children: [
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
+                        // title
                         Widgets.customShadowBox(
                           Text(
                             mainController.infos[1].label.value,
@@ -259,6 +269,7 @@ class Widgets {
                         ),
                       ],
                     ),
+                    // subtitle
                     Row(
                       children: [
                         Expanded(
@@ -278,213 +289,233 @@ class Widgets {
                         ),
                       ],
                     ),
+
+                    // descriptions
                     Row(
                       children: [
+                        // pie chart
+                        Widgets.pieChart(context,
+                            isDesktop: isDesktop, label: 'frameworks'),
                         Expanded(
-                          child: Widgets.customShadowBox(
-                            Text(
-                              mainController.infos[1].subTitle1.value,
-                              softWrap: true,
-                              style: AppThemeData
-                                  .appThemeData.textTheme.bodyMedium!
-                                  .copyWith(
-                                      color: mainController.isDark.value
-                                          ? Colors.white
-                                          : Colors.black),
-                              maxLines: 4,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Widgets.customShadowBox(
-                            Text(
-                              mainController.infos[1].subTitle2.value,
-                              softWrap: true,
-                              style: AppThemeData
-                                  .appThemeData.textTheme.bodyMedium!
-                                  .copyWith(
-                                      color: mainController.isDark.value
-                                          ? Colors.white
-                                          : Colors.black),
-                              maxLines: 4,
-                            ),
+                          child: Column(
+                            spacing: 20,
+                            children: [
+                              // description 1
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Widgets.customShadowBox(
+                                      Text(
+                                        mainController.infos[1].subTitle1.value,
+                                        softWrap: true,
+                                        style: AppThemeData
+                                            .appThemeData.textTheme.bodyMedium!
+                                            .copyWith(
+                                                color:
+                                                    mainController.isDark.value
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                        maxLines: 4,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              // description 2
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Widgets.customShadowBox(
+                                      Text(
+                                        mainController.infos[1].subTitle2.value,
+                                        softWrap: true,
+                                        style: AppThemeData
+                                            .appThemeData.textTheme.bodyMedium!
+                                            .copyWith(
+                                                color:
+                                                    mainController.isDark.value
+                                                        ? Colors.white
+                                                        : Colors.black),
+                                        maxLines: 4,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ],
                 ),
-                Expanded(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 20,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      // pie chart
-                      Widgets.pieChart(context,
-                          isDesktop: isDesktop, label: 'frameworks'),
+                // Expanded(
+                //   child: Row(
+                //     crossAxisAlignment: CrossAxisAlignment.start,
+                //     spacing: 20,
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                // Widgets.pieChart(context,
+                //     isDesktop: isDesktop, label: 'frameworks'),
 
-                      // morph buttons
-                      Wrap(
-                        spacing: 20,
-                        runSpacing: 20,
-                        alignment: WrapAlignment.center,
-                        children: [
-                          Obx(
-                            () => morphButton(context, callBack: () {
-                              Functions.navigate(
-                                  3, mainController.codingController);
-                            },
-                                buttonModel:
-                                    codingController.experienceButton.value),
-                          ),
-                          Obx(
-                            () => morphButton(context, callBack: () {
-                              Functions.navigate(
-                                  4, mainController.codingController);
-                            },
-                                buttonModel:
-                                    codingController.projectButton.value),
-                          ),
-                          Obx(
-                            () => morphButton(context, callBack: () {
-                              Functions.navigate(
-                                  5, mainController.codingController);
-                            },
-                                buttonModel:
-                                    codingController.reviewsButtons.value),
-                          ),
-                        ],
-                      ),
-                      Expanded(
-                        child: Widgets.workSocialsMorphButtons(context,
-                            isDesktop: isDesktop),
-                      ),
-                    ],
-                  ),
-                ),
+                // morph buttons
+                // Wrap(
+                //   spacing: 20,
+                //   runSpacing: 20,
+                //   alignment: WrapAlignment.center,
+                //   children: [
+                //     Obx(
+                //       () => morphButton(context, callBack: () {
+                //         Functions.navigate(
+                //             3, mainController.codingController);
+                //       },
+                //           buttonModel:
+                //               codingController.experienceButton.value),
+                //     ),
+                //     Obx(
+                //       () => morphButton(context, callBack: () {
+                //         Functions.navigate(
+                //             4, mainController.codingController);
+                //       },
+                //           buttonModel:
+                //               codingController.projectButton.value),
+                //     ),
+                //     Obx(
+                //       () => morphButton(context, callBack: () {
+                //         Functions.navigate(
+                //             5, mainController.codingController);
+                //       },
+                //           buttonModel:
+                //               codingController.reviewsButtons.value),
+                //     ),
+                //   ],
+                // ),
+                // Expanded(
+                //   child: Widgets.workSocialsMorphButtons(context,
+                //       isDesktop: isDesktop),
+                // ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
     );
   }
 
-  static Widget FrameworksDetails({required bool isDesktop}) {
-    MainController mainController = Get.find<MainController>();
-    CodingController codingController = Get.find<CodingController>();
+  // static Widget FrameworksDetails({required bool isDesktop}) {
+  //   MainController mainController = Get.find<MainController>();
+  //   CodingController codingController = Get.find<CodingController>();
 
-    return Obx(
-      () => (codingController.frameworks.isNotEmpty &&
-              codingController.frameworkIndex.value > -1)
-          ? Padding(
-              padding: const EdgeInsets.all(44.0),
-              child: Column(
-                spacing: 20,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Row(
-                    children: [
-                      Widgets.customShadowBox(
-                        Text(
-                          codingController
-                              .frameworks[codingController.frameworkIndex.value]
-                              .label,
-                          style: AppThemeData
-                              .appThemeData.textTheme.headlineMedium!
-                              .copyWith(
-                                  color: mainController.isDark.value
-                                      ? Colors.white
-                                      : Colors.black),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Widgets.customShadowBox(
-                        Text(
-                          codingController
-                              .frameworks[codingController.frameworkIndex.value]
-                              .description,
-                          maxLines: 5,
-                          style: AppThemeData.appThemeData.textTheme.bodyMedium!
-                              .copyWith(
-                                  color: mainController.isDark.value
-                                      ? Colors.white
-                                      : Colors.black),
-                          softWrap: true,
-                        ),
-                      ),
-                    ],
-                  ),
-                  ListView.separated(
-                    shrinkWrap: true,
-                    itemCount: codingController.frameworkProjects.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Widgets.customShadowBox(
-                        Column(
-                          spacing: 10,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              spacing: 20,
-                              children: [
-                                Text(
-                                  '> ' +
-                                      codingController
-                                          .frameworkProjects[index].label,
-                                  style: AppThemeData
-                                      .appThemeData.textTheme.bodyMedium!
-                                      .copyWith(
-                                          color: mainController.isDark.value
-                                              ? Colors.white
-                                              : Colors.black),
-                                  softWrap: true,
-                                ),
-                                if (codingController
-                                    .frameworkProjects[index].link.isNotEmpty)
-                                  GestureDetector(
-                                      onTap: () {
-                                        Functions.openLink(codingController
-                                            .frameworkProjects[index].link);
-                                      },
-                                      child: Icon(Icons.link,
-                                          color: mainController.isDark.value
-                                              ? Colors.white
-                                              : Colors.black))
-                              ],
-                            ),
-                            Text(
-                              codingController
-                                  .frameworkProjects[index].description,
-                              maxLines: 2,
-                              style: AppThemeData
-                                  .appThemeData.textTheme.bodySmall!
-                                  .copyWith(
-                                      color: mainController.isDark.value
-                                          ? Colors.white
-                                          : Colors.black),
-                              softWrap: true,
-                            ),
-                          ],
-                        ),
-                      );
-                    },
-                    separatorBuilder: (BuildContext context, int index) {
-                      return SizedBox(
-                        height: 20,
-                      );
-                    },
-                  ),
-                ],
-              ),
-            )
-          : SizedBox.shrink(),
-    );
-  }
+  //   return Obx(
+  //     () => (codingController.frameworks.isNotEmpty &&
+  //             codingController.frameworkIndex.value > -1)
+  //         ? Padding(
+  //             padding: const EdgeInsets.all(44.0),
+  //             child: Column(
+  //               spacing: 20,
+  //               mainAxisAlignment: MainAxisAlignment.center,
+  //               children: [
+  //                 Row(
+  //                   children: [
+  //                     Widgets.customShadowBox(
+  //                       Text(
+  //                         codingController
+  //                             .frameworks[codingController.frameworkIndex.value]
+  //                             .label,
+  //                         style: AppThemeData
+  //                             .appThemeData.textTheme.headlineMedium!
+  //                             .copyWith(
+  //                                 color: mainController.isDark.value
+  //                                     ? Colors.white
+  //                                     : Colors.black),
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 Row(
+  //                   children: [
+  //                     Widgets.customShadowBox(
+  //                       Text(
+  //                         codingController
+  //                             .frameworks[codingController.frameworkIndex.value]
+  //                             .description,
+  //                         maxLines: 5,
+  //                         style: AppThemeData.appThemeData.textTheme.bodyMedium!
+  //                             .copyWith(
+  //                                 color: mainController.isDark.value
+  //                                     ? Colors.white
+  //                                     : Colors.black),
+  //                         softWrap: true,
+  //                       ),
+  //                     ),
+  //                   ],
+  //                 ),
+  //                 ListView.separated(
+  //                   shrinkWrap: true,
+  //                   itemCount: codingController.frameworkProjects.length,
+  //                   itemBuilder: (BuildContext context, int index) {
+  //                     return Widgets.customShadowBox(
+  //                       Column(
+  //                         spacing: 10,
+  //                         crossAxisAlignment: CrossAxisAlignment.start,
+  //                         children: [
+  //                           Row(
+  //                             spacing: 20,
+  //                             children: [
+  //                               Text(
+  //                                 '> ' +
+  //                                     codingController
+  //                                         .frameworkProjects[index].label,
+  //                                 style: AppThemeData
+  //                                     .appThemeData.textTheme.bodyMedium!
+  //                                     .copyWith(
+  //                                         color: mainController.isDark.value
+  //                                             ? Colors.white
+  //                                             : Colors.black),
+  //                                 softWrap: true,
+  //                               ),
+  //                               if (codingController
+  //                                   .frameworkProjects[index].link.isNotEmpty)
+  //                                 GestureDetector(
+  //                                     onTap: () {
+  //                                       Functions.openLink(codingController
+  //                                           .frameworkProjects[index].link);
+  //                                     },
+  //                                     child: Icon(Icons.link,
+  //                                         color: mainController.isDark.value
+  //                                             ? Colors.white
+  //                                             : Colors.black))
+  //                             ],
+  //                           ),
+  //                           Text(
+  //                             codingController
+  //                                 .frameworkProjects[index].description,
+  //                             maxLines: 2,
+  //                             style: AppThemeData
+  //                                 .appThemeData.textTheme.bodySmall!
+  //                                 .copyWith(
+  //                                     color: mainController.isDark.value
+  //                                         ? Colors.white
+  //                                         : Colors.black),
+  //                             softWrap: true,
+  //                           ),
+  //                         ],
+  //                       ),
+  //                     );
+  //                   },
+  //                   separatorBuilder: (BuildContext context, int index) {
+  //                     return SizedBox(
+  //                       height: 20,
+  //                     );
+  //                   },
+  //                 ),
+  //               ],
+  //             ),
+  //           )
+  //         : SizedBox.shrink(),
+  //   );
+  // }
 
   static Widget ExperienceDetails({required bool isDesktop}) {
     MainController mainController = Get.find<MainController>();
@@ -493,25 +524,29 @@ class Widgets {
     return (codingController.experiences.isNotEmpty)
         ? Padding(
             padding: const EdgeInsets.all(44.0),
-            child: Row(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Column(
-                    spacing: 20,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Widgets.customShadowBox(
-                        Text(
-                          'experiences',
-                          style: AppThemeData
-                              .appThemeData.textTheme.headlineMedium!
-                              .copyWith(
-                                  color: mainController.isDark.value
-                                      ? Colors.white
-                                      : Colors.black),
-                        ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Widgets.customShadowBox(
+                      Text(
+                        'experiences',
+                        style: AppThemeData
+                            .appThemeData.textTheme.headlineMedium!
+                            .copyWith(
+                                color: mainController.isDark.value
+                                    ? Colors.white
+                                    : Colors.black),
                       ),
+                    ),
+                  ],
+                ),
+                Expanded(
+                  child: Row(
+                    children: [
                       Expanded(
                         child: Obx(
                           () => PageView.builder(
@@ -524,7 +559,7 @@ class Widgets {
                               return Widgets.customShadowBox(
                                 Column(
                                   spacing: 20,
-                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Row(
                                       children: [
@@ -536,6 +571,7 @@ class Widgets {
                                           style: AppThemeData.appThemeData
                                               .textTheme.displayMedium!
                                               .copyWith(
+                                                  fontWeight: FontWeight.bold,
                                                   color: mainController
                                                           .isDark.value
                                                       ? Colors.white
@@ -646,83 +682,119 @@ class Widgets {
                           ),
                         ),
                       ),
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Expanded(
+                            child: SizedBox(
+                              width: 300,
+                              child: Center(
+                                child: AnimatedContainer(
+                                  duration: Duration(
+                                      milliseconds:
+                                          Constants.animationDuration),
+                                  child: ListView.separated(
+                                    shrinkWrap: true,
+                                    itemCount:
+                                        codingController.experiences.length,
+                                    itemBuilder:
+                                        (BuildContext context, int index) {
+                                      return Center(
+                                        child: GestureDetector(
+                                          onTap: () {
+                                            Functions.navigate(
+                                                index + 1,
+                                                mainController
+                                                    .experienceController);
+                                            codingController
+                                                .experienceIndex(index);
+                                          },
+                                          child: customShadowBox(
+                                              Obx(
+                                                () => Row(
+                                                  children: [
+                                                    Spacer(),
+                                                    Text(
+                                                      codingController
+                                                          .experiences[index]
+                                                          .name
+                                                          .value,
+                                                      style: AppThemeData
+                                                          .appThemeData
+                                                          .textTheme
+                                                          .bodyMedium!
+                                                          .copyWith(
+                                                        fontWeight: index ==
+                                                                (codingController
+                                                                    .experienceIndex
+                                                                    .value)
+                                                            ? FontWeight.bold
+                                                            : FontWeight.normal,
+                                                        color: mainController
+                                                                .isDark.value
+                                                            ? Colors.white
+                                                            : Colors.black,
+                                                      ),
+                                                    ),
+                                                    SizedBox(
+                                                      width: 5,
+                                                    ),
+                                                    Icon(
+                                                      (index ==
+                                                              (codingController
+                                                                  .experienceIndex
+                                                                  .value))
+                                                          ? Icons
+                                                              .radio_button_checked
+                                                          : Icons
+                                                              .radio_button_off,
+                                                      color: mainController
+                                                              .isDark.value
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                      size: 15,
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                              opacity: codingController
+                                                          .experienceIndex
+                                                          .value ==
+                                                      index
+                                                  ? 0.6
+                                                  : 0.2),
+                                        ),
+                                      );
+                                    },
+                                    separatorBuilder:
+                                        (BuildContext context, int index) {
+                                      return SizedBox(
+                                        height: 40,
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.end,
+                                          children: [
+                                            VerticalDivider(
+                                              indent: 5,
+                                              endIndent: 5,
+                                              color: mainController.isDark.value
+                                                  ? Colors.white54
+                                                  : Colors.black54,
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
                 ),
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Expanded(
-                      child: SizedBox(
-                        width: 300,
-                        child: Center(
-                          child: AnimatedContainer(
-                            duration: Duration(milliseconds: 111),
-                            child: ListView.separated(
-                              shrinkWrap: true,
-                              itemCount: codingController.experiences.length,
-                              itemBuilder: (BuildContext context, int index) {
-                                return Center(
-                                  child: GestureDetector(
-                                    onTap: () {
-                                      Functions.navigate(index + 1,
-                                          mainController.experienceController);
-                                      codingController.experienceIndex(index);
-                                    },
-                                    child: Obx(
-                                      () => customShadowBox(
-                                          Text(
-                                              codingController
-                                                  .experiences[index]
-                                                  .name
-                                                  .value,
-                                              style: AppThemeData.appThemeData
-                                                  .textTheme.bodyMedium!
-                                                  .copyWith(
-                                                fontWeight: index ==
-                                                        (codingController
-                                                            .experienceIndex
-                                                            .value)
-                                                    ? FontWeight.bold
-                                                    : FontWeight.normal,
-                                                //   fontSize: (index ==
-                                                //           (codingController
-                                                //               .experienceIndex.value))
-                                                //       ? 20
-                                                //       : 16,
-                                                color:
-                                                    mainController.isDark.value
-                                                        ? Colors.white
-                                                        : Colors.black,
-                                              )),
-                                          opacity: codingController
-                                                      .experienceIndex.value ==
-                                                  index
-                                              ? 0.6
-                                              : 0.2),
-                                    ),
-                                  ),
-                                );
-                              },
-                              separatorBuilder:
-                                  (BuildContext context, int index) {
-                                return SizedBox(
-                                  height: 10,
-                                  child: Center(
-                                      child: VerticalDivider(
-                                    color: mainController.isDark.value
-                                        ? Colors.white54
-                                        : Colors.black54,
-                                  )),
-                                );
-                              },
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                )
               ],
             ),
           )
@@ -739,10 +811,11 @@ class Widgets {
         children: [
           Expanded(
             child: Column(
-              spacing: 20,
+              spacing: 40,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Widgets.customShadowBox(
                       Text(
@@ -759,7 +832,7 @@ class Widgets {
                 ),
                 Center(
                   child: SizedBox(
-                    height: 450,
+                    height: 350,
                     child: CarouselSlider.builder(
                       itemCount: codingController.reviews.length,
                       options: CarouselOptions(
@@ -771,100 +844,156 @@ class Widgets {
                       itemBuilder:
                           (BuildContext context, int index, int realIndex) {
                         return Obx(
-                          () => AnimatedContainer(
-                            margin: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 20),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 10, vertical: 20),
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(20),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: Colors.grey[500]!,
-                                    offset: (mainController.isDark.value)
-                                        ? Offset(2, 2)
-                                        : Offset(4, 4),
-                                    blurRadius:
-                                        mainController.isDark.value ? 5 : 15,
-                                    spreadRadius: 1),
-                                BoxShadow(
-                                    color: Colors.white,
-                                    offset: (mainController.isDark.value)
-                                        ? Offset(-2, -2)
-                                        : Offset(-4, -4),
-                                    blurRadius:
-                                        mainController.isDark.value ? 5 : 15,
-                                    spreadRadius: 1)
-                              ],
-                              color: (mainController.isDark.value)
-                                  ? Colors.black
-                                  : Colors.white,
-                            ),
-                            duration: Duration(milliseconds: 111),
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    spacing: 10,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    children: [
-                                      customShadowBox(
-                                        CircleAvatar(
-                                          radius: 60,
-                                          backgroundImage: NetworkImage(
-                                              codingController
-                                                  .reviews[index].image.value),
-                                          onBackgroundImageError:
-                                              (exception, stackTrace) =>
-                                                  Icon(Icons.person),
+                          () => Stack(
+                            children: [
+                              // review container
+                              Column(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  Container(
+                                    height: 280,
+                                    margin: EdgeInsets.symmetric(
+                                        horizontal: 10, vertical: 20),
+                                    padding:
+                                        EdgeInsets.fromLTRB(20, 60, 20, 10),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(20),
+                                      boxShadow: [
+                                        BoxShadow(
+                                            color: Colors.grey[500]!,
+                                            offset:
+                                                (mainController.isDark.value)
+                                                    ? Offset(2, 2)
+                                                    : Offset(4, 4),
+                                            blurRadius:
+                                                mainController.isDark.value
+                                                    ? 5
+                                                    : 15,
+                                            spreadRadius: 1),
+                                        BoxShadow(
+                                            color: Colors.white,
+                                            offset:
+                                                (mainController.isDark.value)
+                                                    ? Offset(-2, -2)
+                                                    : Offset(-4, -4),
+                                            blurRadius:
+                                                mainController.isDark.value
+                                                    ? 5
+                                                    : 15,
+                                            spreadRadius: 1)
+                                      ],
+                                      color: (mainController.isDark.value)
+                                          ? Colors.black
+                                          : Colors.white,
+                                    ),
+                                    // duration: Duration(
+                                    //     milliseconds: Constants.animationDuration),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: Column(
+                                            spacing: 10,
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              // review
+                                              customShadowBox(
+                                                Text(
+                                                    codingController
+                                                        .reviews[index]
+                                                        .review
+                                                        .value,
+                                                    maxLines: 5,
+                                                    textAlign: TextAlign.center,
+                                                    overflow:
+                                                        TextOverflow.ellipsis,
+                                                    style: AppThemeData
+                                                        .appThemeData
+                                                        .textTheme
+                                                        .bodySmall!
+                                                        .copyWith(
+                                                      color: mainController
+                                                              .isDark.value
+                                                          ? Colors.white
+                                                          : Colors.black,
+                                                    )),
+                                              ),
+
+                                              Column(
+                                                children: [
+                                                  Divider(
+                                                    endIndent: 10,
+                                                    indent: 10,
+                                                  ),
+                                                  // reviewer name
+                                                  customShadowBox(
+                                                    Text(
+                                                        codingController
+                                                            .reviews[index]
+                                                            .name
+                                                            .value,
+                                                        style: AppThemeData
+                                                            .appThemeData
+                                                            .textTheme
+                                                            .displayMedium!
+                                                            .copyWith(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color: mainController
+                                                                  .isDark.value
+                                                              ? Colors.white
+                                                              : Colors.black,
+                                                        )),
+                                                  ),
+                                                  // reviewer company
+                                                  customShadowBox(
+                                                    Text(
+                                                        codingController
+                                                            .reviews[index]
+                                                            .company
+                                                            .value,
+                                                        style: AppThemeData
+                                                            .appThemeData
+                                                            .textTheme
+                                                            .bodySmall!
+                                                            .copyWith(
+                                                                color: mainController
+                                                                        .isDark
+                                                                        .value
+                                                                    ? Colors
+                                                                        .white
+                                                                    : Colors
+                                                                        .black,
+                                                                fontSize: 14)),
+                                                  ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      customShadowBox(
-                                        Text(
-                                            codingController
-                                                .reviews[index].name.value,
-                                            style: AppThemeData.appThemeData
-                                                .textTheme.displayMedium!
-                                                .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              color: mainController.isDark.value
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            )),
-                                      ),
-                                      customShadowBox(
-                                        Text(
-                                            codingController
-                                                .reviews[index].company.value,
-                                            style: AppThemeData.appThemeData
-                                                .textTheme.bodyMedium!
-                                                .copyWith(
-                                              color: mainController.isDark.value
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            )),
-                                      ),
-                                      customShadowBox(
-                                        Text(
-                                            codingController
-                                                .reviews[index].review.value,
-                                            maxLines: 5,
-                                            textAlign: TextAlign.center,
-                                            overflow: TextOverflow.ellipsis,
-                                            style: AppThemeData.appThemeData
-                                                .textTheme.bodyMedium!
-                                                .copyWith(
-                                              color: mainController.isDark.value
-                                                  ? Colors.white
-                                                  : Colors.black,
-                                            )),
-                                      ),
-                                    ],
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+
+                              Align(
+                                alignment: Alignment.topCenter,
+                                child: customShadowBox(
+                                  CircleAvatar(
+                                    radius: 50,
+                                    backgroundImage: NetworkImage(
+                                        codingController
+                                            .reviews[index].image.value),
+                                    onBackgroundImageError:
+                                        (exception, stackTrace) =>
+                                            Icon(Icons.person),
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         );
                       },
@@ -883,16 +1012,103 @@ class Widgets {
     MainController mainController = Get.find<MainController>();
     ProjectsController projectsController = Get.find<ProjectsController>();
 
-    return Padding(
+    return Container(
+      decoration: BoxDecoration(
+        color: (mainController.isDark.value)
+            ? Colors.grey.shade900
+            : Colors.grey.shade100,
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+      ),
+      margin: EdgeInsets.all(5),
       padding: EdgeInsets.all(44.0),
       child: Row(
         children: [
+          // company selection
+          AnimatedContainer(
+            width: 360,
+            padding: EdgeInsets.only(right: 40),
+            duration: Duration(milliseconds: Constants.animationDuration),
+            child: ListView.separated(
+              shrinkWrap: true,
+              // itemCount: projectsController.launched_projects.length,
+              itemCount: projectsController.projects.length,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    projectsController.launchedProjectIndex(index);
+                    // fetch screenshots
+                    // projectsController.getProjectScreenShots(
+                    //     id: projectsController
+                    //         .launched_projects[index].id.value);
+                    projectsController.getProjectScreenShots(
+                        id: projectsController.projects[index].id.value);
+                  },
+                  child: Obx(
+                    () => customShadowBox(
+                        Row(
+                          children: [
+                            Icon(
+                              index ==
+                                      (projectsController
+                                          .launchedProjectIndex.value)
+                                  ? Icons.radio_button_checked
+                                  : Icons.radio_button_off,
+                              color: mainController.isDark.value
+                                  ? Colors.white
+                                  : Colors.black,
+                              size: 15,
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Text(projectsController.projects[index].label.value,
+                                style: AppThemeData
+                                    .appThemeData.textTheme.bodyMedium!
+                                    .copyWith(
+                                  fontWeight: index ==
+                                          (projectsController
+                                              .launchedProjectIndex.value)
+                                      ? FontWeight.bold
+                                      : FontWeight.normal,
+                                  color: mainController.isDark.value
+                                      ? Colors.white
+                                      : Colors.black,
+                                )),
+                          ],
+                        ),
+                        opacity:
+                            projectsController.launchedProjectIndex.value ==
+                                    index
+                                ? 0.6
+                                : 0.2),
+                  ),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => SizedBox(
+                height: 40,
+                child: Row(
+                  children: [
+                    VerticalDivider(
+                      endIndent: 5,
+                      indent: 5,
+                      color: mainController.isDark.value
+                          ? Colors.white54
+                          : Colors.black54,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+
+          // past job/work description section
           Expanded(
             child: Column(
               spacing: 20,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Widgets.customShadowBox(
                       Text(
@@ -905,87 +1121,21 @@ class Widgets {
                                     : Colors.black),
                       ),
                     ),
+                    if (projectsController.projectScreenShots.isEmpty)
+                      SizedBox(
+                        width: 300,
+                      )
                   ],
                 ),
+
+                // experience detail section
                 Expanded(
                   child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // company selection
-                      AnimatedContainer(
-                        width: 250,
-                        duration: Duration(milliseconds: 111),
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          itemCount:
-                              projectsController.launched_projects.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return GestureDetector(
-                              onTap: () {
-                                // Functions.navigate(
-                                //     index - 1, mainController.projectController,
-                                //     isMain: false);
-                                projectsController.launchedProjectIndex(index);
-                                projectsController.getProjectScreenShots(
-                                    id: projectsController
-                                        .launched_projects[index].id.value);
-                              },
-                              child: Obx(
-                                () => customShadowBox(
-                                    Text(
-                                        projectsController
-                                            .launched_projects[index]
-                                            .label
-                                            .value,
-                                        style: AppThemeData
-                                            .appThemeData.textTheme.bodyMedium!
-                                            .copyWith(
-                                          fontWeight: index ==
-                                                  (projectsController
-                                                      .launchedProjectIndex
-                                                      .value)
-                                              ? FontWeight.bold
-                                              : FontWeight.normal,
-                                          // fontSize: (index ==
-                                          //         (projectsController
-                                          //             .launchedProjectIndex
-                                          //             .value))
-                                          //     ? 20
-                                          //     : 16,
-                                          color: mainController.isDark.value
-                                              ? Colors.white
-                                              : Colors.black,
-                                        )),
-                                    opacity: projectsController
-                                                .launchedProjectIndex.value ==
-                                            index
-                                        ? 0.6
-                                        : 0.2),
-                              ),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) {
-                            return SizedBox(
-                              height: 10,
-                              child: Row(
-                                children: [
-                                  VerticalDivider(
-                                    color: mainController.isDark.value
-                                        ? Colors.white54
-                                        : Colors.black54,
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-
-                      // experience detail
                       Expanded(
                         child: customShadowBox(
                           Obx(() => projectDetail(
-                              project: projectsController.launched_projects[
+                              project: projectsController.projects[
                                   projectsController
                                       .launchedProjectIndex.value])),
                         ),
@@ -999,7 +1149,7 @@ class Widgets {
 
           // screenshot
           AnimatedContainer(
-            margin: EdgeInsets.only(left: 20),
+            margin: EdgeInsets.only(left: 40),
             width: !projectsController.gettingScreenShots.value &&
                     projectsController.projectScreenShots.isEmpty
                 ? 50
@@ -1008,7 +1158,7 @@ class Widgets {
             decoration: BoxDecoration(
               color: Colors.transparent,
             ),
-            duration: Duration(milliseconds: 111),
+            duration: Duration(milliseconds: Constants.animationDuration),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -1091,7 +1241,7 @@ class Widgets {
 
     return Column(
       spacing: 20,
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
         Row(
@@ -1219,7 +1369,10 @@ class Widgets {
   static Widget morphButton(
     BuildContext context, {
     required MorphButton buttonModel,
+    double height = 200,
+    double width = 200,
     bool isDesktop = true,
+    bool isCircle = false,
     VoidCallback? callBack,
   }) {
     MainController mainController = Get.find<MainController>();
@@ -1227,7 +1380,8 @@ class Widgets {
     return GestureDetector(
       onTap: () async {
         buttonModel.isClicked(true);
-        await Future.delayed(const Duration(milliseconds: 111), () {
+        await Future.delayed(
+            const Duration(milliseconds: Constants.animationDuration), () {
           buttonModel.isClicked(false);
 
           if (callBack == null)
@@ -1236,22 +1390,27 @@ class Widgets {
             callBack();
         });
       },
-      child: AnimatedContainer(
-        height: MediaQuery.of(context).size.height * .20,
-        width: MediaQuery.of(context).size.height * .20,
-        duration: Duration(milliseconds: 111),
-        curve: Curves.easeIn,
-        decoration: BoxDecoration(
-            color: (mainController.isDark.value) ? Colors.black : Colors.white,
-            gradient:
-                (buttonModel.showDetails.value || buttonModel.isFocused.value)
+      child: Obx(
+        () => MouseRegion(
+          onEnter: (a) => buttonModel.isFocused.value = true,
+          onExit: (a) => buttonModel.isFocused.value = false,
+          child: AnimatedContainer(
+            height: height,
+            width: width,
+            duration: Duration(milliseconds: Constants.animationDuration),
+            curve: Curves.easeIn,
+            decoration: BoxDecoration(
+                color:
+                    (mainController.isDark.value) ? Colors.black : Colors.white,
+                gradient: (buttonModel.isFocused.value)
                     ? LinearGradient(
                         colors: mainController
                             .morphButtonGradients[buttonModel.gradientId.value])
                     : null,
-            borderRadius: BorderRadius.circular(10),
-            boxShadow:
-                !buttonModel.isClicked.value && buttonModel.isFocused.value
+                shape: isCircle ? BoxShape.circle : BoxShape.rectangle,
+                borderRadius: !isCircle ? BorderRadius.circular(10) : null,
+                boxShadow: !buttonModel.isClicked.value &&
+                        buttonModel.isFocused.value
                     ? [
                         BoxShadow(
                             color: Colors.grey[500]!,
@@ -1269,36 +1428,41 @@ class Widgets {
                             spreadRadius: 1)
                       ]
                     : null),
-        padding: EdgeInsets.all((isDesktop) ? 15 : 5),
-        child: MouseRegion(
-          onEnter: (a) => buttonModel.isFocused.value = true,
-          onExit: (a) => buttonModel.isFocused.value = false,
-          child: Stack(
-            children: [
-              Container(
-                width: MediaQuery.of(context).size.height * .15,
-                height: MediaQuery.of(context).size.height * .15,
-                padding: EdgeInsets.all(buttonModel.pad.value - 20),
-                child: (mainController.isDark.value)
-                    ? buttonModel.image_hovered
-                    : buttonModel.image,
-              ),
-              Align(
-                alignment: Alignment.bottomCenter,
-                child: Obx(() => AnimatedOpacity(
-                      duration: Duration(milliseconds: 111),
-                      opacity: buttonModel.isFocused.value ? 1 : 0,
-                      child: Text(
-                        buttonModel.label.value,
-                        style: AppThemeData.appThemeData.textTheme.bodySmall!
-                            .copyWith(
-                                color: mainController.isDark.value
-                                    ? Colors.white
-                                    : Colors.black),
-                      ),
-                    )),
-              )
-            ],
+            padding: EdgeInsets.all((isDesktop) ? 15 : 5),
+            child: Stack(
+              children: [
+                Center(
+                  child: Container(
+                    width: width * 0.7,
+                    height: height * 0.7,
+                    padding: isCircle
+                        ? null
+                        : EdgeInsets.all(buttonModel.pad.value - 20),
+                    child: (mainController.isDark.value)
+                        ? buttonModel.image_hovered
+                        : buttonModel.image,
+                  ),
+                ),
+                if (!isCircle)
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Obx(() => AnimatedOpacity(
+                          duration: Duration(
+                              milliseconds: Constants.animationDuration),
+                          opacity: buttonModel.isFocused.value ? 1 : 0,
+                          child: Text(
+                            buttonModel.label.value,
+                            style: AppThemeData
+                                .appThemeData.textTheme.bodySmall!
+                                .copyWith(
+                                    color: mainController.isDark.value
+                                        ? Colors.white
+                                        : Colors.black),
+                          ),
+                        )),
+                  )
+              ],
+            ),
           ),
         ),
       ),
@@ -1455,7 +1619,7 @@ class Widgets {
 //       },
 //       child: Obx(
 //         () => AnimatedContainer(
-//           duration: Duration(milliseconds: 111),
+//           duration: Duration(milliseconds: Constants.animationDuration),
 //           padding: EdgeInsets.all(10),
 //           decoration: BoxDecoration(
 //               gradient: ((id == 0)
@@ -1545,7 +1709,7 @@ class Widgets {
       }
 
       return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 5.0),
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
         child: Obx(
           () => Row(
             children: [
@@ -1583,16 +1747,16 @@ class Widgets {
                 shouldAnimate: false,
                 pieType: PieType.fill,
                 onTap: (index) async {
-                  codingController
-                      .frameworkIndex(index); // set selected framework index
+                  // codingController
+                  //     .frameworkIndex(index); // set selected framework index
 
-                  codingController.getFrameworkWiseProjects(
-                      frameworkId: codingController.frameworks[index]
-                          .label); // get projects for selected framework
+                  // codingController.getFrameworkWiseProjects(
+                  //     frameworkId: codingController.frameworks[index]
+                  //         .label); // get projects for selected framework
 
-                  mainController.codingController.animateToPage(1,
-                      duration: Duration(milliseconds: 200),
-                      curve: Curves.easeInOut);
+                  // mainController.codingController.animateToPage(1,
+                  //     duration: Duration(milliseconds: 200),
+                  //     curve: Curves.easeInOut);
                 },
                 style: AppThemeData.appThemeData.textTheme.bodySmall!
                     .copyWith(color: Colors.white),

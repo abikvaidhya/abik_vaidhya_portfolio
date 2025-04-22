@@ -7,15 +7,16 @@ class InfoModel {
       description = ''.obs,
       subTitle2 = ''.obs;
   RxInt iconCodePoint = 0.obs, id = 0.obs;
+  bool show = true;
 
-  InfoModel({
-    required this.id,
-    required this.label,
-    required this.subTitle1,
-    required this.subTitle2,
-    required this.description,
-    required this.iconCodePoint,
-  });
+  InfoModel(
+      {required this.id,
+      required this.label,
+      required this.subTitle1,
+      required this.subTitle2,
+      required this.description,
+      required this.iconCodePoint,
+      required this.show});
 
   factory InfoModel.fromSnapshot(
       DocumentSnapshot<Map<String, dynamic>> documentSnapshot) {
@@ -27,6 +28,7 @@ class InfoModel {
       subTitle2: docData['sub_title_2'].toString().obs,
       description: docData['description'].toString().obs,
       iconCodePoint: int.parse(docData['icon'].toString()).obs,
+      show: docData['show'] ?? true,
     );
   }
 }

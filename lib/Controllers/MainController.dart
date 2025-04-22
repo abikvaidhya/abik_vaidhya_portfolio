@@ -2,6 +2,7 @@ import 'package:firebase_cloud_firestore/firebase_cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_porfolio/Models/InfoModel.dart';
+import 'package:my_porfolio/Models/StatusModel.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/StorageHelper.dart';
 
@@ -37,6 +38,7 @@ class MainController extends GetxController {
       );
 
   RxBool isDark = true.obs,
+      gettingStatus = true.obs,
       gettingInfo = false.obs,
       isCodeScrollDown = true.obs,
       isGameScrollDown = true.obs,
@@ -52,7 +54,7 @@ class MainController extends GetxController {
   RxList<InfoModel> infos = <InfoModel>[].obs;
 
   // navigation bar
-  final RxInt hoverID = 0.obs, navIndex = 0.obs, navIconID = 0.obs;
+  final RxInt hoverID = 0.obs, navIndex = 0.obs, navIconID = (-1).obs;
   final RxDouble navHovered = 0.0.obs,
       scrollBtn = 0.0.obs,
       bgTop = 0.0.obs,
@@ -153,11 +155,33 @@ class MainController extends GetxController {
     ],
   ];
 
+  Statusmodel statusmodel = Statusmodel(live: false);
+
   @override
   onInit() {
     super.onInit();
-    saveDarkModeState(state: true);
-    getInfo();
+    getStatus();
+  }
+
+  getStatus() async {
+    gettingStatus(true);
+    try {
+      final snapShot = await firebase.collection(APIEndpoints.status).get();
+
+      if (snapShot.docs.isEmpty) {
+        throw 'Empty data in ${APIEndpoints.status} collection';
+      }
+
+      statusmodel = Statusmodel.fromSnapshot(snapShot.docs.last);
+      if (statusmodel.live) {
+        getInfo();
+        saveDarkModeState();
+      }
+    } catch (e) {
+      debugPrint('## ERROR GETTING SITE STATUS: $e');
+    } finally {
+      gettingStatus(false);
+    }
   }
 
   saveDarkModeState({bool? state}) async {
@@ -185,8 +209,10 @@ class MainController extends GetxController {
     } catch (e) {
       debugPrint('## ERROR GETTING INFO LIST: $e');
     } finally {
-      if (infos.isNotEmpty)
+      if (infos.isNotEmpty) {
         infos.sort((a, b) => a.id.value.compareTo(b.id.value));
+        infos.removeWhere((e) => !e.show);
+      }
 
       gettingInfo(false);
     }

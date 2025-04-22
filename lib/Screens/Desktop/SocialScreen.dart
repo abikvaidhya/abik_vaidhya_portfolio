@@ -24,7 +24,7 @@ class _SocialScreenState extends State<SocialScreen> {
       children: [
         Widgets.customShadowBox(
           Text(
-            mainController.infos[4].label.value,
+            mainController.infos.last.label.value,
             style: AppThemeData.appThemeData.textTheme.headlineMedium!.copyWith(
                 color: (mainController.isDark.value)
                     ? Colors.white

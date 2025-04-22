@@ -1,6 +1,7 @@
 class Constants {
   // misc
   static const darkMode = 'DARK_MODE';
+  static const animationDuration = 111;
 
   // app theme
   static const appFont = 'MAIN_APP_FONT';
@@ -44,6 +45,7 @@ class Constants {
 }
 
 class APIEndpoints {
+  static const status = 'status';
   static const info = 'info';
   static const projects = 'projects';
   static const skills = 'skills';

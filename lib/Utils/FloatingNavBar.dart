@@ -17,7 +17,7 @@ class FloatingNavBarDesktop extends StatelessWidget {
     MainController mainController = Get.find<MainController>();
 
     return Positioned(
-      bottom: 0,
+      top: 0,
       right: 0,
       left: 0,
       child: Row(
@@ -31,12 +31,19 @@ class FloatingNavBarDesktop extends StatelessWidget {
                 padding: EdgeInsets.symmetric(
                     horizontal: mainController.navHovered.value == 1 ? 44 : 22),
                 decoration: BoxDecoration(
-                    color: Colors.grey.shade300.withOpacity(
-                        mainController.navHovered.value == 1 ? 0.3 : 0.1),
-                    borderRadius: BorderRadius.all(Radius.circular(24))),
+                  color: Colors.grey.shade300.withOpacity(
+                      mainController.navHovered.value == 1 ? 0.3 : 0.1),
+                  borderRadius: BorderRadius.only(
+                      // topRight: Radius.circular(40.0),
+                      bottomRight: Radius.circular(24.0),
+                      // topLeft: Radius.circular(40.0),
+                      bottomLeft: Radius.circular(24.0)),
+
+                  // borderRadius: BorderRadius.all(Radius.circular(24)),
+                ),
                 margin: EdgeInsets.only(bottom: 30),
-                height: MediaQuery.of(context).size.height / 12,
-                duration: Duration(milliseconds: 111),
+                height: mainController.navHovered.value == 1 ? 50 : 40,
+                duration: Duration(milliseconds: 222),
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -44,7 +51,7 @@ class FloatingNavBarDesktop extends StatelessWidget {
                   shrinkWrap: true,
                   itemBuilder: (BuildContext context, int index) {
                     return FloatingNavBarIcons(
-                      hoverID: index + 1,
+                      hoverID: mainController.infos[index].id.value,
                       iconData: IconData(
                           mainController.infos[index].iconCodePoint.value,
                           fontFamily: 'MaterialIcons'),
@@ -54,35 +61,6 @@ class FloatingNavBarDesktop extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-}
-
-class FloatingNavBar extends StatelessWidget {
-  const FloatingNavBar({Key? key, required this.mainController})
-      : super(key: key);
-
-  final MainController mainController;
-
-  @override
-  Widget build(BuildContext context) {
-    return Obx(
-      () => FlashyTabBar(
-        selectedIndex: mainController.navIndex.value,
-        animationDuration: Duration(milliseconds: 111),
-        showElevation: true,
-        onItemSelected: (index) {
-          mainController.navIndex.value = index;
-          Functions.navigate(index + 1, mainController.pageController);
-        },
-        items: [
-          Widgets.flashyTabBarItem('home', Icons.home),
-          Widgets.flashyTabBarItem('code', Icons.format_list_bulleted),
-          Widgets.flashyTabBarItem('game', Icons.gamepad),
-          Widgets.flashyTabBarItem('music', Icons.music_note),
-          Widgets.flashyTabBarItem('social', Icons.person),
         ],
       ),
     );
@@ -108,7 +86,7 @@ class FloatingNavBarIcons extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             horizontal: (mainController.navHovered.value == 1) ? 20 : 0.0,
             vertical: (mainController.navHovered.value == 1) ? 10 : 0.0),
-        duration: Duration(milliseconds: 111),
+        duration: Duration(milliseconds: 222),
         child: MouseRegion(
           onEnter: (a) {
             mainController.navIconID.value = hoverID;
@@ -117,15 +95,42 @@ class FloatingNavBarIcons extends StatelessWidget {
             mainController.navIconID.value = 0;
           },
           child: AnimatedSwitcher(
-              switchInCurve: Curves.bounceInOut,
-              switchOutCurve: Curves.bounceInOut,
-              duration: const Duration(milliseconds: 111),
+              switchInCurve: Curves.easeIn,
+              switchOutCurve: Curves.easeOut,
+              duration: const Duration(milliseconds: 222),
               transitionBuilder: (Widget child, Animation<double> animation) {
                 return ScaleTransition(scale: animation, child: child);
               },
-              child: Obx(() => SimpleShadow(
-                  opacity: mainController.navHovered.value == 1 ? 0.5 : 0,
-                  child: iconWidget(mainController.navIconID.value)))),
+              child: (mainController.navIconID.value == hoverID)
+                  ? Widgets.customShadowBox(
+                      GestureDetector(
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
+                            child: Icon(
+                              iconData,
+                              color: mainController.isDark.value
+                                  ? Colors.white70
+                                  : Colors.black87,
+                              size: 24,
+                            ),
+                          ),
+                          onTap: () => Functions.navigate(
+                              mainController.navIconID.value,
+                              mainController.pageController)),
+                    )
+                  : IconButton(
+                      icon: Widgets.bulletineIcon(true,
+                          iconColor: mainController.isDark.value
+                              ? Colors.white54
+                              : Colors.black45),
+                      iconSize: mainController.navHovered == 1 ? 8 : 5,
+                      onPressed: () => Functions.navigate(
+                          mainController.navIconID.value,
+                          mainController.pageController))
+              //  Obx(() => SimpleShadow(
+              //     opacity: mainController.navHovered.value == 1 ? 0.5 : 0,
+              //     child: iconWidget(mainController.navIconID.value))),
+              ),
         ),
       ),
     );

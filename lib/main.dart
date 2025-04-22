@@ -10,6 +10,7 @@ import 'package:my_porfolio/Controllers/ProjectsController.dart';
 import 'package:my_porfolio/Controllers/SocialsController.dart';
 import 'package:my_porfolio/Screens/Home.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
+import 'package:my_porfolio/Utils/Constants.dart';
 
 import 'firebase_options.dart';
 
@@ -25,6 +26,8 @@ main() async {
   Get.lazyPut(() => MusicController(), fenix: true); // music controller
   Get.lazyPut(() => SocialsController(), fenix: true); // socials controller
 
+  // debugPrint(Icons.code.codePoint.toString());
+
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: AppThemeData.appThemeData,
@@ -33,6 +36,6 @@ main() async {
 }
 
 Future initialization(BuildContext? context) async {
-  await Future.delayed(Duration(milliseconds: 111))
+  await Future.delayed(Duration(milliseconds: Constants.animationDuration))
       .whenComplete(() => FlutterNativeSplash.remove());
 }
