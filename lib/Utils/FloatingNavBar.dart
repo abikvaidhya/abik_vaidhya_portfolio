@@ -2,6 +2,7 @@ import 'dart:ui';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/UiUtils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 import '../Controllers/MainController.dart';
@@ -17,7 +18,7 @@ class FloatingNavBarDesktop extends StatelessWidget {
     MainController mainController = Get.find<MainController>();
 
     return Positioned(
-      top: 0,
+      bottom: 0,
       right: 0,
       left: 0,
       child: Row(
@@ -34,16 +35,17 @@ class FloatingNavBarDesktop extends StatelessWidget {
                   color: Colors.grey.shade300.withOpacity(
                       mainController.navHovered.value == 1 ? 0.3 : 0.1),
                   borderRadius: BorderRadius.only(
-                      // topRight: Radius.circular(40.0),
-                      bottomRight: Radius.circular(24.0),
-                      // topLeft: Radius.circular(40.0),
-                      bottomLeft: Radius.circular(24.0)),
+                    topRight: Radius.circular(24.0),
+                    //   bottomRight: Radius.circular(24.0),
+                    topLeft: Radius.circular(24.0),
+                    //   bottomLeft: Radius.circular(24.0),
+                  ),
 
                   // borderRadius: BorderRadius.all(Radius.circular(24)),
                 ),
-                margin: EdgeInsets.only(bottom: 30),
-                height: mainController.navHovered.value == 1 ? 50 : 40,
-                duration: Duration(milliseconds: 222),
+                // margin: EdgeInsets.only(bottom: 20),
+                height: mainController.navHovered.value == 1 ? 70 : 50,
+                duration: Duration(milliseconds: Constants.animationDuration),
                 child: ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   scrollDirection: Axis.horizontal,
@@ -86,7 +88,7 @@ class FloatingNavBarIcons extends StatelessWidget {
         padding: EdgeInsets.symmetric(
             horizontal: (mainController.navHovered.value == 1) ? 20 : 0.0,
             vertical: (mainController.navHovered.value == 1) ? 10 : 0.0),
-        duration: Duration(milliseconds: 222),
+        duration: Duration(milliseconds: Constants.animationDuration),
         child: MouseRegion(
           onEnter: (a) {
             mainController.navIconID.value = hoverID;
@@ -97,7 +99,8 @@ class FloatingNavBarIcons extends StatelessWidget {
           child: AnimatedSwitcher(
               switchInCurve: Curves.easeIn,
               switchOutCurve: Curves.easeOut,
-              duration: const Duration(milliseconds: 222),
+              duration:
+                  const Duration(milliseconds: Constants.animationDuration),
               transitionBuilder: (Widget child, Animation<double> animation) {
                 return ScaleTransition(scale: animation, child: child);
               },

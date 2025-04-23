@@ -22,7 +22,7 @@ class _InfoScreenState extends State<InfoScreen> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 44.0),
+      padding: const EdgeInsets.symmetric(horizontal: 22.0),
       child: Center(
         child: Obx(
           () => mainController.gettingInfo.value
@@ -89,7 +89,7 @@ class _InfoScreenState extends State<InfoScreen> {
                                   return Widgets.morphButton(context,
                                       buttonModel: codingController
                                           .jobSocialsMorphButtons[index],
-                                      isCircle: true,
+                                      isCircle: false,
                                       height: 70,
                                       width: 70);
                                 },

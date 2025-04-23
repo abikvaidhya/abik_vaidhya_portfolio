@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_porfolio/Controllers/CodingController.dart';
 import 'package:my_porfolio/Controllers/MainController.dart';
+import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 // functions
@@ -151,7 +152,7 @@ class Functions {
     MainController mainController = Get.find<MainController>();
 
     pageController.animateToPage(navIndex - 1,
-        duration: Duration(milliseconds: 222), curve: Curves.easeInOut);
+        duration: Duration(milliseconds: Constants.animationDuration), curve: Curves.easeInOut);
 
     if (isMain) mainController.navIndex.value = navIndex - 1;
   }

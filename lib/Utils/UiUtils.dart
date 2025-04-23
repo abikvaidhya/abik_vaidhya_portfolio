@@ -242,7 +242,7 @@ class Widgets {
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all((isDesktop) ? 44.0 : 20.0),
+      padding: EdgeInsets.all((isDesktop) ? 22.0 : 22.0),
       child: (mainController.infos.isEmpty)
           ? SizedBox.shrink()
           : Column(
@@ -523,7 +523,7 @@ class Widgets {
 
     return (codingController.experiences.isNotEmpty)
         ? Padding(
-            padding: const EdgeInsets.all(44.0),
+            padding: const EdgeInsets.all(22.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -807,7 +807,7 @@ class Widgets {
     SocialsController socialsController = Get.find<SocialsController>();
 
     return Padding(
-      padding: EdgeInsets.all(44.0),
+      padding: EdgeInsets.all(22.0),
       child: Column(
         spacing: 40,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -818,8 +818,8 @@ class Widgets {
               itemCount: codingController.reviews.length,
               options: CarouselOptions(
                   // padEnds: false,
-                  viewportFraction: 0.6,
-                  height: 500,
+                  viewportFraction: 0.7,
+                  height: 600,
                   // scrollDirection: Axis.vertical,
                   autoPlay: true,
                   enlargeCenterPage: true,
@@ -832,7 +832,7 @@ class Widgets {
                     children: [
                       // review container
                       Container(
-                        height: 450,
+                        height: 500,
                         margin: EdgeInsets.fromLTRB(20, 60, 20, 10),
                         padding: EdgeInsets.fromLTRB(20, 40, 20, 10),
                         decoration: BoxDecoration(
@@ -856,7 +856,7 @@ class Widgets {
                                 spreadRadius: 1)
                           ],
                           color: (mainController.isDark.value)
-                              ? Colors.black
+                              ? Colors.grey.shade900
                               : Colors.white,
                         ),
                         // duration: Duration(
@@ -881,7 +881,7 @@ class Widgets {
                                             textAlign: TextAlign.center,
                                             overflow: TextOverflow.ellipsis,
                                             style: AppThemeData.appThemeData
-                                                .textTheme.bodySmall!
+                                                .textTheme.bodyMedium!
                                                 .copyWith(
                                               color: mainController.isDark.value
                                                   ? Colors.white
@@ -999,7 +999,7 @@ class Widgets {
                         style: AppThemeData.appThemeData.textTheme.bodyMedium!
                             .copyWith(
                           color: mainController.isDark.value
-                              ? Colors.white
+                              ? Colors.grey.shade400
                               : Colors.grey,
                         )),
                     Row(
@@ -1010,7 +1010,7 @@ class Widgets {
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
                               color: mainController.isDark.value
-                                  ? Colors.white
+                                  ? Colors.grey.shade400
                                   : Colors.grey,
                             )),
                         Text(' | ',
@@ -1018,7 +1018,7 @@ class Widgets {
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
                               color: mainController.isDark.value
-                                  ? Colors.white
+                                  ? Colors.grey.shade400
                                   : Colors.grey,
                             )),
                         Text('+977-(981)-510-2692',
@@ -1026,7 +1026,7 @@ class Widgets {
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
                               color: mainController.isDark.value
-                                  ? Colors.white
+                                  ? Colors.grey.shade400
                                   : Colors.grey,
                             )),
                       ],
@@ -1035,7 +1035,7 @@ class Widgets {
                         style: AppThemeData.appThemeData.textTheme.bodyMedium!
                             .copyWith(
                           color: mainController.isDark.value
-                              ? Colors.white
+                              ? Colors.grey.shade400
                               : Colors.grey,
                         )),
                     SizedBox(
@@ -1155,7 +1155,7 @@ class Widgets {
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       margin: EdgeInsets.all(5),
-      padding: EdgeInsets.all(44.0),
+      padding: EdgeInsets.all(22.0),
       child: Row(
         children: [
           // company selection
@@ -1570,7 +1570,7 @@ class Widgets {
                   child: Container(
                     width: width * 0.7,
                     height: height * 0.7,
-                    padding: isCircle
+                    padding: isCircle || (height < 200) || (width < 200)
                         ? null
                         : EdgeInsets.all(buttonModel.pad.value - 20),
                     child: (mainController.isDark.value)
@@ -1578,7 +1578,7 @@ class Widgets {
                         : buttonModel.image,
                   ),
                 ),
-                if (!isCircle)
+                if (!isCircle && (height > 200 && width > 200))
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Obx(() => AnimatedOpacity(
