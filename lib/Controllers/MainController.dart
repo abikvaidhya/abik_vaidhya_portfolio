@@ -205,7 +205,11 @@ class MainController extends GetxController {
         throw 'Empty data in ${APIEndpoints.info} collection';
       }
 
-      infos(snapShot.docs.map((e) => InfoModel.fromSnapshot(e)).toList());
+      infos(snapShot.docs
+          .map((e) => InfoModel.fromSnapshot(e))
+          .toList()
+          .where((info) => info.show)
+          .toList());
     } catch (e) {
       debugPrint('## ERROR GETTING INFO LIST: $e');
     } finally {
