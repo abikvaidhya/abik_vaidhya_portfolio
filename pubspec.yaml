@@ -75,7 +75,7 @@ flutter:
     - assets/images/logo/
     - assets/images/icons/
     - assets/images/projects/
-    - assets/audios/
+#    - assets/audios/
 
   fonts:
   

@@ -1,10 +1,10 @@
-import 'dart:ui';
-import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
+// import 'dart:ui';
+// import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/UiUtils.dart';
-import 'package:simple_shadow/simple_shadow.dart';
+// import 'package:simple_shadow/simple_shadow.dart';
 import '../Controllers/MainController.dart';
 import 'FunctionUtils.dart';
 

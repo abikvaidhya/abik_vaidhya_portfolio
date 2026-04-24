@@ -11,7 +11,6 @@ import 'package:my_porfolio/Controllers/SocialsController.dart';
 import 'package:my_porfolio/Screens/Home.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
-
 import 'firebase_options.dart';
 
 main() async {

@@ -118,38 +118,15 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                     ),
                   ),
                   Text(
-                    'Kathmandu, Nepal',
+                    'Nepal',
                     style: TextStyle(
                       color: mainController.isDark.value ? Colors.white : null,
                     ),
                   ),
                 ],
               ),
-              Row(
-                spacing: 15,
-                children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.grey.shade300.withOpacity(0.3),
-                    child: Icon(
-                      Icons.book,
-                      color: mainController.isDark.value ? Colors.white : null,
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      'Herald International College',
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        color:
-                            mainController.isDark.value ? Colors.white : null,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
               Container(
                   height: 40,
-                  // width: ,
                   decoration: BoxDecoration(
                       color: Colors.grey.shade300.withOpacity(0.3),
                       borderRadius: BorderRadius.all(Radius.circular(10))),

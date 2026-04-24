@@ -6,12 +6,7 @@ import 'package:my_porfolio/Controllers/GamingController.dart';
 import 'package:my_porfolio/Controllers/MusicController.dart';
 import 'package:my_porfolio/Controllers/ProjectsController.dart';
 import 'package:my_porfolio/Controllers/SocialsController.dart';
-import 'package:my_porfolio/Screens/CodingScreen.dart';
-import 'package:my_porfolio/Screens/Desktop/CodingScreen.dart';
-import 'package:my_porfolio/Screens/Desktop/GamingScreen.dart';
 import 'package:my_porfolio/Screens/Desktop/InfoScreen.dart';
-import 'package:my_porfolio/Screens/Desktop/MusicScreen.dart';
-import 'package:my_porfolio/Screens/Desktop/SocialScreen.dart';
 import 'package:my_porfolio/Screens/InfoScreen.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
 import 'package:my_porfolio/Utils/UiUtils.dart';
@@ -169,16 +164,6 @@ class _HomeContainerState extends State<HomeContainer> {
                                                       );
                                                     }
                                                   },
-                                                  // physics:
-                                                  // sizingInformation.deviceScreenType ==
-                                                  //         DeviceScreenType.mobile
-                                                  //     ? ClampingScrollPhysics()
-                                                  //     : NeverScrollableScrollPhysics(),
-                                                  // allowImplicitScrolling:
-                                                  //     sizingInformation.deviceScreenType ==
-                                                  //             DeviceScreenType.desktop
-                                                  //         ? true
-                                                  //         : false,
                                                   pageSnapping: sizingInformation
                                                               .deviceScreenType ==
                                                           DeviceScreenType
@@ -212,25 +197,6 @@ class _HomeContainerState extends State<HomeContainer> {
                                                           DeviceScreenType
                                                               .desktop,
                                                     ),
-                                                    // Widgets.projectDetails(
-                                                    //   isDesktop: sizingInformation
-                                                    //           .deviceScreenType ==
-                                                    //       DeviceScreenType.desktop,
-                                                    // ),
-                                                    //   GamingScreen(
-                                                    //       isDesktop: sizingInformation
-                                                    //               .deviceScreenType ==
-                                                    //           DeviceScreenType.desktop),
-                                                    //   MusicScreen(
-                                                    //     isDesktop: sizingInformation
-                                                    //             .deviceScreenType ==
-                                                    //         DeviceScreenType.desktop,
-                                                    //   ),
-                                                    //   SocialScreen(
-                                                    //     isDesktop: sizingInformation
-                                                    //             .deviceScreenType ==
-                                                    //         DeviceScreenType.desktop,
-                                                    //   ),
                                                     Widgets.footer(
                                                       isDesktop: sizingInformation
                                                               .deviceScreenType ==
@@ -249,7 +215,7 @@ class _HomeContainerState extends State<HomeContainer> {
                                     : Expanded(
                                         child: PageView(children: [
                                           MobileInfoScreen(),
-                                          MobileCodingScreen(),
+                                          // MobileCodingScreen(),
                                         ]),
                                       ),
                               ],
