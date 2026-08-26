@@ -1,10 +1,30 @@
 {
   "project_info": {
     "project_number": "1091042879309",
+    "firebase_url": "https://abik-vaidhya-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "abik-vaidhya",
     "storage_bucket": "abik-vaidhya.firebasestorage.app"
   },
   "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1091042879309:android:90b59595729f6dd0f9b904",
+        "android_client_info": {
+          "package_name": "com.example.app_upgrade"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyADN0A0x9RB8tIi-QC3BWlFoitkHOw0tL8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:1091042879309:android:96ca68bcaafe6aabf9b904",

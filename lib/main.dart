@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:get/get.dart';
@@ -15,6 +16,23 @@ import 'firebase_options.dart';
 
 main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  // if (!kIsWeb &&
+  //     (defaultTargetPlatform == TargetPlatform.android ||
+  //         defaultTargetPlatform == TargetPlatform.iOS ||
+  //         defaultTargetPlatform == TargetPlatform.macOS ||
+  //         defaultTargetPlatform == TargetPlatform.windows)) {
+  //   await Firebase.initializeApp(
+  //     options: DefaultFirebaseOptions.currentPlatform,
+  //   );
+  //
+  //   // Get.put(MainController()); // main controller
+  //   Get.lazyPut(() => CodingController(), fenix: true); // coding controller
+  //   Get.lazyPut(() => ProjectsController(), fenix: true); // projects controller
+  //   Get.lazyPut(() => GamingController(), fenix: true); // gaming controller
+  //   Get.lazyPut(() => MusicController(), fenix: true); // music controller
+  //   Get.lazyPut(() => SocialsController(), fenix: true); // socials controller
+  // } else if (kIsWeb) {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
@@ -24,6 +42,11 @@ main() async {
   Get.lazyPut(() => GamingController(), fenix: true); // gaming controller
   Get.lazyPut(() => MusicController(), fenix: true); // music controller
   Get.lazyPut(() => SocialsController(), fenix: true); // socials controller
+  // }
+
+  // await Firebase.initializeApp(
+  //   options: DefaultFirebaseOptions.currentPlatform,
+  // );
 
   // debugPrint(Icons.code.codePoint.toString());
 

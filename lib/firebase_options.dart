@@ -51,26 +51,26 @@ class DefaultFirebaseOptions {
     appId: '1:1091042879309:android:96ca68bcaafe6aabf9b904',
     messagingSenderId: '1091042879309',
     projectId: 'abik-vaidhya',
+    databaseURL: 'https://abik-vaidhya-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'abik-vaidhya.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyA-5lCCu3G6pwUno6e97QafYt7_NomJOcQ',
     appId: '1:1091042879309:ios:5b95c4a01207f4faf9b904',
     messagingSenderId: '1091042879309',
     projectId: 'abik-vaidhya',
+    databaseURL: 'https://abik-vaidhya-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'abik-vaidhya.firebasestorage.app',
     iosBundleId: 'com.example.myPorfolio',
   );
-
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCutT-l89vgRH-2c7sAtwPtNSNQveiZmQs',
     appId: '1:1091042879309:web:607fa3072d019d3af9b904',
     messagingSenderId: '1091042879309',
     projectId: 'abik-vaidhya',
     authDomain: 'abik-vaidhya.firebaseapp.com',
+    databaseURL: 'https://abik-vaidhya-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'abik-vaidhya.firebasestorage.app',
     measurementId: 'G-4DKXYH6M1P',
   );
-
 }

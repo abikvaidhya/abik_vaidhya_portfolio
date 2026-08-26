@@ -1005,7 +1005,7 @@ class Widgets {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text('+977-(986)-908-0265',
+                        Text('+46-73-98-10135',
                             style: AppThemeData
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
@@ -1021,7 +1021,7 @@ class Widgets {
                                   ? Colors.grey.shade400
                                   : Colors.grey,
                             )),
-                        Text('+977-(981)-510-2692',
+                        Text('+977-(986)-908-0265',
                             style: AppThemeData
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
@@ -1031,7 +1031,7 @@ class Widgets {
                             )),
                       ],
                     ),
-                    Text('Nepal',
+                    Text('Gotenborg, Sweden',
                         style: AppThemeData.appThemeData.textTheme.bodyMedium!
                             .copyWith(
                           color: mainController.isDark.value
