@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:my_porfolio/Controllers/CodingController.dart';
 import 'package:my_porfolio/Controllers/MainController.dart';
 import 'package:my_porfolio/Controllers/SocialsController.dart';
-// import 'package:my_porfolio/Models/MorphButton.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
 import 'package:my_porfolio/Utils/UiUtils.dart';
 
@@ -103,34 +102,6 @@ class _InfoScreenState extends State<InfoScreen> {
                             ],
                           ),
                         ),
-                        // SizedBox(
-                        //   height: 70,
-                        //   child: Row(
-                        //     mainAxisAlignment: MainAxisAlignment.center,
-                        //     children: [
-                        //       ListView.separated(
-                        //         shrinkWrap: true,
-                        //         scrollDirection: Axis.horizontal,
-                        //         itemCount:
-                        //             socialsController.socialMorphButtons.length,
-                        //         itemBuilder: (BuildContext context, int index) {
-                        //           return Widgets.morphButton(context,
-                        //               buttonModel: socialsController
-                        //                   .socialMorphButtons[index],
-                        //               isCircle: true,
-                        //               height: 70,
-                        //               width: 70);
-                        //         },
-                        //         separatorBuilder:
-                        //             (BuildContext context, int index) {
-                        //           return SizedBox(
-                        //             width: 40,
-                        //           );
-                        //         },
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ],

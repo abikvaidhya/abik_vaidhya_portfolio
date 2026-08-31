@@ -1,4 +1,8 @@
 class Constants {
+  // URLs
+  static const resumeURL =
+      "https://raw.githubusercontent.com/abikvaidhya/portfolio/main/Resume ABIK VAIDHYA.pdf";
+
   // misc
   static const darkMode = 'DARK_MODE';
   static const animationDuration = 111;

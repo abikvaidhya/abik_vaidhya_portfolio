@@ -6,6 +6,8 @@ import 'package:my_porfolio/Models/StatusModel.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/StorageHelper.dart';
 
+import '../Models/MorphButton.dart';
+
 class MainController extends GetxController {
   final firebase = FirebaseFirestore.instance;
 
@@ -18,9 +20,6 @@ class MainController extends GetxController {
       codingController = PageController(
         initialPage: 0,
       ),
-      // projectController = PageController(
-      //   initialPage: 0,
-      // ),
       experienceController = PageController(
         initialPage: 0,
       ),
@@ -49,7 +48,18 @@ class MainController extends GetxController {
       cursorX = 0.0.obs,
       cursorY = 0.0.obs;
 
-  // late ProjectModel selectedProject;
+  MorphButton downloadButton = MorphButton(
+      isClicked: false.obs,
+      showDetails: false.obs,
+      isFocused: false.obs,
+      image: Image.asset(ImageConstants.iconsPath + 'download.png'),
+      image_hovered:
+          Image.asset(ImageConstants.iconsPath + 'download_hovered.png'),
+      pad: 50.0.obs,
+      scale: 0.0.obs,
+      link: Constants.resumeURL,
+      label: 'Download my CV'.obs,
+      gradientId: 1.obs);
 
   RxList<InfoModel> infos = <InfoModel>[].obs;
 

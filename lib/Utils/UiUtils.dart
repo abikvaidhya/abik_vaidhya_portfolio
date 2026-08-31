@@ -17,6 +17,7 @@ import 'package:my_porfolio/Utils/AppThemeData.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/FunctionUtils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class Widgets {
   Future showToast(String msg,
@@ -348,174 +349,23 @@ class Widgets {
                         ),
                       ],
                     ),
+
+                    // open/download CV
+                    Widgets.customShadowBox(
+                      SizedBox(
+                        height: 60,
+                        child: morphButton(context,
+                            buttonModel: mainController.downloadButton,
+                            onlyText: true,
+                            width: 300),
+                      ),
+                    ),
                   ],
                 ),
-                // Expanded(
-                //   child: Row(
-                //     crossAxisAlignment: CrossAxisAlignment.start,
-                //     spacing: 20,
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                // Widgets.pieChart(context,
-                //     isDesktop: isDesktop, label: 'frameworks'),
-
-                // morph buttons
-                // Wrap(
-                //   spacing: 20,
-                //   runSpacing: 20,
-                //   alignment: WrapAlignment.center,
-                //   children: [
-                //     Obx(
-                //       () => morphButton(context, callBack: () {
-                //         Functions.navigate(
-                //             3, mainController.codingController);
-                //       },
-                //           buttonModel:
-                //               codingController.experienceButton.value),
-                //     ),
-                //     Obx(
-                //       () => morphButton(context, callBack: () {
-                //         Functions.navigate(
-                //             4, mainController.codingController);
-                //       },
-                //           buttonModel:
-                //               codingController.projectButton.value),
-                //     ),
-                //     Obx(
-                //       () => morphButton(context, callBack: () {
-                //         Functions.navigate(
-                //             5, mainController.codingController);
-                //       },
-                //           buttonModel:
-                //               codingController.reviewsButtons.value),
-                //     ),
-                //   ],
-                // ),
-                // Expanded(
-                //   child: Widgets.workSocialsMorphButtons(context,
-                //       isDesktop: isDesktop),
-                // ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
     );
   }
-
-  // static Widget FrameworksDetails({required bool isDesktop}) {
-  //   MainController mainController = Get.find<MainController>();
-  //   CodingController codingController = Get.find<CodingController>();
-
-  //   return Obx(
-  //     () => (codingController.frameworks.isNotEmpty &&
-  //             codingController.frameworkIndex.value > -1)
-  //         ? Padding(
-  //             padding: const EdgeInsets.all(44.0),
-  //             child: Column(
-  //               spacing: 20,
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: [
-  //                 Row(
-  //                   children: [
-  //                     Widgets.customShadowBox(
-  //                       Text(
-  //                         codingController
-  //                             .frameworks[codingController.frameworkIndex.value]
-  //                             .label,
-  //                         style: AppThemeData
-  //                             .appThemeData.textTheme.headlineMedium!
-  //                             .copyWith(
-  //                                 color: mainController.isDark.value
-  //                                     ? Colors.white
-  //                                     : Colors.black),
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 Row(
-  //                   children: [
-  //                     Widgets.customShadowBox(
-  //                       Text(
-  //                         codingController
-  //                             .frameworks[codingController.frameworkIndex.value]
-  //                             .description,
-  //                         maxLines: 5,
-  //                         style: AppThemeData.appThemeData.textTheme.bodyMedium!
-  //                             .copyWith(
-  //                                 color: mainController.isDark.value
-  //                                     ? Colors.white
-  //                                     : Colors.black),
-  //                         softWrap: true,
-  //                       ),
-  //                     ),
-  //                   ],
-  //                 ),
-  //                 ListView.separated(
-  //                   shrinkWrap: true,
-  //                   itemCount: codingController.frameworkProjects.length,
-  //                   itemBuilder: (BuildContext context, int index) {
-  //                     return Widgets.customShadowBox(
-  //                       Column(
-  //                         spacing: 10,
-  //                         crossAxisAlignment: CrossAxisAlignment.start,
-  //                         children: [
-  //                           Row(
-  //                             spacing: 20,
-  //                             children: [
-  //                               Text(
-  //                                 '> ' +
-  //                                     codingController
-  //                                         .frameworkProjects[index].label,
-  //                                 style: AppThemeData
-  //                                     .appThemeData.textTheme.bodyMedium!
-  //                                     .copyWith(
-  //                                         color: mainController.isDark.value
-  //                                             ? Colors.white
-  //                                             : Colors.black),
-  //                                 softWrap: true,
-  //                               ),
-  //                               if (codingController
-  //                                   .frameworkProjects[index].link.isNotEmpty)
-  //                                 GestureDetector(
-  //                                     onTap: () {
-  //                                       Functions.openLink(codingController
-  //                                           .frameworkProjects[index].link);
-  //                                     },
-  //                                     child: Icon(Icons.link,
-  //                                         color: mainController.isDark.value
-  //                                             ? Colors.white
-  //                                             : Colors.black))
-  //                             ],
-  //                           ),
-  //                           Text(
-  //                             codingController
-  //                                 .frameworkProjects[index].description,
-  //                             maxLines: 2,
-  //                             style: AppThemeData
-  //                                 .appThemeData.textTheme.bodySmall!
-  //                                 .copyWith(
-  //                                     color: mainController.isDark.value
-  //                                         ? Colors.white
-  //                                         : Colors.black),
-  //                             softWrap: true,
-  //                           ),
-  //                         ],
-  //                       ),
-  //                     );
-  //                   },
-  //                   separatorBuilder: (BuildContext context, int index) {
-  //                     return SizedBox(
-  //                       height: 20,
-  //                     );
-  //                   },
-  //                 ),
-  //               ],
-  //             ),
-  //           )
-  //         : SizedBox.shrink(),
-  //   );
-  // }
 
   static Widget ExperienceDetails({required bool isDesktop}) {
     MainController mainController = Get.find<MainController>();
@@ -812,15 +662,12 @@ class Widgets {
         spacing: 40,
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // review section
           Expanded(
             child: CarouselSlider.builder(
               itemCount: codingController.reviews.length,
               options: CarouselOptions(
-                  // padEnds: false,
                   viewportFraction: 0.7,
                   height: 600,
-                  // scrollDirection: Axis.vertical,
                   autoPlay: true,
                   enlargeCenterPage: true,
                   autoPlayInterval: Duration(
@@ -859,16 +706,12 @@ class Widgets {
                               ? Colors.grey.shade900
                               : Colors.white,
                         ),
-                        // duration: Duration(
-                        //     milliseconds: Constants.animationDuration),
                         child: Row(
                           children: [
                             Expanded(
                               child: Column(
                                 spacing: 10,
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                // mainAxisAlignment:
-                                //     MainAxisAlignment.spaceBetween,
                                 children: [
                                   // review
                                   Expanded(
@@ -981,6 +824,24 @@ class Widgets {
                               ? Colors.white
                               : Colors.grey,
                         )),
+
+                    // open/download CV
+                    // GestureDetector(
+                    //   onTap: () async {
+                    //     final cvUrl = Constants.resumeURL;
+                    //     if (await canLaunchUrl(Uri.parse(cvUrl))) {
+                    //       await launchUrl(Uri.parse(cvUrl));
+                    //     }
+                    //   },
+                    //   child: Text('Download my resume',
+                    //       style: AppThemeData
+                    //           .appThemeData.textTheme.displaySmall!
+                    //           .copyWith(
+                    //         color: mainController.isDark.value
+                    //             ? Colors.white
+                    //             : Colors.grey,
+                    //       )),
+                    // )
                   ],
                 ),
                 Column(
@@ -1005,7 +866,7 @@ class Widgets {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        Text('+46-73-98-10135',
+                        Text('+46(739)810-135',
                             style: AppThemeData
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
@@ -1021,7 +882,7 @@ class Widgets {
                                   ? Colors.grey.shade400
                                   : Colors.grey,
                             )),
-                        Text('+977-(986)-908-0265',
+                        Text('+977(986)908-0265',
                             style: AppThemeData
                                 .appThemeData.textTheme.bodyMedium!
                                 .copyWith(
@@ -1038,6 +899,8 @@ class Widgets {
                               ? Colors.grey.shade400
                               : Colors.grey,
                         )),
+
+                    // portfolio links
                     SizedBox(
                       height: 60,
                       child: Row(
@@ -1066,6 +929,8 @@ class Widgets {
                         ],
                       ),
                     ),
+
+                    // social links
                     SizedBox(
                       height: 60,
                       child: Row(
@@ -1508,6 +1373,7 @@ class Widgets {
     double width = 200,
     bool isDesktop = true,
     bool isCircle = false,
+    bool onlyText = false,
     VoidCallback? callBack,
   }) {
     MainController mainController = Get.find<MainController>();
@@ -1578,13 +1444,17 @@ class Widgets {
                         : buttonModel.image,
                   ),
                 ),
-                if (!isCircle && (height > 200 && width > 200))
+                if (!isCircle && (height > 200 || width > 200))
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: Obx(() => AnimatedOpacity(
                           duration: Duration(
                               milliseconds: Constants.animationDuration),
-                          opacity: buttonModel.isFocused.value ? 1 : 0,
+                          opacity: onlyText
+                              ? 1
+                              : buttonModel.isFocused.value
+                                  ? 1
+                                  : 0,
                           child: Text(
                             buttonModel.label.value,
                             style: AppThemeData
@@ -1592,7 +1462,7 @@ class Widgets {
                                 .copyWith(
                                     color: mainController.isDark.value
                                         ? Colors.white
-                                        : Colors.black),
+                                        : Colors.black87),
                           ),
                         )),
                   )
