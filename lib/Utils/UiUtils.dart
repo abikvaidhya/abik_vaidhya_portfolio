@@ -17,7 +17,6 @@ import 'package:my_porfolio/Utils/AppThemeData.dart';
 import 'package:my_porfolio/Utils/Constants.dart';
 import 'package:my_porfolio/Utils/FunctionUtils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class Widgets {
   Future showToast(String msg,
@@ -350,7 +349,7 @@ class Widgets {
                       ],
                     ),
 
-                    // open/download CV
+                    // download CV
                     Widgets.customShadowBox(
                       SizedBox(
                         height: 60,
