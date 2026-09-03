@@ -96,6 +96,8 @@ class _HomeContainerState extends State<HomeContainer> {
                               children: [
                                 (sizingInformation.deviceScreenType ==
                                         DeviceScreenType.desktop)
+
+                                    // desktop view
                                     ? Expanded(
                                         child: MouseRegion(
                                           onHover: _updateLocation,
@@ -212,6 +214,8 @@ class _HomeContainerState extends State<HomeContainer> {
                                           ),
                                         ),
                                       )
+
+                                    // mobile view
                                     : Expanded(
                                         child: PageView(children: [
                                           MobileInfoScreen(),
