@@ -236,9 +236,6 @@ class Widgets {
 
     return Container(
       decoration: BoxDecoration(
-        color: (mainController.isDark.value)
-            ? Colors.grey.shade900
-            : Colors.grey.shade100,
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       margin: EdgeInsets.all(5),
@@ -294,8 +291,8 @@ class Widgets {
                     Row(
                       children: [
                         // pie chart
-                        Widgets.pieChart(context,
-                            isDesktop: isDesktop, label: 'frameworks'),
+                        // Widgets.pieChart(context,
+                        //     isDesktop: isDesktop, label: 'frameworks'),
                         Expanded(
                           child: Column(
                             spacing: 20,
@@ -678,9 +675,9 @@ class Widgets {
                     children: [
                       // review container
                       Container(
-                        height: 500,
-                        margin: EdgeInsets.fromLTRB(20, 60, 20, 10),
-                        padding: EdgeInsets.fromLTRB(20, 40, 20, 10),
+                        height: 400,
+                        margin: EdgeInsets.fromLTRB(20, 20, 20, 10),
+                        padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                           boxShadow: [
@@ -777,18 +774,18 @@ class Widgets {
                       ),
 
                       // reviewer image
-                      Align(
-                        alignment: Alignment.topCenter,
-                        child: customShadowBox(
-                          CircleAvatar(
-                            radius: 50,
-                            backgroundImage: NetworkImage(
-                                codingController.reviews[index].image.value),
-                            onBackgroundImageError: (exception, stackTrace) =>
-                                Icon(Icons.person),
-                          ),
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: Alignment.topCenter,
+                      //   child: customShadowBox(
+                      //     CircleAvatar(
+                      //       radius: 50,
+                      //       backgroundImage: NetworkImage(
+                      //           codingController.reviews[index].image.value),
+                      //       onBackgroundImageError: (exception, stackTrace) =>
+                      //           Icon(Icons.person),
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 );
@@ -1013,9 +1010,9 @@ class Widgets {
 
     return Container(
       decoration: BoxDecoration(
-        color: (mainController.isDark.value)
-            ? Colors.grey.shade900
-            : Colors.grey.shade100,
+        // color: (mainController.isDark.value)
+        //     ? Colors.grey.shade900
+        //     : Colors.grey.shade100,
         borderRadius: BorderRadius.all(Radius.circular(20)),
       ),
       margin: EdgeInsets.all(5),
@@ -1587,118 +1584,6 @@ class Widgets {
     }
   }
 
-//   static Widget streamLinkButtons(
-//     int id,
-//     String label,
-//   ) {
-//     MainController mainController = Get.find<MainController>();
-//     GamingController gamingController = Get.find<GamingController>();
-
-//     return MouseRegion(
-//       onEnter: (event) {
-//         switch (id) {
-//           case 0:
-//             gamingController.ytHover.value = true;
-//             break;
-//           case 1:
-//             gamingController.twitchHover.value = true;
-//             break;
-//           case 2:
-//             gamingController.discordHover.value = true;
-//             break;
-//         }
-//       },
-//       onExit: (event) {
-//         switch (id) {
-//           case 0:
-//             gamingController.ytHover.value = false;
-//             break;
-//           case 1:
-//             gamingController.twitchHover.value = false;
-//             break;
-//           case 2:
-//             gamingController.discordHover.value = false;
-//             break;
-//         }
-//       },
-//       child: Obx(
-//         () => AnimatedContainer(
-//           duration: Duration(milliseconds: Constants.animationDuration),
-//           padding: EdgeInsets.all(10),
-//           decoration: BoxDecoration(
-//               gradient: ((id == 0)
-//                       ? gamingController.ytHover.value
-//                       : (id == 1)
-//                           ? gamingController.twitchHover.value
-//                           : gamingController.discordHover.value)
-//                   ? LinearGradient(
-//                       colors: mainController.morphButtonGradients[id])
-//                   : null,
-//               borderRadius: BorderRadius.all(Radius.circular(10)),
-//               boxShadow: (((id == 0)
-//                       ? gamingController.ytHover.value
-//                       : (id == 1)
-//                           ? gamingController.twitchHover.value
-//                           : gamingController.discordHover.value))
-//                   ? [
-//                       BoxShadow(
-//                           color: Colors.grey[500]!,
-//                           offset: Offset(4, 4),
-//                           blurRadius: 15,
-//                           spreadRadius: 1),
-//                       BoxShadow(
-//                           color: Colors.white,
-//                           offset: Offset(-4, -4),
-//                           blurRadius: 15,
-//                           spreadRadius: 1)
-//                     ]
-//                   : null),
-//           child: TextButton.icon(
-//             onPressed: () {
-//               switch (id) {
-//                 case 0:
-//                   Functions.openLink('yt');
-//                   break;
-//                 case 1:
-//                   Functions.openLink('twitch');
-//                   break;
-//                 case 2:
-//                   Functions.openLink('discord');
-//                   break;
-//               }
-//             },
-//             label: Text('${label}',
-//                 style: ((id == 0)
-//                         ? gamingController.ytHover.value
-//                         : (id == 1)
-//                             ? gamingController.twitchHover.value
-//                             : gamingController.discordHover.value)
-//                     ? AppThemeData.appThemeData.textTheme.headlineMedium!
-//                         .copyWith(
-//                             color: (mainController.isDark.value)
-//                                 ? Colors.white.withOpacity(0.9)
-//                                 : Colors.white.withOpacity(0.9))
-//                     : AppThemeData.appThemeData.textTheme.headlineMedium!
-//                         .copyWith(
-//                             color: (mainController.isDark.value)
-//                                 ? Colors.white.withOpacity(0.9)
-//                                 : Colors.black.withOpacity(0.9))),
-//             icon: Icon(
-//               Icons.arrow_forward_ios_rounded,
-//               color: ((id == 0)
-//                       ? gamingController.ytHover.value
-//                       : (id == 1)
-//                           ? gamingController.twitchHover.value
-//                           : gamingController.discordHover.value)
-//                   ? Colors.white.withOpacity(0.9)
-//                   : Colors.transparent,
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
   // pie chart
   static Widget pieChart(BuildContext context,
       {String label = 'frameworks', bool isDesktop = true}) {
@@ -1744,29 +1629,17 @@ class Widgets {
                   },
                 ),
               ),
-              EasyPieChart(
-                showValue: false,
-                key: Key(label),
-                children: dataMap,
-                shouldAnimate: false,
-                pieType: PieType.fill,
-                onTap: (index) async {
-                  // codingController
-                  //     .frameworkIndex(index); // set selected framework index
-
-                  // codingController.getFrameworkWiseProjects(
-                  //     frameworkId: codingController.frameworks[index]
-                  //         .label); // get projects for selected framework
-
-                  // mainController.codingController.animateToPage(1,
-                  //     duration: Duration(milliseconds: 200),
-                  //     curve: Curves.easeInOut);
-                },
-                style: AppThemeData.appThemeData.textTheme.bodySmall!
-                    .copyWith(color: Colors.white),
-                gap: 0,
-                borderWidth: 0,
-              ),
+              // EasyPieChart(
+              //   showValue: false,
+              //   key: Key(label),
+              //   children: dataMap,
+              //   shouldAnimate: false,
+              //   pieType: PieType.fill,
+              //   style: AppThemeData.appThemeData.textTheme.bodySmall!
+              //       .copyWith(color: Colors.white),
+              //   gap: 0,
+              //   borderWidth: 0,
+              // ),
             ],
           ),
         ),
@@ -1774,5 +1647,28 @@ class Widgets {
     } else {
       return SizedBox.shrink();
     }
+  }
+}
+
+// cursor follow shadow
+class ShadowPainter extends CustomPainter {
+  final Offset mousePosition;
+  final bool isDark;
+
+  ShadowPainter(this.mousePosition, this.isDark);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color =
+          isDark ? Colors.white.withAlpha(100) : Colors.black.withAlpha(100)
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 70.0);
+
+    canvas.drawCircle(mousePosition, 70.0, paint);
+  }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter oldDelegate) {
+    return true;
   }
 }

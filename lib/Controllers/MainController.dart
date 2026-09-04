@@ -59,7 +59,7 @@ class MainController extends GetxController {
       scale: 0.0.obs,
       link: Constants.resumeURL,
       label: 'Download my CV'.obs,
-      gradientId: 1.obs);
+      gradientId: 0.obs);
 
   RxList<InfoModel> infos = <InfoModel>[].obs;
 
@@ -165,7 +165,10 @@ class MainController extends GetxController {
     ],
   ];
 
-  Statusmodel statusmodel = Statusmodel(live: false);
+  Statusmodel statusmodel = Statusmodel(live: false); // site maintenance status
+
+  Rx<Offset> globalMouseRegion =
+      Offset.zero.obs; // global mouse position for global cursor shadow effect
 
   @override
   onInit() {

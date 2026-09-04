@@ -42,6 +42,8 @@ class _HomeContainerState extends State<HomeContainer> {
   void _updateLocation(PointerEvent details) {
     mainController.cursorX.value = details.position.dx;
     mainController.cursorY.value = details.position.dy;
+
+    mainController.globalMouseRegion.value = details.position;
   }
 
   @override
@@ -90,6 +92,12 @@ class _HomeContainerState extends State<HomeContainer> {
                       ))
                     : Stack(
                         children: [
+                          CustomPaint(
+                            painter: ShadowPainter(
+                                mainController.globalMouseRegion.value,
+                                mainController.isDark.value),
+                            size: Size.infinite,
+                          ),
                           SizedBox(
                             height: MediaQuery.of(context).size.height,
                             child: Row(
