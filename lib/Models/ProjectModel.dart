@@ -13,8 +13,10 @@ class ProjectModel extends GetxController {
       label = ''.obs,
       description = ''.obs,
       detail = ''.obs,
-      devLang = ''.obs;
-  RxList tags = [].obs, platform = [].obs;
+      devLang = ''.obs,
+      status = ''.obs;
+  RxList platform = [].obs;
+
   // RxList<ProjectSSModel> screenShots = <ProjectSSModel>[].obs;
 
   ProjectModel({
@@ -29,7 +31,7 @@ class ProjectModel extends GetxController {
     required this.description,
     required this.detail,
     required this.platform,
-    required this.tags,
+    required this.status,
     // required this.screenShots,
   });
 
@@ -47,8 +49,8 @@ class ProjectModel extends GetxController {
       devLang: docData['dev'].toString().obs,
       description: docData['description'].toString().obs,
       detail: (docData['app_detail'] ?? '').toString().obs,
-      platform: [docData['platform'].toString()].obs,
-      tags: [docData['status'].toString()].obs,
+      platform: docData['platform'].toString().split(',').toList().obs,
+      status: docData['status'].toString().obs,
       // screenShots: [docData['status']].obs,
     );
   }

@@ -10,8 +10,8 @@ class ProjectsController extends GetxController {
   RxBool gettingProjects = false.obs, gettingScreenShots = false.obs;
   RxInt launchedProjectIndex = 0.obs;
 
-  RxList<ProjectModel> projects = <ProjectModel>[].obs,
-      launched_projects = <ProjectModel>[].obs; // project list
+  RxList<ProjectModel> _projects = <ProjectModel>[].obs,
+      launchedProjects = <ProjectModel>[].obs; // project list
   RxList<ProjectSSModel> projectScreenShots = <ProjectSSModel>[].obs;
 
   RxList<MorphButton> projectMorphButtons = <MorphButton>[].obs;
@@ -32,19 +32,21 @@ class ProjectsController extends GetxController {
         throw 'Empty data in ${APIEndpoints.projects} collection';
       }
 
-      projects(snapShot.docs.map((e) => ProjectModel.fromSnapshot(e)).toList());
+      _projects(
+          snapShot.docs.map((e) => ProjectModel.fromSnapshot(e)).toList());
     } catch (e) {
       debugPrint('## ERROR GETTING PROJECTS LIST: $e');
     } finally {
-      if (projects.isNotEmpty) {
-        launched_projects.value =
-            projects.where((e) => e.tags.contains('launched')).toList();
-        launched_projects
+      if (_projects.isNotEmpty) {
+        launchedProjects.value = _projects
+            .where((e) => e.status.compareTo('launched') == 0)
+            .toList();
+        launchedProjects
             .sort((a, b) => b.label.value.compareTo(a.label.value));
 
-        projects.sort((a, b) => a.label.value.compareTo(b.label.value));
+        _projects.sort((a, b) => a.label.value.compareTo(b.label.value));
         // getProjectScreenShots(id: launched_projects.first.id.value);
-        getProjectScreenShots(id: projects.first.id.value);
+        getProjectScreenShots(id: _projects.first.id.value);
       }
       gettingProjects(false);
     }
@@ -77,20 +79,20 @@ class ProjectsController extends GetxController {
     }
   }
 
-  // setButtons() {
-  //   projectMorphButtons.clear();
-  //   projects.forEach((e) {
-  //     projectMorphButtons.add(
-  //       MorphButton(
-  //           isClicked: false.obs,
-  //           showDetails: false.obs,
-  //           isFocused: false.obs,
-  //           image: e.image,
-  //           image_hovered: e.image,
-  //           pad: 50.0.obs,
-  //           scale: 0.0.obs,
-  //           link: e.link.value),
-  //     );
-  //   });
-  // }
+// setButtons() {
+//   projectMorphButtons.clear();
+//   projects.forEach((e) {
+//     projectMorphButtons.add(
+//       MorphButton(
+//           isClicked: false.obs,
+//           showDetails: false.obs,
+//           isFocused: false.obs,
+//           image: e.image,
+//           image_hovered: e.image,
+//           pad: 50.0.obs,
+//           scale: 0.0.obs,
+//           link: e.link.value),
+//     );
+//   });
+// }
 }

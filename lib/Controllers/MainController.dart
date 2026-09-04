@@ -165,6 +165,7 @@ class MainController extends GetxController {
     ],
   ];
 
+
   Statusmodel statusmodel = Statusmodel(live: false); // site maintenance status
 
   Rx<Offset> globalMouseRegion =

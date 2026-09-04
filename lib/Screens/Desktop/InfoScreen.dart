@@ -88,9 +88,9 @@ class _InfoScreenState extends State<InfoScreen> {
                                   return Widgets.morphButton(context,
                                       buttonModel: codingController
                                           .jobSocialsMorphButtons[index],
-                                      isCircle: false,
-                                      height: 70,
-                                      width: 70);
+                                      isCircle: true,
+                                      height: 80,
+                                      width: 80);
                                 },
                                 separatorBuilder:
                                     (BuildContext context, int index) {
