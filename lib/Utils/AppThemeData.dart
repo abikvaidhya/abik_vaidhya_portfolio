@@ -9,16 +9,16 @@ class AppThemeData {
       bodySmall: TextStyle(
         fontSize: 16,
         color: Colors.black87,
-        height: 3,
+        height: 2,
       ),
       bodyMedium: TextStyle(
         fontSize: 18,
-        height: 3,
+        height: 2,
         color: Colors.black87,
       ),
       bodyLarge: TextStyle(
         fontSize: 20,
-        height: 3,
+        height: 2,
         color: Colors.black87,
       ),
       labelSmall: TextStyle(

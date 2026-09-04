@@ -6,14 +6,19 @@ import 'package:my_porfolio/Controllers/GamingController.dart';
 import 'package:my_porfolio/Controllers/MusicController.dart';
 import 'package:my_porfolio/Controllers/ProjectsController.dart';
 import 'package:my_porfolio/Controllers/SocialsController.dart';
+import 'package:my_porfolio/Screens/Desktop/CodingScreen.dart';
+import 'package:my_porfolio/Screens/Desktop/FooterSection.dart';
 import 'package:my_porfolio/Screens/Desktop/InfoScreen.dart';
 import 'package:my_porfolio/Screens/InfoScreen.dart';
 import 'package:my_porfolio/Utils/AppThemeData.dart';
 import 'package:my_porfolio/Utils/UiUtils.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import '../Controllers/MainController.dart';
+import '../Utils/Constants.dart';
 import '../Utils/FloatingNavBar.dart';
 import '../Utils/FunctionUtils.dart';
+import 'Desktop/ExperienceScreen.dart';
+import 'Desktop/ProjectsScreen.dart';
 
 class HomeContainer extends StatefulWidget {
   HomeContainer({Key? key}) : super(key: key);
@@ -50,47 +55,59 @@ class _HomeContainerState extends State<HomeContainer> {
   Widget build(BuildContext context) {
     return ResponsiveBuilder(
         builder: (BuildContext context, SizingInformation sizingInformation) {
-      return SafeArea(
-        child: Obx(
-          () => Scaffold(
-            backgroundColor:
-                (mainController.isDark.value) ? Colors.black : Colors.white,
-            body: mainController.gettingStatus.value
-                ? Center(
-                    child: CircularProgressIndicator(
-                      color: mainController.isDark.value
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                  )
-                : (!mainController.statusmodel.live)
-                    ? Widgets.customShadowBox(Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        spacing: 10,
-                        children: [
-                          Icon(Icons.error,
-                              size: 30,
-                              color: mainController.isDark.value
-                                  ? Colors.white
-                                  : Colors.black),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                'site is currently being updated, please check back again later.\nsorry for the inconvience',
-                                style: AppThemeData
-                                    .appThemeData.textTheme.displayMedium!
-                                    .copyWith(
-                                        color: mainController.isDark.value
-                                            ? Colors.white
-                                            : Colors.black),
-                                textAlign: TextAlign.center,
-                              ),
-                            ],
-                          ),
-                        ],
-                      ))
-                    : Stack(
+      return Obx(
+        () => Scaffold(
+          backgroundColor:
+              (mainController.isDark.value) ? Colors.black : Colors.white,
+          body: mainController.gettingStatus.value
+              ? Center(
+                  child: CircularProgressIndicator(
+                    color: mainController.isDark.value
+                        ? Colors.white
+                        : Colors.black,
+                  ),
+                )
+              : (!mainController.statusmodel.live)
+                  ? Widgets.customShadowBox(Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        Icon(Icons.error,
+                            size: 30,
+                            color: mainController.isDark.value
+                                ? Colors.white
+                                : Colors.black),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              'site is currently being updated, please check back again later.\nsorry for the inconvience',
+                              style: AppThemeData
+                                  .appThemeData.textTheme.displayMedium!
+                                  .copyWith(
+                                      color: mainController.isDark.value
+                                          ? Colors.white
+                                          : Colors.black),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ))
+                  : Container(
+                      decoration: BoxDecoration(
+                          image: (sizingInformation.deviceScreenType ==
+                                  DeviceScreenType.desktop)
+                              ? DecorationImage(
+                                  filterQuality: FilterQuality.low,
+                                  opacity: 0.2,
+                                  fit: BoxFit.cover,
+                                  image: AssetImage(ImageConstants.imagesPath +
+                                      "${(mainController.isDark.value) ? 'patterns_dark.jpeg' : 'patterns.jpg'}"))
+                              : null),
+                      height: MediaQuery.of(context).size.height,
+                      width: MediaQuery.of(context).size.width,
+                      child: Stack(
                         children: [
                           CustomPaint(
                             painter: ShadowPainter(
@@ -98,127 +115,43 @@ class _HomeContainerState extends State<HomeContainer> {
                                 mainController.isDark.value),
                             size: Size.infinite,
                           ),
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height,
+                          Expanded(
                             child: Row(
                               children: [
                                 (sizingInformation.deviceScreenType ==
                                         DeviceScreenType.desktop)
-
                                     // desktop view
                                     ? Expanded(
                                         child: MouseRegion(
                                           onHover: _updateLocation,
-                                          child: NotificationListener<
-                                              UserScrollNotification>(
-                                            onNotification: (notification) {
-                                              if (notification.direction ==
-                                                      ScrollDirection.forward &&
-                                                  sizingInformation
-                                                          .deviceScreenType !=
-                                                      DeviceScreenType
-                                                          .desktop &&
-                                                  (mainController.pageController
-                                                              .page !=
-                                                          null &&
-                                                      mainController
-                                                              .pageController
-                                                              .page!
-                                                              .round() >
-                                                          0)) {
-                                                mainController.scrollBtn.value =
-                                                    1.0;
-                                              }
-                                              return false;
-                                            },
-                                            child: SingleChildScrollView(
-                                              child: SizedBox(
-                                                height: MediaQuery.of(context)
-                                                    .size
-                                                    .height,
-                                                child: PageView(
-                                                  onPageChanged: (value) {
-                                                    if (mainController
-                                                                .codingIndex
-                                                                .value >
-                                                            0 &&
-                                                        sizingInformation
-                                                                .deviceScreenType ==
-                                                            DeviceScreenType
-                                                                .desktop) {
-                                                      Functions.navigate(
-                                                        mainController
-                                                                .codingIndex
-                                                                .value +
-                                                            1,
-                                                        mainController
-                                                            .codingController,
-                                                      );
-                                                    }
-
-                                                    if (mainController
-                                                                .gamingIndex
-                                                                .value >
-                                                            0 &&
-                                                        sizingInformation
-                                                                .deviceScreenType ==
-                                                            DeviceScreenType
-                                                                .desktop) {
-                                                      Functions.navigate(
-                                                        mainController
-                                                                .gamingIndex
-                                                                .value +
-                                                            1,
-                                                        mainController
-                                                            .streamController,
-                                                      );
-                                                    }
-                                                  },
-                                                  pageSnapping: sizingInformation
-                                                              .deviceScreenType ==
-                                                          DeviceScreenType
-                                                              .mobile
-                                                      ? true
-                                                      : false,
-                                                  scrollDirection: sizingInformation
-                                                              .deviceScreenType ==
-                                                          DeviceScreenType
-                                                              .desktop
-                                                      ? Axis.vertical
-                                                      : Axis.vertical,
-                                                  children: [
-                                                    InfoScreen(),
-                                                    Widgets.CodingIntroDetails(
-                                                      context: context,
-                                                      isDesktop: sizingInformation
-                                                              .deviceScreenType ==
-                                                          DeviceScreenType
-                                                              .desktop,
-                                                    ),
-                                                    Widgets.ExperienceDetails(
-                                                      isDesktop: sizingInformation
-                                                              .deviceScreenType ==
-                                                          DeviceScreenType
-                                                              .desktop,
-                                                    ),
-                                                    Widgets.projectDetails(
-                                                      isDesktop: sizingInformation
-                                                              .deviceScreenType ==
-                                                          DeviceScreenType
-                                                              .desktop,
-                                                    ),
-                                                    Widgets.footer(
-                                                      isDesktop: sizingInformation
-                                                              .deviceScreenType ==
-                                                          DeviceScreenType
-                                                              .desktop,
-                                                    ),
-                                                  ],
-                                                  controller: mainController
-                                                      .pageController,
-                                                ),
+                                          child: PageView(
+                                            scrollDirection: Axis.vertical,
+                                            pageSnapping: false,
+                                            children: [
+                                              InfoScreen(),
+                                              CodingScreen(
+                                                isDesktop: sizingInformation
+                                                        .deviceScreenType ==
+                                                    DeviceScreenType.desktop,
                                               ),
-                                            ),
+                                              ExperienceScreen(
+                                                isDesktop: sizingInformation
+                                                        .deviceScreenType ==
+                                                    DeviceScreenType.desktop,
+                                              ),
+                                              ProjectsScreen(
+                                                isDesktop: sizingInformation
+                                                        .deviceScreenType ==
+                                                    DeviceScreenType.desktop,
+                                              ),
+                                              FooterSection(
+                                                isDesktop: sizingInformation
+                                                        .deviceScreenType ==
+                                                    DeviceScreenType.desktop,
+                                              ),
+                                            ],
+                                            controller:
+                                                mainController.pageController,
                                           ),
                                         ),
                                       )
@@ -227,7 +160,6 @@ class _HomeContainerState extends State<HomeContainer> {
                                     : Expanded(
                                         child: PageView(children: [
                                           MobileInfoScreen(),
-                                          // MobileCodingScreen(),
                                         ]),
                                       ),
                               ],
@@ -264,11 +196,11 @@ class _HomeContainerState extends State<HomeContainer> {
                             FloatingNavBarDesktop(),
                         ],
                       ),
-            floatingActionButton:
-                (sizingInformation.deviceScreenType != DeviceScreenType.desktop)
-                    ? Widgets.scrollButton()
-                    : null,
-          ),
+                    ),
+          floatingActionButton:
+              (sizingInformation.deviceScreenType != DeviceScreenType.desktop)
+                  ? Widgets.scrollButton()
+                  : null,
         ),
       );
     });

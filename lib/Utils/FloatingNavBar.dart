@@ -33,7 +33,7 @@ class FloatingNavBarDesktop extends StatelessWidget {
                     horizontal: mainController.navHovered.value == 1 ? 44 : 22),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300.withOpacity(
-                      mainController.navHovered.value == 1 ? 0.3 : 0.1),
+                      mainController.navHovered.value == 1 ? 0.6 : 0.1),
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(24.0),
                     //   bottomRight: Radius.circular(24.0),

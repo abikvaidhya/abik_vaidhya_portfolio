@@ -20,7 +20,9 @@ class _InfoScreenState extends State<InfoScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
+    return Container(
+      // height: MediaQuery.of(context).size.height-100,
+      // width: MediaQuery.of(context).size.width-100,
       padding: const EdgeInsets.symmetric(horizontal: 22.0),
       child: Center(
         child: Obx(

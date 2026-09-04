@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:my_porfolio/Controllers/MainController.dart';
-import 'package:my_porfolio/Utils/Constants.dart';
-
 import '../Controllers/CodingController.dart';
 import '../Controllers/SocialsController.dart';
+import '../Utils/Constants.dart';
 import '../Utils/UiUtils.dart';
 
 class MobileInfoScreen extends StatefulWidget {
@@ -27,50 +26,24 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
         () => Container(
           padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
           decoration: BoxDecoration(
-              // color: mainController.isDark.value
-              //     ? Colors.grey.shade300.withOpacity(0.3)
-              //     : Colors.grey.shade300.withOpacity(0.1),
-              borderRadius: BorderRadius.all(Radius.circular(20))),
+              // borderRadius: BorderRadius.all(Radius.circular(20)),
+              image:DecorationImage(
+                  filterQuality: FilterQuality.low,
+                  opacity: 0.2,
+                  fit: BoxFit.cover,
+                  image: AssetImage(ImageConstants.imagesPath +
+                      'androidparty.png'))),
           child: Column(
             spacing: 20,
             children: [
-              // Container(
-              //   height: MediaQuery.sizeOf(context).width / 1.5,
-              //   decoration: BoxDecoration(
-              //       image: DecorationImage(
-              //         image: AssetImage(ImageConstants.own),
-              //         fit: BoxFit.cover,
-              //       ),
-              //       color: mainController.isDark.value
-              //           ? Colors.grey.withOpacity(0.1)
-              //           : Colors.grey.shade300.withOpacity(0.1),
-              //       borderRadius: BorderRadius.all(Radius.circular(20))),
-              // ),
               Text(
                 'abik vaidhya',
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 80,
-                  // height: 80,
-
                   color: mainController.isDark.value ? Colors.white : null,
                 ),
               ),
-              // Container(
-              //   height: 40,
-              //   width: 200,
-              //   decoration: BoxDecoration(
-              //       color: Colors.grey.shade300.withOpacity(0.3),
-              //       borderRadius: BorderRadius.all(Radius.circular(10))),
-              //   child: Center(
-              //     child: Text(
-              //       'abik vaidhya',
-              //       style: TextStyle(
-              //         color: mainController.isDark.value ? Colors.white : null,
-              //       ),
-              //     ),
-              //   ),
-              // ),
               Container(
                 height: 50,
                 width: 300,
@@ -222,12 +195,6 @@ class _MobileInfoScreenState extends State<MobileInfoScreen> {
                   ],
                 ),
               ),
-              // Container(
-              //     height: 40,
-              //     decoration: BoxDecoration(
-              //         color: Colors.grey.shade300.withOpacity(0.3),
-              //         borderRadius: BorderRadius.all(Radius.circular(10))),
-              //     child: Center(child: Text('More on mobile coming soon.')))
             ],
           ),
         ),
