@@ -1,5 +1,4 @@
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:easy_pie_chart/easy_pie_chart.dart';
 import 'package:flashy_tab_bar2/flashy_tab_bar2.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +8,6 @@ import 'package:my_porfolio/Controllers/CodingController.dart';
 import 'package:my_porfolio/Controllers/GamingController.dart';
 import 'package:my_porfolio/Controllers/MainController.dart';
 import 'package:my_porfolio/Controllers/MusicController.dart';
-import 'package:my_porfolio/Controllers/ProjectsController.dart';
 import 'package:my_porfolio/Controllers/SocialsController.dart';
 import 'package:my_porfolio/Models/MorphButton.dart';
 import 'package:my_porfolio/Models/ProjectModel.dart';
@@ -38,7 +36,7 @@ class Widgets {
       barrierDismissible: true,
       radius: 30,
       content: Text('hello world'),
-      backgroundColor: Colors.grey.shade700.withOpacity(0.6),
+      backgroundColor: Colors.grey.shade700.withValues(alpha: 0.6),
       titleStyle: TextStyle(color: Colors.white),
       middleTextStyle: TextStyle(color: Colors.white),
     );
