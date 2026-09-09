@@ -115,55 +115,53 @@ class _HomeContainerState extends State<HomeContainer> {
                                 mainController.isDark.value),
                             size: Size.infinite,
                           ),
-                          Expanded(
-                            child: Row(
-                              children: [
-                                (sizingInformation.deviceScreenType ==
-                                        DeviceScreenType.desktop)
-                                    // desktop view
-                                    ? Expanded(
-                                        child: MouseRegion(
-                                          onHover: _updateLocation,
-                                          child: PageView(
-                                            scrollDirection: Axis.vertical,
-                                            pageSnapping: false,
-                                            children: [
-                                              InfoScreen(),
-                                              CodingScreen(
-                                                isDesktop: sizingInformation
-                                                        .deviceScreenType ==
-                                                    DeviceScreenType.desktop,
-                                              ),
-                                              ExperienceScreen(
-                                                isDesktop: sizingInformation
-                                                        .deviceScreenType ==
-                                                    DeviceScreenType.desktop,
-                                              ),
-                                              ProjectsScreen(
-                                                isDesktop: sizingInformation
-                                                        .deviceScreenType ==
-                                                    DeviceScreenType.desktop,
-                                              ),
-                                              FooterSection(
-                                                isDesktop: sizingInformation
-                                                        .deviceScreenType ==
-                                                    DeviceScreenType.desktop,
-                                              ),
-                                            ],
-                                            controller:
-                                                mainController.pageController,
-                                          ),
+                          Row(
+                            children: [
+                              (sizingInformation.deviceScreenType ==
+                                      DeviceScreenType.desktop)
+                                  // desktop view
+                                  ? Expanded(
+                                      child: MouseRegion(
+                                        onHover: _updateLocation,
+                                        child: PageView(
+                                          scrollDirection: Axis.vertical,
+                                          pageSnapping: false,
+                                          children: [
+                                            InfoScreen(),
+                                            CodingScreen(
+                                              isDesktop: sizingInformation
+                                                      .deviceScreenType ==
+                                                  DeviceScreenType.desktop,
+                                            ),
+                                            ExperienceScreen(
+                                              isDesktop: sizingInformation
+                                                      .deviceScreenType ==
+                                                  DeviceScreenType.desktop,
+                                            ),
+                                            ProjectsScreen(
+                                              isDesktop: sizingInformation
+                                                      .deviceScreenType ==
+                                                  DeviceScreenType.desktop,
+                                            ),
+                                            FooterSection(
+                                              isDesktop: sizingInformation
+                                                      .deviceScreenType ==
+                                                  DeviceScreenType.desktop,
+                                            ),
+                                          ],
+                                          controller:
+                                              mainController.pageController,
                                         ),
-                                      )
-
-                                    // mobile view
-                                    : Expanded(
-                                        child: PageView(children: [
-                                          MobileInfoScreen(),
-                                        ]),
                                       ),
-                              ],
-                            ),
+                                    )
+
+                                  // mobile view
+                                  : Expanded(
+                                      child: PageView(children: [
+                                        MobileInfoScreen(),
+                                      ]),
+                                    ),
+                            ],
                           ),
 
                           // dark-light theme toggle
