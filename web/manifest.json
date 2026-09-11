@@ -1,11 +1,11 @@
 {
-    "name": "my_porfolio",
-    "short_name": "my_porfolio",
+    "name": "Abik Vaidhya",
+    "short_name": "AV",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#hexcode",
     "theme_color": "#hexcode",
-    "description": "A new Flutter project.",
+    "description": "Portfolio website",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

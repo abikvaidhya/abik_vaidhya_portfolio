@@ -17,49 +17,49 @@ import 'package:my_porfolio/Utils/FunctionUtils.dart';
 import 'package:simple_shadow/simple_shadow.dart';
 
 class Widgets {
-  Future showToast(String msg,
-      {bool isShort = false, bool isDark = false}) async {
-    Fluttertoast.showToast(
-      msg: msg,
-      toastLength: isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG,
-      gravity: ToastGravity.CENTER,
-      timeInSecForIosWeb: isShort ? 1 : 2,
-      backgroundColor: isDark ? Colors.white : Colors.black,
-      textColor: isDark ? Colors.black : Colors.white,
-    );
-  }
+  // Future showToast(String msg,
+  //     {bool isShort = false, bool isDark = false}) async {
+  //   Fluttertoast.showToast(
+  //     msg: msg,
+  //     toastLength: isShort ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG,
+  //     gravity: ToastGravity.CENTER,
+  //     timeInSecForIosWeb: isShort ? 1 : 2,
+  //     backgroundColor: isDark ? Colors.white : Colors.black,
+  //     textColor: isDark ? Colors.black : Colors.white,
+  //   );
+  // }
 
-  static Future defaultDialog(String label) {
-    return Get.defaultDialog(
-      title: '$label',
-      middleText: "i worked on $label",
-      barrierDismissible: true,
-      radius: 30,
-      content: Text('hello world'),
-      backgroundColor: Colors.grey.shade700.withValues(alpha: 0.6),
-      titleStyle: TextStyle(color: Colors.white),
-      middleTextStyle: TextStyle(color: Colors.white),
-    );
-  }
+  // static Future defaultDialog(String label) {
+  //   return Get.defaultDialog(
+  //     title: '$label',
+  //     middleText: "i worked on $label",
+  //     barrierDismissible: true,
+  //     radius: 30,
+  //     content: Text('hello world'),
+  //     backgroundColor: Colors.grey.shade700.withValues(alpha: 0.6),
+  //     titleStyle: TextStyle(color: Colors.white),
+  //     middleTextStyle: TextStyle(color: Colors.white),
+  //   );
+  // }
 
-  static Widget scrollButton() {
-    MainController mainController = Get.find<MainController>();
-    return Obx(
-      () => AnimatedOpacity(
-        opacity: mainController.scrollBtn.value,
-        duration: Duration(milliseconds: 200),
-        child: IconButton(
-            onPressed: () {
-              mainController.navHovered.value = 0.0;
-              Functions.navigate(0, mainController.pageController);
-            },
-            icon: Icon(
-              Icons.arrow_drop_up_rounded,
-              color: mainController.isDark.value ? Colors.white : Colors.black,
-            )),
-      ),
-    );
-  }
+  // static Widget scrollButton() {
+  //   MainController mainController = Get.find<MainController>();
+  //   return Obx(
+  //     () => AnimatedOpacity(
+  //       opacity: mainController.scrollBtn.value,
+  //       duration: Duration(milliseconds: 200),
+  //       child: IconButton(
+  //           onPressed: () {
+  //             mainController.navHovered.value = 0.0;
+  //             Functions.navigate(0, mainController.pageController);
+  //           },
+  //           icon: Icon(
+  //             Icons.arrow_drop_up_rounded,
+  //             color: mainController.isDark.value ? Colors.white : Colors.black,
+  //           )),
+  //     ),
+  //   );
+  // }
 
   static Widget bulletineIcon(bool hasColor,
       {double? iconSize, Color iconColor = Colors.white}) {
@@ -77,37 +77,37 @@ class Widgets {
     );
   }
 
-  static MouseRegion desktopScrollButton(
-      PageController pageController, RxBool scrollDown) {
-    MainController mainController = Get.find<MainController>();
-    return MouseRegion(
-      onEnter: (e) {
-        mainController.showScrollBtn.value = 1.0;
-      },
-      onExit: (e) {
-        mainController.showScrollBtn.value =
-            (mainController.isDark.value) ? 0.6 : 0.8;
-      },
-      child: AnimatedOpacity(
-        duration: Duration(milliseconds: 200),
-        opacity: mainController.showScrollBtn.value,
-        child: IconButton(
-            onPressed: () {
-              if (scrollDown.value)
-                pageController.nextPage(
-                    duration: Duration(milliseconds: 200),
-                    curve: Curves.fastOutSlowIn);
-              else
-                pageController.animateTo(pageController.initialPage.toDouble(),
-                    duration: Duration(milliseconds: 200),
-                    curve: Curves.fastOutSlowIn);
-            },
-            icon: Icon((scrollDown.value)
-                ? Icons.keyboard_arrow_down_rounded
-                : Icons.keyboard_arrow_up_rounded)),
-      ),
-    );
-  }
+  // static MouseRegion desktopScrollButton(
+  //     PageController pageController, RxBool scrollDown) {
+  //   MainController mainController = Get.find<MainController>();
+  //   return MouseRegion(
+  //     onEnter: (e) {
+  //       mainController.showScrollBtn.value = 1.0;
+  //     },
+  //     onExit: (e) {
+  //       mainController.showScrollBtn.value =
+  //           (mainController.isDark.value) ? 0.6 : 0.8;
+  //     },
+  //     child: AnimatedOpacity(
+  //       duration: Duration(milliseconds: 200),
+  //       opacity: mainController.showScrollBtn.value,
+  //       child: IconButton(
+  //           onPressed: () {
+  //             if (scrollDown.value)
+  //               pageController.nextPage(
+  //                   duration: Duration(milliseconds: 200),
+  //                   curve: Curves.fastOutSlowIn);
+  //             else
+  //               pageController.animateTo(pageController.initialPage.toDouble(),
+  //                   duration: Duration(milliseconds: 200),
+  //                   curve: Curves.fastOutSlowIn);
+  //           },
+  //           icon: Icon((scrollDown.value)
+  //               ? Icons.keyboard_arrow_down_rounded
+  //               : Icons.keyboard_arrow_up_rounded)),
+  //     ),
+  //   );
+  // }
 
   static Widget subtitleTexts({required int id, required String label}) {
     MainController mainController = Get.find<MainController>();
@@ -499,20 +499,7 @@ class Widgets {
                     ))
                 .toList(),
           )
-        :
-        //    ListView.builder(
-        //     shrinkWrap: true,
-        //     scrollDirection: isDesktop ? Axis.horizontal : Axis.vertical,
-        //     itemCount: codingController.jobSocialsMorphButtons.length,
-        //     itemBuilder: (BuildContext context, int index) {
-        //   return Obx(
-        //     () => morphButton(context,
-        //         buttonModel: codingController.jobSocialsMorphButtons[index]),
-        //   );
-        //     },
-        //   )
-
-        SizedBox.shrink();
+        :        SizedBox.shrink();
   }
 
   // gaming social morph buttons
@@ -597,71 +584,72 @@ class Widgets {
   }
 
   // pie chart
-  static Widget pieChart(BuildContext context,
-      {String label = 'frameworks', bool isDesktop = true}) {
-    MainController mainController = Get.find<MainController>();
-    CodingController codingController = Get.find<CodingController>();
-
-    if (codingController.frameworks.isNotEmpty) {
-      List<PieData> dataMap = [];
-      for (var e in codingController.frameworks) {
-        dataMap.add(PieData(
-            value: e.value, color: Color(int.parse('0xff' + e.hexValue))));
-      }
-
-      return Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Obx(
-          () => Row(
-            children: [
-              SizedBox(
-                width: 120,
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: codingController.frameworks.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Row(
-                      spacing: 5,
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          color: dataMap[index].color,
-                          size: 10,
-                        ),
-                        Text(
-                          codingController.frameworks[index].label,
-                          style: AppThemeData.appThemeData.textTheme.bodySmall!
-                              .copyWith(
-                                  color: mainController.isDark.value
-                                      ? Colors.white
-                                      : Colors.black),
-                        ),
-                      ],
-                    );
-                  },
-                ),
-              ),
-              // EasyPieChart(
-              //   showValue: false,
-              //   key: Key(label),
-              //   children: dataMap,
-              //   shouldAnimate: false,
-              //   pieType: PieType.fill,
-              //   style: AppThemeData.appThemeData.textTheme.bodySmall!
-              //       .copyWith(color: Colors.white),
-              //   gap: 0,
-              //   borderWidth: 0,
-              // ),
-            ],
-          ),
-        ),
-      );
-    } else {
-      return SizedBox.shrink();
-    }
-  }
+//   static Widget pieChart(BuildContext context,
+//       {String label = 'frameworks', bool isDesktop = true}) {
+//     MainController mainController = Get.find<MainController>();
+//     CodingController codingController = Get.find<CodingController>();
+//
+//     if (codingController.frameworks.isNotEmpty) {
+//       List<PieData> dataMap = [];
+//       for (var e in codingController.frameworks) {
+//         dataMap.add(PieData(
+//             value: e.value, color: Color(int.parse('0xff' + e.hexValue))));
+//       }
+//
+//       return Padding(
+//         padding: const EdgeInsets.symmetric(horizontal: 20.0),
+//         child: Obx(
+//           () => Row(
+//             children: [
+//               SizedBox(
+//                 width: 120,
+//                 child: ListView.builder(
+//                   shrinkWrap: true,
+//                   itemCount: codingController.frameworks.length,
+//                   itemBuilder: (BuildContext context, int index) {
+//                     return Row(
+//                       spacing: 5,
+//                       children: [
+//                         Icon(
+//                           Icons.circle,
+//                           color: dataMap[index].color,
+//                           size: 10,
+//                         ),
+//                         Text(
+//                           codingController.frameworks[index].label,
+//                           style: AppThemeData.appThemeData.textTheme.bodySmall!
+//                               .copyWith(
+//                                   color: mainController.isDark.value
+//                                       ? Colors.white
+//                                       : Colors.black),
+//                         ),
+//                       ],
+//                     );
+//                   },
+//                 ),
+//               ),
+//               // EasyPieChart(
+//               //   showValue: false,
+//               //   key: Key(label),
+//               //   children: dataMap,
+//               //   shouldAnimate: false,
+//               //   pieType: PieType.fill,
+//               //   style: AppThemeData.appThemeData.textTheme.bodySmall!
+//               //       .copyWith(color: Colors.white),
+//               //   gap: 0,
+//               //   borderWidth: 0,
+//               // ),
+//             ],
+//           ),
+//         ),
+//       );
+//     } else {
+//       return SizedBox.shrink();
+//     }
+//   }
 }
 
+/// NEED TO MAKE THE SHADOW LARGER WHEN THE MOUSE IS MOVING AND SMALL WHEN THE MOUSE IS STATIONERY, WITH A CURVE
 // cursor follow shadow
 class ShadowPainter extends CustomPainter {
   final Offset mousePosition;

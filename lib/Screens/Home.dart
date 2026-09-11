@@ -195,10 +195,10 @@ class _HomeContainerState extends State<HomeContainer> {
                         ],
                       ),
                     ),
-          floatingActionButton:
-              (sizingInformation.deviceScreenType != DeviceScreenType.desktop)
-                  ? Widgets.scrollButton()
-                  : null,
+          // floatingActionButton:
+          //     (sizingInformation.deviceScreenType != DeviceScreenType.desktop)
+          //         ? Widgets.scrollButton()
+          //         : null,
         ),
       );
     });
